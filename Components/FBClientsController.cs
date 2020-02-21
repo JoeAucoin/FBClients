@@ -9,7 +9,7 @@ using DotNetNuke.Services.Search;
 
 namespace GIBS.FBClients.Components
 {
-    public class FBClientsController : ISearchable, IPortable
+    public class FBClientsController : IPortable
     {
 
         #region public method
@@ -60,7 +60,8 @@ namespace GIBS.FBClients.Components
 
         public FBClientsInfo FBClients_Visit_GetClientLastVisitDate(int clientID)
         {
-            return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_Visit_GetClientLastVisitDate(clientID), typeof(FBClientsInfo));
+           // return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_Visit_GetClientLastVisitDate(clientID), typeof(FBClientsInfo));
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_Visit_GetClientLastVisitDate(clientID));
         }
 
         // CLIENT AFM
@@ -95,7 +96,8 @@ namespace GIBS.FBClients.Components
 
         public FBClientsInfo FBClients_AFM_GetByID(int clAddFamMemID)
         {
-            return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_AFM_GetByID(clAddFamMemID), typeof(FBClientsInfo));
+            
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_AFM_GetByID(clAddFamMemID));
         }
 
 
@@ -125,7 +127,7 @@ namespace GIBS.FBClients.Components
         // CHRISTMAS TOYS
         public FBClientsInfo FBxMas_AFM_Get_CurrentYear(int clAddFamMemID, int xMasYear)
         {
-            return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBxMas_AFM_Get_CurrentYear(clAddFamMemID, xMasYear), typeof(FBClientsInfo));
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBxMas_AFM_Get_CurrentYear(clAddFamMemID, xMasYear));
         }
 
         public void FBxMas_AFM_Insert_CurrentYear(FBClientsInfo info)
@@ -184,7 +186,7 @@ namespace GIBS.FBClients.Components
 
         public FBClientsInfo FBClients_Visit_GetByID(int visitID)
         {
-            return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_Visit_GetByID(visitID), typeof(FBClientsInfo));
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_Visit_GetByID(visitID));
         }
 
 
@@ -214,7 +216,7 @@ namespace GIBS.FBClients.Components
 
         public FBClientsInfo FBClients_IncomeExpense_GetByID(int ieID)
         {
-            return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_IncomeExpense_GetByID(ieID), typeof(FBClientsInfo));
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_IncomeExpense_GetByID(ieID));
         }
 
         public void FBClients_IncomeExpense_Update(FBClientsInfo info)
@@ -274,31 +276,7 @@ namespace GIBS.FBClients.Components
 
         #endregion
 
-        #region ISearchable Members
-
-        /// <summary>
-        /// Implements the search interface required to allow DNN to index/search the content of your
-        /// module
-        /// </summary>
-        /// <param name="modInfo"></param>
-        /// <returns></returns>
-        public DotNetNuke.Services.Search.SearchItemInfoCollection GetSearchItems(ModuleInfo modInfo)
-        {
-            SearchItemInfoCollection searchItems = new SearchItemInfoCollection();
-
-            List<FBClientsInfo> infos = FBClients_GetAll(modInfo.PortalID);
-
-            foreach (FBClientsInfo info in infos)
-            {
-                SearchItemInfo searchInfo = new SearchItemInfo(modInfo.ModuleTitle, info.ClientLastName, info.CreatedByUserID, info.CreatedOnDate,
-                                                    modInfo.ModuleID, info.ClientID.ToString(), info.ClientLastName, "Item=" + info.ClientID.ToString());
-                searchItems.Add(searchInfo);
-            }
-
-            return searchItems;
-        }
-
-        #endregion
+       
 
         #region IPortable Members
 
