@@ -1,9 +1,0 @@
-﻿  
-  
-  ALTER TABLE [GIBS_FBClientsAddFamMem] ALTER COLUMN [AFMEthnicity] varchar(100)
-  
-  GO
-  
-  ALTER TABLE [GIBS_FBClientsAddFamMem_Merged] ALTER COLUMN [AFMEthnicity] varchar(100)
-
-  GO
