@@ -1,0 +1,1167 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditClient.ascx.cs" Inherits="GIBS.Modules.FBClients.EditClient" %>
+<%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="Audit" Src="~/controls/ModuleAuditControl.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
+<%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
+<%@ Register tagprefix="dnn" Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" %>
+
+
+<dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=2" />
+
+<dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
+
+
+
+
+
+<script type="text/javascript" >
+
+
+    function ValidateCheckBox(sender, args) {
+        if (document.getElementById("<%=cbxAFMDOB_Verified.ClientID %>").checked == true) {
+            args.IsValid = true;
+        } else {
+            args.IsValid = false;
+        }
+    } 
+
+
+    var objChkd;
+    function HandleOnCheck() {
+        var chkLst = document.getElementById('<%= cblClientDisability.ClientID %>');
+        if (objChkd && objChkd.checked)
+            objChkd.checked = false; objChkd = event.srcElement;
+    }
+
+
+
+    $(function () {
+        $("#txtClientDOB").datepicker({
+            numberOfMonths: 1,
+            changeYear: true,
+            yearRange: '-99:-16',
+            showButtonPanel: false,
+            showCurrentAtPos: 0,
+            maxDate: "-16y",
+            minDate: "-99y"
+
+        });
+
+        $("#txtVerifyDate").datepicker({
+            numberOfMonths: 1,
+
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+        });
+
+        $("#txtClientAddressVerifyDate").datepicker({
+            numberOfMonths: 1,
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+        });
+
+        $("#txtAFM_DOB").datepicker({
+            numberOfMonths: 1,
+            changeYear: true,
+            yearRange: '-99:+0',
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+           
+        });
+
+    });
+
+
+    //$('Form').dirtyForms();
+
+
+
+    jQuery(function ($) { $("#<%= txtPhone.ClientID %>").mask("(999) 999-9999? x99999"); });
+    jQuery(function ($) { $("#<%= txtZip.ClientID %>").mask("99999?-9999"); });
+
+    // BIND DNN Tabs
+    jQuery(function ($) { $('#tabs-client').dnnTabs(); });
+
+
+    jQuery(function ($) {
+        $("#<%= txtIeAmount.ClientID %>").Watermark("000.00");
+        $("#<%= txtIeExpenseAmount.ClientID %>").Watermark("000.00");
+      //  $("#<%= txtClientFirstName.ClientID %>").Watermark("First");    
+        //     $("#<%= txtClientMiddleInitial.ClientID %>").Watermark("MI");
+     //   $("#<%= txtClientLastName.ClientID %>").Watermark("Last");
+        //     $("#<%= txtZip.ClientID %>").Watermark("00000");
+        //     $("#<%= txtPhone.ClientID %>").Watermark("(508) 555-5555");
+
+    });
+
+
+    jQuery(function ($) {
+        $("#txtBikeAwardedDate").datepicker({
+            numberOfMonths: 1,
+            dateFormat: 'mm/dd/yy',
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+        });
+        //txtReceivedToysDate
+        $("#txtReceivedToysDate").datepicker({
+            numberOfMonths: 1,
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+        });
+
+    });
+
+
+    $(function () {
+        $("#txtVisitDate").datepicker({
+            numberOfMonths: 1,
+            showButtonPanel: false,
+            showCurrentAtPos: 0
+        });
+
+    });
+
+    function UseData() {
+        //  requireClientVerifyDate();
+        //  requireAddressVerifyDate();
+        $.Watermark.HideAll();   //Do Stuff   $.Watermark.ShowAll();
+    }
+
+    dataChanged = 0;     // global variable flags unsaved changes      
+
+
+    function DisableCheck()
+    {
+        dataChanged = 0;
+    
+    }
+
+    function bindForChange() {
+
+        $('input,checkbox,textarea,radio').bind('change', function (event) { dataChanged = 1 })
+        $(':reset,:submit').bind('click', function (event) { dataChanged = 0 })
+    }
+
+
+    function askConfirm() {
+        if (dataChanged) {
+            return "You have some unsaved changes.\nSelect STAY ON THIS PAGE\nand update the record."
+        }
+    }
+
+    window.onbeforeunload = askConfirm;
+    window.onload = bindForChange;
+
+    $(function () {
+        $("#dialog").dialog({
+            autoOpen: false
+        });
+        $("#button").on("click", function () {
+            $("#dialog").dialog("open");
+        });
+    });
+
+    jQuery(function ($) {
+        var setupModule = function () {
+            $('#tabs-client').dnnPanels();
+            $('#tabs-client .dnnFormExpandContent a').dnnExpandAll({
+                targetArea: '#tabs-client'
+            });
+        };
+        setupModule();
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+            // note that this will fire when _any_ UpdatePanel is triggered,
+            // which may or may not cause an issue
+            setupModule();
+        });
+    });
+
+
+
+    setTimeout(function () {
+        $('input').attr('autocomplete', 'off');
+    }, 2000);
+
+</script>
+
+
+
+
+<div style="clear:both;"></div>
+
+<div class="ClientNameHeaderRight"><asp:Label ID="lblClientNameHeaderRight" runat="server" Text=""></asp:Label><br /><span style="font-size: 11px;"><asp:Repeater ID="rp_AgeGroupReport" runat="server">
+<ItemTemplate><%# DataBinder.Eval(Container.DataItem, "AgeGroupCount")%> <%# DataBinder.Eval(Container.DataItem, "AgeGroup") %></ItemTemplate>
+<SeparatorTemplate>, </SeparatorTemplate> 
+</asp:Repeater></span>
+<br /><asp:Label ID="lblBudget" runat="server" Text="" />
+
+
+</div>
+
+<div class="ClientNameHeader">
+
+<asp:Label ID="lblClientNameHeader" runat="server" Text=""></asp:Label>
+
+</div>
+
+
+<div class="ClientNotesQuickView"><asp:Image
+        ID="ImgFlagged" runat="server" ImageUrl="~/DesktopModules/GIBS/FBClients/Images/flag.png" Visible="false" ImageAlign="AbsMiddle" />
+        <asp:Label ID="lblClientNoteQuickView" runat="server" Text=""></asp:Label>
+</div>
+
+
+
+
+
+
+<div style="text-align: center;" class="alert alert-success" id="ErrorMessage" runat="server"><asp:Label ID="lblMessage" runat="server" Text="" CssClass="Normal"></asp:Label></div>
+
+
+
+  <div class="dnnForm" id="tabs-client">
+        <ul class="dnnAdminTabNav">
+            <li><a href="#Client">Client</a></li>
+            <li><a href="#AFM">Household Members</a></li>
+            <li><a href="#IncomeExpense"><asp:Label ID="lblIncomeExpense" runat="server" Text="Income & Expense" /></a></li>
+            <li><a href="#Map">Map</a></li>
+            <li><a href="#Visits">Client Visits</a></li>
+        </ul>
+
+<!---- BEGIN Client TAB ----->
+        <div id="Client" class="dnnClear">
+            
+
+
+ <div style="-webkit-transform: translateZ(0); float:right;padding-right:5px;"><asp:linkbutton id="cmdUpdate" resourcekey="cmdUpdate" ValidationGroup="UserForm" 
+        runat="server" text="Update" OnClick="cmdUpdate_Click" OnClientClick="UseData();dataChanged=0;" CssClass="btn btn-primary"></asp:linkbutton></div>  
+
+    <ul class="dnnActions dnnClear" style="text-align:right;">
+      
+        <li><asp:linkbutton id="cmdDelete" resourcekey="cmdDelete"  
+        runat="server" text="Delete" OnClick="cmdDelete_Click" OnClientClick="UseData();" CssClass="btn btn-primary"></asp:linkbutton></li>
+      <li>  <asp:LinkButton ID="LinkButtonMerge" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to MERGE another client this record?');"     
+             CommandArgument='<%# Eval("IeID") %>' Text="Merge" CssClass="btn btn-default"
+             CommandName="Merge" runat="server" onclick="LinkButtonMerge_Click" Visible="false">
+             </asp:LinkButton></li>
+        
+    </ul> 
+
+
+<div class="dnnForm" id="form-client-record">
+
+    <fieldset>
+
+<dnn:sectionhead id="sectGeneralSettings" cssclass="Head" runat="server" text="Client Name & Demographics" section="GeneralSection"
+	includerule="False" isexpanded="True"></dnn:sectionhead>
+
+<div id="GeneralSection" runat="server">   
+
+        <div class="dnnFormItem">
+    
+	            <dnn:label id="lblClientStatus" runat="server" resourcekey="lblClientStatus" controlname="ddlClientStatus" suffix=":" />
+		            <asp:DropDownList ID="ddlClientStatus" runat="server">
+                            <asp:ListItem Text="Active" Value="True"></asp:ListItem>
+                            <asp:ListItem Text="Inactive" Value="False"></asp:ListItem>
+				            </asp:DropDownList>
+
+		</div>
+
+        <div class="dnnFormItem">
+             <asp:Panel ID="PanelClientType" runat="server">
+    
+	            <dnn:label id="lblClientType" runat="server" resourcekey="lblClientType" controlname="ddlClientType" suffix=":" />
+		            <asp:DropDownList ID="ddlClientType" runat="server" TabIndex="1" OnSelectedIndexChanged="clientType_SelectedIndexChanged" AutoPostBack="True">
+		
+                            <asp:ListItem Text="Individual" Value="Individual"></asp:ListItem>
+                            <asp:ListItem Text="Group Home" Value="Group Home"></asp:ListItem>
+				            </asp:DropDownList>
+            </asp:Panel>
+		</div>
+
+		<div class="dnnFormItem">
+<dnn:label id="lblClientFirstMiddleLastName" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientFirstName" />
+<asp:TextBox ID="txtClientFirstName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="2" MaxLength="30" />
+<asp:RequiredFieldValidator runat="server" id="reqClientFirstName" resourcekey="reqClientFirstName" controltovalidate="txtClientFirstName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
+        </div>
+
+		<div class="dnnFormItem">
+			<dnn:label id="lblClientMiddleName" runat="server" controlname="txtClientMiddleInitial" suffix=":" ResourceKey="lblClientMiddleName" />
+            <asp:TextBox ID="txtClientMiddleInitial" runat="server" ValidationGroup="UserForm" TabIndex="3" MaxLength="15"></asp:TextBox>
+        </div>
+        <div class="dnnFormItem">
+			<dnn:label id="lblClientLastName" runat="server" controlname="txtClientLastName" suffix=":" Text="Last Name" />
+            <asp:TextBox ID="txtClientLastName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="4" MaxLength="30" />
+            <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" resourcekey="reqClientLastName" controltovalidate="txtClientLastName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
+        </div>
+		<div class="dnnFormItem">
+			<dnn:label id="lblClientSuffix" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientSuffix" />
+            <asp:DropDownList ID="ddlClientSuffix" runat="server" TabIndex="5"></asp:DropDownList>
+		</div>	
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblClientDOB" runat="server" resourcekey="lblClientDOB" controlname="txtClientDOB" suffix=":" />
+            <asp:TextBox ID="txtClientDOB" runat="server" ClientIDMode="Static" TabIndex="6" />
+            <asp:RangeValidator ID="Range1" ControlToValidate="txtClientDOB" 
+Type="Date" Format="MM/DD/YYYY" ValidationGroup="UserForm" 
+CssClass="dnnFormMessage dnnFormError" 
+resourcekey="reqClientDOBRange" Display="Dynamic"
+runat="server" />            
+            <asp:RequiredFieldValidator runat="server" id="reqClientDOB" controltovalidate="txtClientDOB" resourcekey="reqClientDOB" 
+            CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
+
+        </div>
+		<div class="dnnFormItem">
+            <dnn:label id="lblClientGender" runat="server" resourcekey="lblClientGender" controlname="ddlClientGender" suffix=":" />
+            <asp:DropDownList ID="ddlClientGender" runat="server" TabIndex="7">
+		        <asp:ListItem Text="----" Value=""></asp:ListItem>
+                <asp:ListItem Value="Male" Text="Male"></asp:ListItem>
+                <asp:ListItem Value="Female" Text="Female"></asp:ListItem>
+                <asp:ListItem Value="NoAnswer" Text="Prefers Not To Answer"></asp:ListItem>
+			</asp:DropDownList>
+            <asp:RequiredFieldValidator ID="reqClientGender" runat="server" CssClass="dnnFormMessage dnnFormError" ControlToValidate="ddlClientGender" resourcekey="reqClientGender" Enabled="false" InitialValue=""  ValidationGroup="UserForm" />
+		</div>		
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblClientEthnicity" runat="server" resourcekey="lblClientEthnicity" controlname="ddlClientEthnicity" suffix=":" />
+            <asp:DropDownList ID="ddlClientEthnicity" runat="server" TabIndex="8" ></asp:DropDownList>
+            <asp:RequiredFieldValidator ID="reqClientEthnicity" runat="server" CssClass="dnnFormMessage dnnFormError" ControlToValidate="ddlClientEthnicity" InitialValue="" Enabled="false" resourcekey="reqClientEthnicity" ValidationGroup="UserForm" />
+        </div>
+
+		<div class="dnnFormItem">
+            <dnn:label id="lblVerifyDate" runat="server" resourcekey="lblVerifyDate" controlname="radVerifyDate" suffix=":" />
+<asp:TextBox ID="txtVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="9" /> 
+                    <asp:CheckBox ID="cbxDOB_Verified" runat="server" resourcekey="cbxDOB_Verified" OnClick="requireClientVerifyDate();" TabIndex="10" />
+ <asp:RequiredFieldValidator ID="rfvClientVerifyDate" ControlToValidate="txtVerifyDate" ForeColor="Red" ErrorMessage="<b>You must enter a date.</b>" runat="server" Display="Dynamic" ValidationGroup="UserForm" Enabled="false" />                  
+		</div>		
+        
+
+</div>
+
+
+
+
+
+<dnn:sectionhead id="sectAddressHeader" cssclass="Head" runat="server" text="Address, E-Mail & Phone" section="sectAddress"
+	includerule="False" isexpanded="True"></dnn:sectionhead>
+
+<div id="sectAddress" runat="server">   
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblAddress" runat="server" resourcekey="lblAddress" controlname="txtLastName" suffix=":" />
+		    <asp:TextBox ID="txtAddress" runat="server" ValidationGroup="UserForm" MaxLength="50" TabIndex="11" />
+		    <asp:RequiredFieldValidator runat="server" id="reqAddress" resourcekey="reqAddress" controltovalidate="txtAddress" errormessage="Required!-----" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
+
+        </div>
+		<div class="dnnFormItem">
+            <dnn:label id="lblUnit" runat="server" resourcekey="lblUnit" controlname="txtUnit" suffix=":"/>
+		    <asp:TextBox ID="txtUnit" runat="server" TabIndex="12" />
+		</div>		
+        
+        <div class="dnnFormItem">
+            <dnn:label id="lblCityStateZip" runat="server" resourcekey="lblCityStateZip" controlname="txtCity" suffix=":" />
+		    <asp:DropDownList ID="ddlCity" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCity_SelectedIndexChanged" TabIndex="13"></asp:DropDownList>
+            <asp:RequiredFieldValidator runat="server" id="reqCity" resourcekey="reqCity" controltovalidate="ddlCity" InitialValue="-1" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
+        </div>
+
+		<div class="dnnFormItem">
+			<dnn:label id="lblClientVillage" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientVillage" />
+			<asp:DropDownList ID="ddlTown" runat="server" TabIndex="14"></asp:DropDownList>
+            <asp:TextBox ID="txtOtherTown" Visible="False" runat="server" />
+            <asp:RequiredFieldValidator runat="server" id="reqTown" Enabled="False" resourcekey="reqTown" controltovalidate="ddlTown" InitialValue="-1" errormessage="Required!" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
+        </div>
+
+		<div class="dnnFormItem">
+            <dnn:label id="lblClientState" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientState" />
+            <asp:DropDownList ID="ddlState" runat="server"></asp:DropDownList>
+		</div>	
+        	
+        <div class="dnnFormItem">
+			<dnn:label id="lblClientZipCode" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientZipCode" />
+			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="15" />
+        </div>
+        <div class="dnnFormItem">
+            <dnn:label id="lblClientAddressVerify" runat="server" resourcekey="lblClientAddressVerify" controlname="ClientAddressVerifyDate" suffix=":" />
+            <asp:TextBox ID="txtClientAddressVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="16" />
+            <asp:CheckBox ID="cbxClientAddressVerify" runat="server" resourcekey="cbxClientAddressVerify" OnClick="requireAddressVerifyDate();" TabIndex="17" />
+            <asp:RequiredFieldValidator ID="rfvAddressVerifyDate" ControlToValidate="txtClientAddressVerifyDate" ForeColor="Red" ErrorMessage="<b>You must enter a date.</b>" runat="server" Display="Dynamic" ValidationGroup="UserForm" Enabled="false" />      
+        </div>
+<asp:Panel ID="PanelShowOneBagOnly" runat="server">		
+		<div class="dnnFormItem">
+	        <dnn:label id="lblOneBagOnly" runat="server" resourcekey="lblOneBagOnly" controlname="cbxOneBagOnly" suffix=":"></dnn:label>
+		    <asp:CheckBox ID="cbxOneBagOnly" runat="server" resourcekey="cbxOneBagOnly"  Font-Size="12px" />
+		</div>	
+</asp:Panel>
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblEmail" runat="server" controlname="txtEmail" suffix=":" />
+            <asp:TextBox ID="txtEmail" runat="server" TabIndex="18" />
+        </div>
+		<div class="dnnFormItem">
+            <dnn:label id="lblPhone" resourcekey="lblPhone" runat="server" controlname="txtPhone" suffix=":" />
+		    <asp:TextBox ID="txtPhone" runat="server" Width="200px" TabIndex="19" /> <asp:DropDownList 
+                ID="ddlClientPhoneType" runat="server" Width="100px" TabIndex="20">
+                <asp:ListItem Text="-- Type --" Value="0"></asp:ListItem>
+                <asp:ListItem Text="Home"></asp:ListItem>
+                <asp:ListItem Text="Cell"></asp:ListItem>
+                <asp:ListItem Text="Work"></asp:ListItem>
+                </asp:DropDownList>
+		</div>	
+
+
+</div>
+
+
+
+<dnn:sectionhead id="sectOtherHeader" cssclass="Head" runat="server" text="Other" section="sectOther" 
+	includerule="False" isexpanded="True"></dnn:sectionhead>
+
+<div id="sectOther" runat="server">   
+
+    <div class="dnnFormItem">
+        <dnn:label id="lblClientQuestions" runat="server" controlname="cblClientTrueFalseQuestions" suffix=":" ResourceKey="lblClientQuestions" />
+        
+    <asp:CheckBoxList ID="cblClientTrueFalseQuestions" runat="server" 
+           RepeatLayout="UnorderedList" CssClass="myGroupCheckBox" >
+    </asp:CheckBoxList>
+    
+        </div>
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblCaseWorker" runat="server" resourcekey="lblCaseWorker" controlname="ddlCaseWorker" suffix=":" />
+            <asp:DropDownList ID="ddlCaseWorker" runat="server" TabIndex="21"></asp:DropDownList>
+        </div>
+
+    <div class="dnnFormItem" id="DisabilitiesRow" runat="server">
+        <dnn:label id="lblClientDisability" runat="server" controlname="cblClientDisability" suffix=":" ResourceKey="lblClientDisability" />
+        
+    <asp:CheckBoxList ID="cblClientDisability" runat="server" 
+           RepeatLayout="UnorderedList" CssClass="myGroupCheckBox" >
+    </asp:CheckBoxList>
+    
+    </div>
+
+		<div class="dnnFormItem">
+            <dnn:label id="lblSubjectToReview" runat="server" resourcekey="lblSubjectToReview" controlname="cbxSubjectToReview" suffix=":" />
+		    <asp:CheckBox ID="cbxSubjectToReview" runat="server" resourcekey="cbxSubjectToReview"  Font-Size="12px" />
+		</div>	
+        <div class="dnnFormItem">
+            <dnn:label id="lblClientNote" runat="server" resourcekey="lblClientNote" controlname="txtClientNote" suffix=":" />
+		    <asp:TextBox ID="txtClientNote" runat="server" Width="100%" Height="120px" TextMode="MultiLine" TabIndex="22" />
+        </div>
+        	
+        <div class="dnnFormItem">
+            <dnn:label id="lblClientIdCard" runat="server" resourcekey="lblClientIdCard" controlname="txtClientIdCard" suffix=":" />
+		    <asp:TextBox ID="txtClientIdCard" runat="server" />
+        </div>		
+
+       <div class="dnnFormItem">
+            <dnn:label id="lblIsLocked" runat="server" resourcekey="lblIsLocked" controlname="cbxIsLocked" suffix=":" />
+		    <asp:CheckBox ID="cbxIsLocked" runat="server" />
+        </div>	
+
+        <div class="dnnFormItem">
+            <dnn:label id="lblLastUpdate" runat="server" resourcekey="lblLastUpdate" suffix=":" />
+		    <asp:Label ID="txtLastUpdatedBy" runat="server" Text="" CssClass="dnnFormInput" /> 
+		</div>
+
+
+</div>
+<asp:HiddenField ID="hidClientID" runat="server" Value="" />  
+    </fieldset>
+</div>	
+
+
+
+ 
+
+
+        </div>
+<!---- END Client TAB ----->
+
+
+
+
+<!---- BEGIN Photo TAB ----->
+<!---- END Photo TAB ----->
+
+
+<!---- BEGIN Map TAB ----->
+ <div id="Map" class="dnnClear">
+ 
+
+  <div style="position:relative;float:right;padding-right:30px;"><asp:LinkButton runat="server" ID="btnSaveMap" 
+                CssClass="btn btn-primary" ResourceKey="btnSaveMap" ValidationGroup="UserForm" OnClientClick="UseData();dataChanged=0;"  
+                onclick="btnSaveMap_Click" /></div>
+
+	    <table id="tblLocationDetail" summary="Location Detail Table" border="0">
+		<tr>
+			<td class="SubHead"><dnn:label id="FindAddress" runat="server" controlname="txtLocAddress" ResourceKey="FindAddress" suffix=":"></dnn:label></td>
+			<td>
+			    <asp:TextBox ID="txtLocAddress" runat="server" onkeydown="if(event.keyCode==13) {showAddress(this.value);}" Width="240px" />
+			    <input type="button" value="Find Address!" onclick="showAddress(<%= txtLocAddress.ClientID %>.value);dataChanged=0;" />
+			</td>
+		</tr>
+		<tr>
+			<td class="SubHead"><dnn:label id="lblLatitude" runat="server" ResourceKey="lblLatitude" controlname="txtLatitude" suffix=":"></dnn:label></td>
+			<td>
+			    <asp:TextBox ID="txtLatitude" runat="server" Width="100px" ClientIDMode="Static" />
+			</td>
+		</tr>
+		<tr>
+			<td class="SubHead"><dnn:label id="lblLongitude" runat="server" ResourceKey="lblLongitude" controlname="txtLongitude" suffix=":"></dnn:label></td>
+			<td>
+			    <asp:TextBox ID="txtLongitude" runat="server" Width="100px" />
+			</td>
+		</tr>
+
+		</table>
+<script src="<%= GetMapUrl() %>" type="text/javascript"></script>
+
+                <div id="MapDiv" style="width: 100%; height: 400px; border:1px solid black; margin: 0 auto;"></div>
+                		    
+                <script type="text/javascript">
+
+                    function KeyDownHandler()
+                    {
+                    
+                        // process only the Enter key
+                        if (event.keyCode == 13)
+                        {
+                            alert(event.keyCode);
+                            // cancel the default submit
+                            event.returnValue=false;
+                            event.cancel = true;
+                            
+                            showAddress(address.value);
+                        }
+                    }
+
+                    function load() {
+                        if (GBrowserIsCompatible()) {
+                            var map = new GMap2(document.getElementById("MapDiv"));
+                            map.addControl(new GSmallMapControl());
+                            map.addControl(new GMapTypeControl());
+                            
+                            geocoder = new GClientGeocoder();
+                            
+                            <asp:literal id="litMapCenter" runat="server" />
+                      
+                            var marker = new GMarker(center, {draggable: true});  
+                            map.addOverlay(marker);
+                            document.getElementById("<%= txtLatitude.ClientID %>").value = center.lat().toFixed(5);
+                            document.getElementById("<%= txtLongitude.ClientID %>").value = center.lng().toFixed(5);
+
+                            GEvent.addListener(marker, "dragend", function() {
+                                var point = marker.getPoint();
+                                map.panTo(point);
+                                document.getElementById("<%= txtLatitude.ClientID %>").innerHTML = point.lat().toFixed(5);
+	                          document.getElementById("<%= txtLongitude.ClientID %>").innerHTML = point.lng().toFixed(5);
+
+	                      });
+
+                          GEvent.addListener(map, "moveend", function() {
+                              map.clearOverlays();
+                              var center = map.getCenter();
+                              var marker = new GMarker(center, {draggable: true});
+                              map.addOverlay(marker);
+                              document.getElementById("<%= txtLatitude.ClientID %>").value = center.lat().toFixed(5);
+                            document.getElementById("<%= txtLongitude.ClientID %>").value = center.lng().toFixed(5);
+
+                            GEvent.addListener(marker, "dragend", function() {
+                                var point =marker.getPoint();
+                                map.panTo(point);
+                                document.getElementById("<%= txtLatitude.ClientID %>").value = point.lat().toFixed(5);
+                                document.getElementById("<%= txtLongitude.ClientID %>").value = point.lng().toFixed(5);
+                            });
+                        });
+
+                      
+                    }
+                }
+
+                function showAddress(address) {
+                    var map = new GMap2(document.getElementById("MapDiv"));
+                    map.addControl(new GSmallMapControl());
+                    map.addControl(new GMapTypeControl());
+                    if (geocoder) {
+                        geocoder.getLatLng(
+                          address,
+                          function(point) {
+                              if (!point) {
+                                  alert(address + " not found");
+                              } else {
+                                  document.getElementById("<%= txtLatitude.ClientID %>").value = point.lat().toFixed(5);
+                                document.getElementById("<%= txtLongitude.ClientID %>").value = point.lng().toFixed(5);
+                                map.clearOverlays()
+                                map.setCenter(point, 14);
+                                var marker = new GMarker(point, {draggable: true});  
+                                map.addOverlay(marker);
+
+                                GEvent.addListener(marker, "dragend", function() {
+                                    var pt = marker.getPoint();
+                                    map.panTo(pt);
+                                    document.getElementById("<%= txtLatitude.ClientID %>").value = pt.lat().toFixed(5);
+	                     document.getElementById("<%= txtLongitude.ClientID %>").value = pt.lng().toFixed(5);
+		                });
+
+
+                        GEvent.addListener(map, "moveend", function() {
+                            map.clearOverlays();
+                            var center = map.getCenter();
+                            var marker = new GMarker(center, {draggable: true});
+                            map.addOverlay(marker);
+                            document.getElementById("<%= txtLatitude.ClientID %>").value = center.lat().toFixed(5);
+		                  document.getElementById("<%= txtLongitude.ClientID %>").value = center.lng().toFixed(5);
+
+	                     GEvent.addListener(marker, "dragend", function() {
+	                         var pt = marker.getPoint();
+	                         map.panTo(pt);
+	                         document.getElementById("<%= txtLatitude.ClientID %>").value = pt.lat().toFixed(5);
+	                    document.getElementById("<%= txtLongitude.ClientID %>").value = pt.lng().toFixed(5);
+	                 });
+                 
+	                 });
+
+             }
+                          }
+                        );
+     }
+ }
+                    
+ if (window.addEventListener)
+ {
+     window.addEventListener("load", load, false);
+     window.attachEvent("onunload", GUnload); 
+ }
+ else if (window.attachEvent)
+ {
+     window.attachEvent("onload", load);
+     window.addEventListener("unload", GUnload, false);
+ }
+                    </script>
+
+ <br/>&nbsp;
+ </div>
+<!---- END Map TAB ----->
+
+<!---- BEGIN IncomeExpense TAB    style="display:none;"   ----->
+        <div id="IncomeExpense" class="dnnClear">
+   
+
+ <div style="position:relative;float:right;padding-right:30px;"></div>   
+                
+                
+
+<div class="row">
+    <div class="col-md-2 col-md-offset-2 text-right"><b>Monthly Income:</b></div>
+    <div class="col-md-2"><asp:DropDownList ID="ddlClientIncome" runat="server" CssClass="form-control" >
+            </asp:DropDownList></div>
+    <div class="col-md-2"><asp:TextBox runat="server" ID="txtIeAmount" CssClass="form-control" /></div>
+    <div class="col-md-2"><asp:LinkButton runat="server" ID="btnAddClientIncome" 
+                ResourceKey="btnAddClientIncome" CssClass="btn btn-primary" 
+                onclick="btnAddClientIncome_Click" /></div>
+</div>
+
+
+        <div class="row" id="ExpenseRow" runat="server">
+    <div class="col-md-2 col-md-offset-2 text-right"><b>Monthly Expense:</b>
+    </div>
+    <div class="col-md-2"><asp:DropDownList ID="ddlClientExpense" runat="server" CssClass="form-control" >
+            </asp:DropDownList></div>
+    <div class="col-md-2"><asp:TextBox runat="server" ID="txtIeExpenseAmount" CssClass="form-control" /></div>
+    </div>
+
+
+        
+<script type="text/javascript" language="javascript" >
+    $('.onlynumeric').keypress(function (event) {
+        if (event.which < 46
+    || event.which > 59) {
+            event.preventDefault();
+        } // prevent if not number/dot
+
+        if (event.which == 46
+    && $(this).val().indexOf('.') != -1) {
+            event.preventDefault();
+        } // prevent if already dot
+    });
+</script>        
+                       
+    <fieldset>
+
+
+	
+        <div class="dnnFormItem">
+           <dnn:Label runat="server" ID="lblIeAmount" ControlName="txtIeAmount" ResourceKey="lblIeAmount" />
+            
+        </div>
+
+
+    </fieldset>
+
+    <asp:HiddenField ID="hidIeExpenseID" runat="server" Value="0" />
+    <asp:HiddenField ID="hidIeID" runat="server" Value="0" />
+
+    <div class="row">
+    <div class="col-md-4 col-md-offset-2">   <b><asp:Label ID="lblTotalIncome" runat="server" Text=""></asp:Label></b>
+        <asp:GridView ID="gvIncome" runat="server" OnRowDataBound="gvIncome_RowDataBound" OnRowCommand="gvIncome_RowCommand" OnRowDeleting="gvIncome_RowDeleting" OnRowEditing="gvIncome_RowEditing" 
+    DataKeyNames="IeID"     
+    AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
+    resourcekey="gvIncome" >
+    
+<PagerStyle CssClass="pgr" />  
+<PagerSettings Mode="NumericFirstLast" /> 
+    <Columns>
+
+        <asp:TemplateField HeaderText="" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonEdit" CausesValidation="False"     
+             CommandArgument='<%# Eval("IeID") %>' 
+             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/images/edit.gif" AlternateText="Edit Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
+        <asp:TemplateField HeaderText="" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonDelete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete this record?');"     
+             CommandArgument='<%# Eval("IeID") %>' 
+             CommandName="Delete" runat="server"><asp:image ID="imgDelete" runat="server" imageurl="~/images/delete.gif" AlternateText="Delete Record" /></asp:LinkButton>
+         </ItemTemplate>
+      
+       
+       
+       </asp:TemplateField>
+
+        <asp:BoundField HeaderText="Income" DataField="IeDescription" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
+       
+        <asp:BoundField HeaderText="Amount" DataField="IeAmount" ItemStyle-VerticalAlign="Top" DataFormatString="{0:c}" ItemStyle-HorizontalAlign="Right"></asp:BoundField>
+
+    </Columns>
+</asp:GridView>	
+ </div>
+    
+    <div class="col-md-4"><b><asp:Label ID="lblTotalExpense" runat="server" Text=""></asp:Label></b>
+        
+        <asp:GridView ID="gvExpense" runat="server" OnRowDataBound="gvExpense_RowDataBound" OnRowCommand="gvExpense_RowCommand" OnRowDeleting="gvExpense_RowDeleting"  OnRowEditing="gvExpense_RowEditing"
+    DataKeyNames="IeID"     
+    AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
+    resourcekey="gvExpense" >
+    
+<PagerStyle CssClass="pgr" />  
+<PagerSettings Mode="NumericFirstLast" /> 
+    <Columns>
+        <asp:TemplateField HeaderText="" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonEdit" CausesValidation="False"     
+             CommandArgument='<%# Eval("IeID") %>' 
+             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/images/edit.gif" AlternateText="Edit Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+        <asp:TemplateField HeaderText="" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonDelete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete this record?');"     
+             CommandArgument='<%# Eval("IeID") %>' 
+             CommandName="Delete" runat="server"><asp:image ID="imgDelete" runat="server" imageurl="~/images/delete.gif" AlternateText="Delete Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
+        <asp:BoundField HeaderText="Expense" DataField="IeDescription" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
+        <asp:BoundField HeaderText="Amount" DataField="IeAmount" ItemStyle-VerticalAlign="Top" DataFormatString="{0:c}" ItemStyle-HorizontalAlign="Right" ></asp:BoundField>
+
+    </Columns>
+</asp:GridView>	
+ </div>
+
+</div>
+
+
+		
+<h2 id="ChristopherColumbus" class="dnnFormSectionHead"><a href="#">Click Here for Income Eligibility Guidelines</a></h2>
+        <fieldset class="dnnClear">
+            <asp:Literal ID="LiteralIncomeEligibilityGuidelines" runat="server"></asp:Literal>
+        </fieldset>
+
+
+
+
+        </div>		
+<!---- END IncomeExpense TAB ----->
+
+<!---- BEGIN Additional Family Members TAB ----->		
+        <div id="AFM" class="dnnClear">
+
+
+
+<asp:GridView ID="gvAFM" runat="server"  
+    DataKeyNames="ClAddFamMemID" OnRowEditing="gvAFM_RowEditing" OnPageIndexChanging="gvAFM_PageIndexChanging" OnRowCommand="gvAFM_RowCommand" OnRowDeleting="gvAFM_RowDeleting"       
+    AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
+    resourcekey="gvAFM" AllowPaging="True" PageSize="10">
+    
+<PagerStyle CssClass="pgr" />  
+<PagerSettings Mode="NumericFirstLast" /> 
+    <Columns>
+        <asp:TemplateField HeaderText="Edit" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonEdit" CausesValidation="False"     
+             CommandArgument='<%# Eval("ClAddFamMemID") %>' 
+             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/images/edit.gif" AlternateText="Edit Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
+
+        <asp:TemplateField HeaderText="Delete" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonDelete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete this household member?');"      
+             CommandArgument='<%# Eval("ClAddFamMemID") %>' 
+             CommandName="Delete" runat="server"><asp:image ID="imgDelete" runat="server" imageurl="~/images/delete.gif" AlternateText="Delete Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
+       
+        <asp:TemplateField HeaderText="Toys" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonPresent" CausesValidation="False" 
+            Visible='<%# (Convert.ToBoolean(Eval("QualifiedToys")))%>'   
+            Enabled='<%# (Convert.ToBoolean(Eval("AFMDOBVerify")))%>'   
+             CommandArgument='<%# Eval("ClAddFamMemID") %>' 
+             CommandName="Christmas" runat="server"><asp:image ID="imgToys" runat="server" 
+             imageurl='<%# (Eval("VerifiedToys").Equals(true) ? "~/DesktopModules/GIBS/FBClients/Images/present.gif" : "~/DesktopModules/GIBS/FBClients/Images/presentNO.gif")%>' 
+             AlternateText="Christmas Toys" 
+             ToolTip='<%# (Eval("VerifiedToys").Equals(true) ? "This child is already signed up for toys." : "This child is elegible for toys.") + (Eval("AFMDOBVerify").Equals(true) ? " Child is verified." : " This child is needs to be verified before signing up for toys.")%>' /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
+
+
+        <asp:BoundField HeaderText="First Name" DataField="ClAddFamMemFirstName" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="MI" DataField="AFMMiddleInitial" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:BoundField HeaderText="Last Name" DataField="ClAddFamMemLastName" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="Suffix" DataField="AFMSuffix" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+		<asp:BoundField HeaderText="DOB" ItemStyle-VerticalAlign="Top" DataField="ClAddFamMemDOB" DataFormatString="{0:d}" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+       <asp:BoundField HeaderText="AFMDOBVerify" DataField="AFMDOBVerify" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:BoundField HeaderText="Age" DataField="AFM_Age" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+  
+        <asp:BoundField HeaderText="Gender" DataField="AFMGender" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:TemplateField HeaderText="Verified" ItemStyle-HorizontalAlign="Center" >
+            <ItemTemplate>
+            <asp:Image ID="Image1" runat="server" ImageUrl='<%# (Eval("AFMDOBVerify").Equals(true) ? "~/DesktopModules/GIBS/FBClients/Images/yes.png" : "~/DesktopModules/GIBS/FBClients/Images/no.png")%>' />
+            </ItemTemplate>
+        </asp:TemplateField>
+
+         <asp:BoundField HeaderText="Relationship" DataField="AFMRelationship" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:BoundField HeaderText="Last Update" DataField="LastModifiedOnDate" ItemStyle-VerticalAlign="Top" DataFormatString="{0:MM/dd/yyyy}" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:BoundField HeaderText="Updated By" DataField="LastModifiedByUserName" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+    </Columns>
+</asp:GridView>	
+
+
+
+            <asp:HyperLink ID="HyperLinkXmas" runat="server" Text="Print Toy Ticket" Visible="false" CssClass="btn btn-default" Target="_blank" />
+
+
+
+ <div style="position:relative;float:right;padding-right:5px;"><asp:LinkButton runat="server" ID="btnAddAFM" 
+                CssClass="btn btn-primary" ResourceKey="btnAddAFM" ValidationGroup="AFM" OnClientClick="dataChanged=0;" 
+                onclick="btnAddAFM_Click" /></div>          
+   
+   
+    <div class="dnnForm" id="formChristmas" runat="server" visible="false">
+
+    <h3>
+        <asp:Label ID="lblToySignup" runat="server" Text="Label"></asp:Label></h3>
+
+    <fieldset>
+
+
+
+		<div class="dnnFormItem">					
+            <dnn:label id="lblxMasYear" runat="server" suffix=":" controlname="txtxMasYear" ResourceKey="lblxMasYear" />
+			<asp:TextBox ID="txtxMasYear" runat="server" ReadOnly="true"></asp:TextBox>
+         </div>
+         
+         	
+        
+
+        <div class="dnnFormItem" id="XmasSizes" runat="server">
+            <dnn:Label runat="server" ID="lblSizes" ControlName="txtSizes" ResourceKey="lblSizes" Suffix=":" />
+            <asp:DropDownList ID="ddlSizes" runat="server">
+            <asp:ListItem Text="-- Please Select Size --" Value="" />
+            <asp:ListItem Text="Men's Small" Value="Men's Small" />
+            <asp:ListItem Text="Men's Medium" Value="Men's Medium" />
+            <asp:ListItem Text="Men's Large" Value="Men's Large" />
+            <asp:ListItem Text="Men's Extra-Large" Value="Men's Extra-Large" />
+            <asp:ListItem Text="Women's Small" Value="Women's Small" />
+            <asp:ListItem Text="Women's Medium" Value="Women's Medium" />
+            <asp:ListItem Text="Women's Large" Value="Women's Large" />
+            <asp:ListItem Text="Women's Extra-Large" Value="Women's Extra-Large" />
+            <asp:ListItem Text="N/A" Value="N/A" />
+            </asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorXmasSizes" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
+            ControlToValidate="ddlSizes" InitialValue="" ResourceKey="ddlSizes.Required"></asp:RequiredFieldValidator>
+        </div>			
+
+        <div class="dnnFormItem">
+            <dnn:Label runat="server" ID="lblXmasNotes" ControlName="txtXmasNotes" ResourceKey="lblXmasNotes" Suffix=":" />
+            <asp:TextBox ID="txtXmasNotes" runat="server" TextMode="MultiLine" />
+        </div>	
+
+        <div class="dnnFormItem">
+            <dnn:Label runat="server" ID="lblBikeRaffle" ControlName="cbxBikeRaffle" ResourceKey="lblBikeRaffle" Suffix=":" />
+            <asp:CheckBox ID="cbxBikeRaffle" runat="server" />
+           
+        </div>	
+        <div class="dnnFormItem" style="display:none;">
+            <dnn:Label runat="server" ID="lblReceivedToys" ControlName="txtReceivedToysDate" ResourceKey="lblReceivedToys" Suffix=":" />
+            
+            <asp:TextBox ID="txtReceivedToysDate" runat="server" ClientIDMode="Static" />
+        </div>	    
+        <div class="dnnFormItem" id="bikeAwardedDate" runat="server">
+            <dnn:Label ID="lblBikeAwardedDate" runat="server" CssClass="dnnFormLabel" AssociatedControlID="txtBikeAwardedDate" Suffix=":" />
+            <asp:TextBox ID="txtBikeAwardedDate" runat="server" ClientIDMode="Static" />
+        </div>		
+
+
+        <asp:HiddenField ID="hidXmasID" runat="server" />
+
+
+    </fieldset>
+
+        <asp:GridView ID="GridViewXmasHistory" runat="server" DataKeyNames="xMasID" AutoGenerateColumns="false" OnRowDataBound="GridViewXmasHistory_OnRowDataBound" CssClass="table table-striped table-bordered table-list" >
+        <Columns>
+        <asp:BoundField HeaderText="Year" DataField="xMasYear" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        
+        <asp:BoundField HeaderText="Received Toys" DataField="ReceivedToysDate" DataFormatString="{0:d}" ItemStyle-VerticalAlign="Top" HtmlEncode="false" />
+        <asp:BoundField HeaderText="Size" DataField="xMasSizes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="Notes" DataField="XmasNotes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="Enter Bike Raffle" DataField="BikeRaffle" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="Bike Awarded" DataField="BikeAwardedDate" DataFormatString="{0:d}" ItemStyle-VerticalAlign="Top" />
+
+        </Columns>
+        </asp:GridView>
+
+
+ </div>  
+
+
+
+
+<div class="dnnForm" id="form-AFM-record">
+
+
+   <fieldset>
+	<dnn:sectionhead id="sectGeneralSettingsAFM" cssclass="Head" runat="server" text="Additional Family Member" section="AFMGeneralSection" includerule="False" isexpanded="True" />
+
+		<div id="AFMGeneralSection" runat="server">   
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFM_Name" ControlName="txtAFM_FirstName" ResourceKey="lblAFM_Name" suffix=":" />
+					<asp:TextBox runat="server" ID="txtAFM_FirstName" />
+					<asp:RequiredFieldValidator runat="server" id="reqAFM_FirstName" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" controltovalidate="txtAFM_FirstName"  ResourceKey="txtAFM_FirstName.Required" />
+				</div>
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFM_MiddleName" ControlName="txtAFM_MiddleInitial" ResourceKey="lblAFM_MiddleName" suffix=":" />
+					<asp:TextBox ID="txtAFM_MiddleInitial" runat="server" />
+				</div>
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFM_LastName" ControlName="txtAFM_LastName" ResourceKey="lblAFM_LastName" suffix=":" />
+					<asp:TextBox runat="server" ID="txtAFM_LastName" />
+					<asp:RequiredFieldValidator runat="server" id="reqAFM_LastName" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" controltovalidate="txtAFM_LastName"  ResourceKey="txtAFM_LastName.Required" />
+				</div>
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFM_Suffix" ControlName="ddlAFMSuffix" ResourceKey="lblAFM_Suffix" suffix=":" />
+					<asp:DropDownList ID="ddlAFMSuffix" runat="server"></asp:DropDownList>
+				</div>
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFM_DOB" ControlName="txtAFM_DOB" ResourceKey="lblAFM_DOB" suffix=":" />
+					<asp:TextBox ID="txtAFM_DOB" runat="server" ClientIDMode="Static" />
+                    <asp:RangeValidator ID="Range2" ControlToValidate="txtAFM_DOB" 
+Type="Date" Format="MM/DD/YYYY" ValidationGroup="AFM" 
+CssClass="dnnFormMessage dnnFormError" 
+resourcekey="reqAFMDOBRange" Display="Dynamic"
+runat="server" />
+                      &nbsp;<asp:CheckBox ID="cbxAFMDOB_Verified" runat="server" resourcekey="cbxAFMDOB_Verified"  Font-Size="10px"/>
+					<asp:RequiredFieldValidator runat="server" id="reqAFM_DOB"  ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
+						controltovalidate="txtAFM_DOB" ResourceKey="radAFM_DOB.Required" />
+                        <asp:CustomValidator ID="CustomValidator1" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" ErrorMessage="*" ClientValidationFunction="ValidateCheckBox" ResourceKey="cbxAFMDOB_Verified.Required"></asp:CustomValidator>
+				</div>
+				<div class="dnnFormItem">
+					<dnn:Label runat="server" ID="lblAFMRelationship" ControlName="ddlAFMRelationship" ResourceKey="lblAFMRelationship" suffix=":" />
+					<asp:DropDownList ID="ddlAFMRelationship" runat="server">
+						</asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="rfvAFMRelationship" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
+						controltovalidate="ddlAFMRelationship" InitialValue="" ResourceKey="rfvAFMRelationship.Required" />
+				</div>
+
+				<div class="dnnFormItem">
+					<dnn:label id="lblAFMGender" runat="server" resourcekey="lblAFMGender" controlname="ddlAFMGender" suffix=":"></dnn:label>
+					<asp:DropDownList ID="ddlAFMGender" runat="server">
+					<asp:ListItem Text="----" Value=""></asp:ListItem>
+                <asp:ListItem Value="Male" Text="Male"></asp:ListItem>
+                <asp:ListItem Value="Female" Text="Female"></asp:ListItem>
+                <asp:ListItem Value="NoAnswer" Text="Prefers Not To Answer"></asp:ListItem>
+					</asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="rfvAFMGender" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
+						controltovalidate="ddlAFMGender" InitialValue="" ResourceKey="rfvAFMGender.Required" />
+				</div>
+
+				<div class="dnnFormItem">
+					<dnn:label id="lblAFMEthnicity" runat="server" resourcekey="lblAFMEthnicity" controlname="ddlAFMEthnicity" suffix=":" Visible="False"></dnn:label>
+					<asp:DropDownList ID="ddlAFMEthnicity" runat="server" Visible="False"></asp:DropDownList>
+				</div>
+
+				
+		</div>		
+		
+    </fieldset>
+
+</div>
+   
+
+
+
+    <asp:HiddenField ID="hidClientAFMID" runat="server" />
+
+
+        </div>
+<!---- END Additional Family Members TAB ----->
+
+<!---- BEGIN Client Visits TAB ----->
+<div id="Visits" class="dnnClear">
+ 
+ <div style="position:absolute; right: 0;"><asp:LinkButton runat="server" ID="btnAddClientVisit" OnClientClick="dataChanged=0;" 
+                CssClass="btn btn-primary" ResourceKey="btnAddClientVisit" ValidationGroup="VisitForm" 
+                onclick="btnAddClientVisit_Click" /></div>   
+
+        
+<br clear="all" />    
+
+
+
+
+
+
+<div class="dnnForm" id="form-visit">
+
+    <fieldset>
+             		
+		<div class="dnnFormItem">						
+					 <dnn:Label runat="server" ID="lblMobileLocations" ControlName="ddlMobileLocations" ResourceKey="lblMobileLocations" Suffix=":" /> 
+ <asp:DropDownList ID="ddlMobileLocations" runat="server" EnableViewState="true" /><asp:RequiredFieldValidator runat="server" id="reqMobileLocations" 
+            controltovalidate="ddlMobileLocations" InitialValue="" CssClass="dnnFormMessage dnnFormError" ResourceKey="MobileLocationsError" ValidationGroup="VisitForm" /> 
+		</div>	
+
+
+
+		<div class="dnnFormItem">
+<dnn:Label runat="server" ID="lblVisitDate" ControlName="txtVisitDate" ResourceKey="lblVisitDate" Suffix=":" /> 
+		 <asp:TextBox ID="txtVisitDate" runat="server" ClientIDMode="Static" /><asp:RequiredFieldValidator runat="server" id="reqVisitDate" 
+            controltovalidate="txtVisitDate" CssClass="dnnFormMessage dnnFormError" ResourceKey="VisitDateRequired" ValidationGroup="VisitForm" /> 
+		</div>
+
+		<div class="dnnFormItem">
+<dnn:Label runat="server" ID="lblVisitNumBags" ControlName="txtVisitNumBags" ResourceKey="lblVisitNumBags" Suffix=":"  /> 
+		  <asp:DropDownList ID="ddlVisitNumBags" runat="server">
+            <asp:ListItem Text="0" Value="0"></asp:ListItem>
+            <asp:ListItem Text="1" Value="1"></asp:ListItem>
+            <asp:ListItem Text="2" Value="2"></asp:ListItem>
+            <asp:ListItem Text="3" Value="3"></asp:ListItem>
+            <asp:ListItem Text="4" Value="4"></asp:ListItem>
+            <asp:ListItem Text="5" Value="5"></asp:ListItem>
+            <asp:ListItem Text="6" Value="6"></asp:ListItem>
+            <asp:ListItem Text="7" Value="7"></asp:ListItem>
+            <asp:ListItem Text="8" Value="8"></asp:ListItem>
+            <asp:ListItem Text="9" Value="9"></asp:ListItem>
+            <asp:ListItem Text="10" Value="10"></asp:ListItem>
+            </asp:DropDownList> 
+		</div>
+
+		<div class="dnnFormItem">
+ <dnn:Label runat="server" ID="lblVisitNotes" ControlName="txtVisitNotes" ResourceKey="lblVisitNotes" Suffix=":" /> 
+		 <asp:TextBox runat="server" ID="txtVisitNotes" TextMode="MultiLine" Width="300" Rows="6" /> 
+		</div>
+
+
+
+
+    </fieldset>
+
+</div>        
+
+
+
+    <asp:HiddenField ID="hidVisitID" runat="server" />
+
+
+
+
+<asp:GridView ID="gvVisits" runat="server" 
+    DataKeyNames="VisitID" OnRowEditing="gvVisits_RowEditing" OnRowCommand="gvVisits_RowCommand" OnPageIndexChanging="gvVisits_PageIndexChanging"     
+    AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
+    resourcekey="gvVisits" AllowPaging="True" PageSize="10">
+<AlternatingRowStyle CssClass="alt" />    
+<PagerStyle CssClass="pgr" />  
+<PagerSettings Mode="NumericFirstLast" /> 
+    <Columns>
+        <asp:TemplateField HeaderText="Edit" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonEdit" CausesValidation="False"     
+             CommandArgument='<%# Eval("VisitID") %>' 
+             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/images/edit.gif" AlternateText="Edit Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+      <asp:BoundField HeaderText="Visit Date" ItemStyle-VerticalAlign="Top" DataField="VisitDate" DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+       <asp:BoundField HeaderText="Notes" DataField="VisitNotes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="# of Bags" DataField="VisitNumBags" ItemStyle-VerticalAlign="Top" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+        <asp:BoundField HeaderText="Service Location" DataField="ServiceLocation" ItemStyle-VerticalAlign="Top" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Left"></asp:BoundField>
+        <asp:BoundField HeaderText="Recorded By" DataField="LastModifiedByUserName" ItemStyle-VerticalAlign="Top" ItemStyle-Width="160px"  ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+    </Columns>
+</asp:GridView>	
+
+		
+</div>
+<!---- END Client Visits TAB ----->
+
+<div style="text-align:right;"><asp:linkbutton cssclass="btn btn-default" id="cmdCancel" resourcekey="cmdCancel"  
+        runat="server" text="Cancel" causesvalidation="False"  
+        OnClick="cmdCancel_Click"></asp:linkbutton></div>
+
+
+
+
+
+
+  </div>
+
+
+  <script type="text/javascript" language="javascript" >
+      function requireAddressVerifyDate() {
+
+
+          var rfvAddressVerifyDate = document.getElementById('<%= rfvAddressVerifyDate.ClientID %>');
+          var isItChecked = $('#<%= cbxClientAddressVerify.ClientID %>').prop('checked')  // Boolean true
+          ValidatorEnable(rfvAddressVerifyDate, isItChecked);
+
+          //          if (isItChecked) {
+          //              ValidatorEnable(rfvAddressVerifyDate, isItChecked);
+          //              alert("1");
+          //          }
+          //          else {
+          //              ValidatorEnable(rfvAddressVerifyDate, isItChecked);
+          //              alert("2");
+          //          }
+
+
+      }
+
+      function requireClientVerifyDate() {
+
+
+          var rfvClientVerifyDate = document.getElementById('<%= rfvClientVerifyDate.ClientID %>');
+          var isItChecked = $('#<%= cbxDOB_Verified.ClientID %>').prop('checked')  // Boolean true
+          ValidatorEnable(rfvClientVerifyDate, isItChecked);
+          
+         
+
+      }
+</script>

@@ -1,0 +1,41 @@
+﻿
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IncomeExpense_Delete]    Script Date: 05/03/2013 08:04:54 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_Delete]    Script Date: 08/24/2013 09:52:08 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_AFM_Delete]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_AFM_Delete]
+GO
+
+ CREATE PROCEDURE [dbo].[GIBS_FBClients_AFM_Delete]
+
+	@ClAddFamMemID int
+	
+
+as
+BEGIN 
+
+DELETE FROM GIBS_FBClientsAddFamMem
+WHERE     ( ClAddFamMemID  = @ClAddFamMemID)
+
+		
+
+
+END
+
+
+
+
+
+
+
+
+GO
+
+

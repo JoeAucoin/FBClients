@@ -1,0 +1,49 @@
+﻿
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AgeGroupReport]    Script Date: 05/10/2013 06:42:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AgeGroupReport]    Script Date: 08/24/2013 09:53:44 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_AgeGroupReport]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_AgeGroupReport]
+GO
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_AgeGroupReport]
+
+	@ClientID int
+
+AS 
+BEGIN    
+
+SET NOCOUNT ON;
+		
+    CREATE TABLE #Temp    
+    ( DOB   Date  NULL );     
+     INSERT INTO #Temp (DOB)
+
+	SELECT  GIBS_FBClientsAFM.ClAddFamMemDOB  AS DOB                     
+	FROM         GIBS_FBClients 
+	INNER JOIN  GIBS_FBClientsAddFamMem AS GIBS_FBClientsAFM ON GIBS_FBClients.ClientID = GIBS_FBClientsAFM.ClientID
+	WHERE     GIBS_FBClients.ClientID = @ClientID
+		
+	
+UNION ALL
+
+	SELECT GIBS_FBClients.ClientDOB AS DOB                                          
+	FROM  GIBS_FBClients 
+	WHERE     GIBS_FBClients.ClientID = @ClientID
+
+
+-- SELECT THE REPORT FROM TEMP TABLE
+	SELECT                              
+	count( dbo.fn_GIBS_FBClients_GetAgeGroup(DOB,GetDate())) As AgeGroupCount 
+	 , dbo.fn_GIBS_FBClients_GetAgeGroup(DOB,GetDate()) As AgeGroup                
+	FROM         #Temp 
+	GROUP BY dbo.fn_GIBS_FBClients_GetAgeGroup(DOB,GetDate())
+
+ DROP TABLE #Temp
+
+
+END

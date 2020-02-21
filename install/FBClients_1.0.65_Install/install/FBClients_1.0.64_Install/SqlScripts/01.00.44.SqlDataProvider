@@ -1,0 +1,394 @@
+﻿
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_PrintTicket]    Script Date: 4/5/2018 11:13:19 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_PrintTicket]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_PrintTicket]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]    Script Date: 4/5/2018 11:13:19 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_CurrentYear] AS' 
+END
+GO
+
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_CurrentYear]
+	-- Add the parameters for the stored procedure here
+	@clAddFamMemID int,
+	@xMasYear int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+SELECT [xMasID]
+      ,[GIBS_FBxMas].[ClientID]
+      ,[GIBS_FBxMas].[ClAddFamMemID]
+      ,[xMasYear]
+      ,[Sizes] AS XmasSizes
+      ,[BikeRaffle]
+      ,[BikeAwardedDate]
+      ,[WantsToys]
+      ,[VerifiedToys]
+      ,[ReceivedToysDate]
+      ,[GIBS_FBxMas].[CreatedOnDate]
+      ,[GIBS_FBxMas].[CreatedByUserID]
+      ,[GIBS_FBxMas].[LastModifiedByUserID]
+      ,[GIBS_FBxMas].[LastModifiedOnDate]
+	  ,[XmasNotes]
+	  ,cast(dbo.fn_GIBS_FBClients_GetAge(ClAddFamMemDOB,[GIBS_FBxMas].[CreatedOnDate]) as int) AS AFM_Age
+	  , (Select max(BikeAwardedDate) from [GIBS_FBxMas] px where px.ClAddFamMemID = [GIBS_FBxMas].[ClAddFamMemID] ) AS PastWin
+
+  FROM [dbo].[GIBS_FBxMas] 
+  inner join GIBS_FBClientsAddFamMem on [GIBS_FBxMas].ClAddFamMemID = GIBS_FBClientsAddFamMem.ClAddFamMemID
+  --left outer join Users on GIBS_FBClientsAddFamMem.LastModifiedByUserID = Users.UserId
+  WHERE [GIBS_FBxMas].ClAddFamMemID = @clAddFamMemID AND xMasYear = @xMasYear
+
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]    Script Date: 4/5/2018 11:13:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID] AS' 
+END
+GO
+
+
+
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 10/01/2014
+-- Description:	Get selected AFM Record
+-- =============================================
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_Get_History_By_AFM_ID]
+	-- Add the parameters for the stored procedure here
+	@clAddFamMemID int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+SELECT [xMasID]
+      ,[ClientID]
+      ,[ClAddFamMemID]
+      ,[xMasYear]
+      ,[Sizes] as xMasSizes
+      ,[BikeRaffle]
+      
+	--  ,CASE WHEN ISDATE(CONVERT(VARCHAR(10),[BikeAwardedDate])) = 1 THEN CONVERT(DATE,[BikeAwardedDate]) ELSE NULL end AS [BikeAwardedDate]
+
+	  
+--	  CASE 
+--WHEN [BikeAwardedDate] > '01-01-1901' THEN [BikeAwardedDate]
+--ELSE NULL
+--END AS [BikeAwardedDate]
+
+	  ,cast([BikeAwardedDate] AS Varchar(10)) AS [BikeAwardedDate]
+      ,[WantsToys]
+      ,[VerifiedToys]
+     -- ,[ReceivedToysDate]
+	  ,cast([ReceivedToysDate] AS Varchar(10)) AS [ReceivedToysDate]
+      ,[CreatedOnDate]
+      ,[CreatedByUserID]
+      ,[LastModifiedByUserID]
+      ,[LastModifiedOnDate]
+      ,[XmasNotes]
+  FROM [dbo].[GIBS_FBxMas] 
+  Where [ClAddFamMemID] = @clAddFamMemID
+  --15323
+  order by [xMasYear] DESC
+
+END
+
+
+
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear] AS' 
+END
+GO
+
+
+
+
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 10/31/2017
+-- Description:	Insert Xmas Record
+-- =============================================
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_Insert_CurrentYear]
+	-- Add the parameters for the stored procedure here
+	@ClientID int,
+	@clAddFamMemID int,
+	@xMasYear int,
+	@Sizes varchar(500),
+	@BikeRaffle bit,
+	@BikeAwardedDate datetime,
+	@WantsToys bit,
+	@VerifiedToys bit,
+	@ReceivedToysDate datetime,
+	@LastModifiedByUserID int,
+	@XmasNotes varchar(500)
+	
+AS
+
+--Declare @xMasID int
+
+BEGIN
+    IF EXISTS (SELECT 1 FROM [dbo].[GIBS_FBxMas]
+        WHERE ([ClAddFamMemID] = @clAddFamMemID) AND ( [xMasYear] = @xMasYear) 	
+    )
+    BEGIN
+
+UPDATE [dbo].[GIBS_FBxMas]
+   SET 
+
+      [Sizes] = @Sizes
+      ,[BikeRaffle] = @BikeRaffle
+      ,[BikeAwardedDate] = @BikeAwardedDate
+      ,[WantsToys] = @WantsToys
+      ,[VerifiedToys] = @VerifiedToys
+      ,[ReceivedToysDate] = @ReceivedToysDate
+      ,[LastModifiedByUserID] = @LastModifiedByUserID
+      ,[LastModifiedOnDate] = GetDate()
+	  ,[XmasNotes] = @XmasNotes
+  WHERE ([ClAddFamMemID] = @clAddFamMemID) AND ( [xMasYear] = @xMasYear)
+      
+	  Select xMasID FROM [dbo].[GIBS_FBxMas] 
+	  WHERE ([ClAddFamMemID] = @clAddFamMemID) AND ( [xMasYear] = @xMasYear) 
+	      
+    END
+
+
+
+ELSE
+    BEGIN
+        	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+INSERT INTO [dbo].[GIBS_FBxMas]
+           (
+           [ClientID]
+           ,[ClAddFamMemID]
+           ,[xMasYear]
+           ,[Sizes]
+           ,[BikeRaffle]
+           ,[BikeAwardedDate]
+           ,[WantsToys]
+           ,[VerifiedToys]
+           ,[ReceivedToysDate]
+           ,[CreatedOnDate]
+           ,[CreatedByUserID]
+           ,[LastModifiedByUserID]
+           ,[LastModifiedOnDate]
+		   ,[XmasNotes])
+     VALUES
+     (
+           @ClientID
+           ,@clAddFamMemID
+           ,@xMasYear
+           ,@Sizes
+           ,@BikeRaffle
+           ,@BikeAwardedDate
+           ,@WantsToys
+           ,@VerifiedToys
+           ,@ReceivedToysDate
+           ,GetDate()
+           ,@LastModifiedByUserID
+           ,@LastModifiedByUserID
+           ,GetDate()
+		   ,@XmasNotes
+      )
+
+select xMasID = SCOPE_IDENTITY() 
+    END
+
+		
+END
+
+
+
+
+
+
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_PrintTicket]    Script Date: 4/5/2018 11:13:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_PrintTicket]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_PrintTicket] AS' 
+END
+GO
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 10/01/2014
+-- Description:	Get selected AFM Record
+-- =============================================
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_PrintTicket]
+	-- Add the parameters for the stored procedure here
+	@ClientID int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+
+SELECT     
+		 GIBS_FBClientsAddFamMem.ClAddFamMemID, 
+		 ClAddFamMemFirstName, 
+		 ClAddFamMemLastName, 
+		 ClAddFamMemDOB, 
+		 AFMRelationship,
+		 GIBS_FBClientsAddFamMem.ClientID, 
+
+
+		 cast(dbo.fn_GIBS_FBClients_GetAge(ClAddFamMemDOB,GetDate()) as int) AS AFM_Age, 
+		
+		-- returning LastModifiedByUserName (see join below)
+		'LastModifiedByUserName' = Users.FirstName + ' ' + Users.LastName,
+		AFMMiddleInitial,
+		AFMSuffix,
+		AFMDOBVerify,
+		AFMGender,
+		WantsToys,
+		GIBS_FBxMas.Sizes as xMasSizes,
+		bikeRaffle,
+		
+		QualifiedToys = cast((CASE 
+		 WHEN cast(dbo.fn_GIBS_FBClients_GetAge(ClAddFamMemDOB,GetDate()) as int) < 15 THEN 1 
+		 ELSE 0 
+		 END) as bit),
+		 
+		 VerifiedToys 
+		 
+		from GIBS_FBClientsAddFamMem
+		left outer join Users on GIBS_FBClientsAddFamMem.LastModifiedByUserID = Users.UserId
+		
+		left outer join GIBS_FBxMas on GIBS_FBxMas.ClAddFamMemID = GIBS_FBClientsAddFamMem.ClAddFamMemID
+		
+		where  GIBS_FBClientsAddFamMem.ClientID = @ClientID and VerifiedToys = 1 and XmasYear = year(getdate())
+
+
+		order by ClAddFamMemDOB desc
+
+
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]    Script Date: 4/5/2018 11:13:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_Update_CurrentYear] AS' 
+END
+GO
+
+
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 10/01/2014
+-- Description:	Get selected AFM Record
+-- =============================================
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_Update_CurrentYear]
+	-- Add the parameters for the stored procedure here
+	@xMasID int,
+	@XmasSizes varchar(500),
+	@BikeRaffle bit,
+	@BikeAwardedDate datetime,
+	@WantsToys bit,
+	@VerifiedToys bit,
+	@ReceivedToysDate datetime,
+	@LastModifiedByUserID int,
+	@XmasNotes varchar(500)
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+UPDATE [dbo].[GIBS_FBxMas]
+   SET 
+
+      [Sizes] = @XmasSizes
+      ,[BikeRaffle] = @BikeRaffle
+      ,[BikeAwardedDate] = @BikeAwardedDate
+      ,[WantsToys] = @WantsToys
+      ,[VerifiedToys] = @VerifiedToys
+      ,[ReceivedToysDate] = @ReceivedToysDate
+      ,[LastModifiedByUserID] = @LastModifiedByUserID
+      ,[LastModifiedOnDate] = GetDate()
+	  ,[XmasNotes] = @XmasNotes 
+  WHERE xMasID = @xMasID
+
+END
+
+
+GO
+
+

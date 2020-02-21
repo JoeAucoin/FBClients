@@ -1,0 +1,312 @@
+﻿ #map {
+        
+        width: 100%;
+      }
+
+a.dnnFormHelp
+{
+	float: right;
+	}
+
+  
+h2.dnnFormSectionHead {
+    margin: 0.5em auto 0.6em;
+    padding: 0;
+    letter-spacing: -0.03em;
+    font-weight: bold;
+    border-bottom: 1px #ccc solid;
+    text-align: left;
+    line-height: 1.2;
+    font-size: 1.5em;
+}
+.dnnForm h2.dnnFormSectionHead a,
+.dnnForm h2.dnnFormSectionHead a:visited {
+    display: block;
+    text-decoration: none;
+    padding: 0.4em 0.8em;
+    color: #000;
+    letter-spacing: -0.03em;
+    font-weight: bold;
+    background: url(/images/down-icn.png) no-repeat 98% center;
+    display: block;
+}
+.dnnForm h2.dnnFormSectionHead a:hover { background: #f1f1f1 url(/images/down-icn.png) no-repeat 98% center }
+.dnnForm h2.dnnFormSectionHead a.dnnSectionExpanded {
+    background: url(/images/up-icn.png) no-repeat 98% center;
+    text-align: left;
+}
+.dnnForm h2.dnnFormSectionHead a.dnnSectionExpanded:hover { background: #f1f1f1 url(/images/up-icn.png) no-repeat 98% center }
+.dnnFormExpandContent {
+    position: absolute;
+    top: -32px;
+    right: 10px;
+}
+.dnnFormExpandContent { text-align: right }
+.dnnForm .dnnFormExpandContent a { font-weight: bold } 
+			
+
+/* ViewFBClients.aspx */
+.GridViewSearch 
+{ 
+    width:620px; 
+    margin-left:auto; 
+    margin-right:auto; 
+} 
+
+
+/* EditClient.aspx */
+.gvVisits 
+{ 
+    width:680px; 
+    margin-left:auto; 
+    margin-right:auto; 
+} 
+
+.ClientNameHeader
+{
+	    
+    font-weight: bold; 
+     font-size:14px;
+    line-height: 16px;
+    padding-bottom:10px;
+	}
+
+.ClientNameHeaderRight
+{
+	text-align: right;
+	font-weight: bold; 
+	font-size:14px;
+	line-height: 16px;
+	padding-bottom:10px;
+	z-index: 10;
+	position: relative;
+	float:right;
+	right: 0;
+	top: 0;
+
+	}
+	
+	
+.ClientNotesQuickView
+{
+	     font-size:12px;
+    line-height: 14px;
+    padding-bottom:10px;
+    color:#666666;
+	
+	}	
+	
+	
+.CheckBoxList
+{
+	    
+    font-weight: bold; 
+     font-size:11px;
+    
+    padding-right:20px;
+	}	
+	
+.CheckBoxList input 
+{ 
+     overflow: hidden;
+
+}
+.CheckBoxList td 
+{ 
+    padding-left: 30px; 
+}	
+
+
+
+
+.myGroupCheckBox{
+           
+			margin: 0;
+			padding: 0;
+			list-style:none;
+			list-style-type:none !important;
+            overflow: auto;
+          
+        }
+
+ .myGroupCheckBox li
+ {
+ 	display: inline-block;
+ 	width:200px;
+ 	float:left;
+ }
+        
+   /*    border: solid 1px #525252;  */     
+	
+
+/* COMMON GRID STYLE */
+.mGrid { 
+    width: 100%; 
+    background-color: #fff; 
+    margin: 5px 0 10px 0; 
+    border: solid 1px #525252; 
+    border-collapse:collapse; 
+}
+.mGrid td { 
+    padding: 2px; 
+    border: solid 1px #c1c1c1; 
+    color: #717171; 
+    padding-left:5px;
+}
+.mGrid th { 
+    padding: 4px 2px; 
+    color: #fff; 
+    background: #3366cc ; 
+    border-left: solid 1px #525252; 
+    font-size: 0.9em; 
+}
+
+.mGrid .alt { background: #fcfcfc  }
+.mGrid .pgr { background: #3366cc  }
+.mGrid .pgr table { margin: 5px 0; }
+.mGrid .pgr td { 
+    border-width: 0; 
+    padding: 0 6px; 
+    border-left: solid 1px #666; 
+    font-weight: bold; 
+    color: #fff; 
+    line-height: 12px; 
+ }   
+.mGrid .pgr a { color: #cccccc; text-decoration: none; }
+.mGrid .pgr a:hover { color: #fff; text-decoration: none; }
+
+
+/* COMMON GRID FLEX WIDTH STYLE */
+
+.mGridFlex  
+{
+
+    width:100%; 
+    background-color: #fff; 
+    margin: 5px 0 10px 0; 
+    border: solid 1px #525252; 
+    border-collapse:collapse; 
+}
+.mGridFlex td { 
+    padding: 2px; 
+    border: solid 1px #c1c1c1; 
+    color: #717171; 
+    padding-left:5px;
+}
+.mGridFlex th { 
+    padding: 4px 2px; 
+    color: #fff; 
+    background: #3366cc ; 
+    border-left: solid 1px #525252; 
+    font-size: 0.9em; 
+}
+
+.mGridFlex .alt { background: #fcfcfc  }
+.mGridFlex .pgr { background: #3366cc  }
+.mGridFlex .pgr table { margin: 5px 0; }
+.mGridFlex .pgr td { 
+    border-width: 0; 
+    padding: 0 6px; 
+    border-left: solid 1px #666; 
+    font-weight: bold; 
+    color: #fff; 
+    line-height: 12px; 
+ }   
+.mGridFlex .pgr a { color: #cccccc; text-decoration: none; }
+.mGridFlex .pgr a:hover { color: #fff; text-decoration: none; }
+
+.btnAddNewClient {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fff6af;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fff6af;
+	box-shadow:inset 0px 1px 0px 0px #fff6af;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23) );
+	background:-moz-linear-gradient( center top, #ffec64 5%, #ffab23 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23');
+	background-color:#ffec64;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	color:#333333;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:9px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffee66;
+}.btnAddNewClient:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64) );
+	background:-moz-linear-gradient( center top, #ffab23 5%, #ffec64 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffec64');
+	background-color:#ffab23;
+}.btnAddNewClient:active {
+	position:relative;
+	top:1px;
+}
+
+.hidden {
+  display:none;
+}
+
+
+
+.pagination-ys {
+    /*display: inline-block;*/
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.pagination-ys table > tbody > tr > td {
+    display: inline;
+}
+
+.pagination-ys table > tbody > tr > td > a,
+.pagination-ys table > tbody > tr > td > span {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #dd4814;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    margin-left: -1px;
+}
+
+.pagination-ys table > tbody > tr > td > span {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;    
+    margin-left: -1px;
+    z-index: 2;
+    color: #aea79f;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+    cursor: default;
+}
+
+.pagination-ys table > tbody > tr > td:first-child > a,
+.pagination-ys table > tbody > tr > td:first-child > span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.pagination-ys table > tbody > tr > td:last-child > a,
+.pagination-ys table > tbody > tr > td:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.pagination-ys table > tbody > tr > td > a:hover,
+.pagination-ys table > tbody > tr > td > span:hover,
+.pagination-ys table > tbody > tr > td > a:focus,
+.pagination-ys table > tbody > tr > td > span:focus {
+    color: #97310e;
+    background-color: #eeeeee;
+    border-color: #dddddd;
+}

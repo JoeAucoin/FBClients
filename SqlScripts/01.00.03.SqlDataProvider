@@ -1,0 +1,241 @@
+﻿SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ ALTER PROCEDURE [dbo].[GIBS_FBClients_Visit_List]
+
+	@ClientID int
+
+as
+BEGIN 
+
+	SELECT     
+		VisitID, 
+		VisitDate, 
+		VisitNotes, 
+		VisitNumBags, 
+		GIBS_FBClientsVisits.ClientID, 
+		GIBS_FBClientsVisits.CreatedOnDate, 
+		GIBS_FBClientsVisits.CreatedByUserID, 
+		GIBS_FBClientsVisits.LastModifiedByUserID, 
+		GIBS_FBClientsVisits.LastModifiedOnDate, 
+		
+		'LastModifiedByUserName' = Users.FirstName + ' ' + Users.LastName
+		from GIBS_FBClientsVisits
+		left outer join Users on GIBS_FBClientsVisits.LastModifiedByUserID = Users.UserId
+		
+		where  GIBS_FBClientsVisits.ClientID = @ClientID
+		order by VisitDate desc
+
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_Insert]    Script Date: 02/19/2013 07:16:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- SELECT     VisitID, VisitDate, VisitNotes, VisitNumBags, ClientID, CreatedOnDate, CreatedByUserID, LastModifiedByUserID, LastModifiedOnDate
+-- FROM         GIBS_FBClientsVisits
+
+ ALTER PROCEDURE [dbo].[GIBS_FBClients_Visit_Insert] 
+	
+
+	@VisitDate date,
+	@VisitNotes NTEXT,
+	@VisitNumBags INT,
+	@ClientID INT,
+	@CreatedByUserID INT
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+insert into dbo.GIBS_FBClientsVisits (
+	VisitDate, 
+	VisitNotes, 
+	VisitNumBags, 
+	ClientID, 
+	CreatedOnDate, 
+	CreatedByUserID ,
+	LastModifiedByUserID, 
+	LastModifiedOnDate
+) 
+values (
+	@VisitDate, 
+	@VisitNotes, 
+	@VisitNumBags, 
+	@ClientID, 
+	GETDATE(), 
+	@CreatedByUserID,
+	@CreatedByUserID,
+	GETDATE()
+)
+
+select SCOPE_IDENTITY()
+	
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_Insert]    Script Date: 02/19/2013 07:40:06 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_AFM_Insert] 
+	
+	@ClAddFamMemFirstName NVARCHAR(30),	
+	@ClAddFamMemLastName NVARCHAR(30),
+	@ClAddFamMemDOB date,
+	@AFMRelationship NVARCHAR(25),
+	@ClientID INT,
+	@CreatedByUserID INT,
+	@AFMMiddleInitial NVARCHAR(15),
+	@AFMSuffix NVARCHAR(15),
+	@AFMDOBVerify bit,
+	@AFMEthnicity NVARCHAR(30)
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+insert into  dbo.GIBS_FBClientsAddFamMem (
+	 ClAddFamMemFirstName, 
+	 ClAddFamMemLastName, 
+	 ClAddFamMemDOB, 
+	 AFMRelationship,
+	 ClientID, 
+	 CreatedOnDate,
+	 LastModifiedOnDate ,
+	 LastModifiedByUserID, 
+	 CreatedByUserID,
+	AFMMiddleInitial,
+	AFMSuffix,
+	AFMDOBVerify,
+	AFMEthnicity
+) 
+values (
+	@ClAddFamMemFirstName, 
+	@ClAddFamMemLastName,  
+	@ClAddFamMemDOB,
+	@AFMRelationship, 
+	@ClientID, 
+	GETDATE(),
+	GETDATE(),
+	@CreatedByUserID,
+	@CreatedByUserID,
+	@AFMMiddleInitial,
+	@AFMSuffix,
+	@AFMDOBVerify,
+	@AFMEthnicity
+)
+
+select SCOPE_IDENTITY()
+	
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_List]    Script Date: 02/18/2013 10:23:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER procedure [dbo].[GIBS_FBClients_AFM_List]
+
+	@ClientID int
+
+as
+BEGIN 
+
+	SELECT     
+		 ClAddFamMemID, 
+		 ClAddFamMemFirstName, 
+		 ClAddFamMemLastName, 
+		 ClAddFamMemDOB, 
+		 AFMRelationship,
+		 GIBS_FBClientsAddFamMem.ClientID, 
+		 GIBS_FBClientsAddFamMem.CreatedOnDate, 
+		 GIBS_FBClientsAddFamMem.CreatedByUserID,
+		 GIBS_FBClientsAddFamMem.LastModifiedByUserID, 
+		 GIBS_FBClientsAddFamMem.LastModifiedOnDate,
+		 -- call function to calculate age
+		 cast(dbo.fn_GIBS_FBClients_GetAge(ClAddFamMemDOB,GetDate()) as int) AS AFM_Age, 
+		
+		-- returning LastModifiedByUserName (see join below)
+		'LastModifiedByUserName' = Users.FirstName + ' ' + Users.LastName,
+		AFMMiddleInitial,
+		AFMSuffix,
+		AFMDOBVerify 
+		from GIBS_FBClientsAddFamMem
+		left outer join Users on GIBS_FBClientsAddFamMem.LastModifiedByUserID = Users.UserId
+		
+		where  GIBS_FBClientsAddFamMem.ClientID = @ClientID
+		order by ClAddFamMemDOB desc
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_Update]    Script Date: 02/19/2013 06:54:59 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ ALTER PROCEDURE [dbo].[GIBS_FBClients_AFM_Update] 
+	
+	@ClAddFamMemID INT,
+	@ClAddFamMemFirstName NVARCHAR(30),	
+	@ClAddFamMemLastName NVARCHAR(30),
+	@ClAddFamMemDOB date,
+	@AFMRelationship NVARCHAR(25),
+	@ClientID INT,
+	@LastModifiedByUserID INT,
+	@AFMMiddleInitial NVARCHAR(15),
+	@AFMSuffix NVARCHAR(15),
+	@AFMDOBVerify bit,
+	@AFMEthnicity NVARCHAR(30)
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+UPDATE    GIBS_FBClientsAddFamMem
+	SET              
+	ClAddFamMemFirstName = @ClAddFamMemFirstName, 
+	ClAddFamMemLastName = @ClAddFamMemLastName, 
+	ClAddFamMemDOB = @ClAddFamMemDOB, 
+	AFMRelationship = @AFMRelationship, 
+	ClientID = @ClientID, 
+	LastModifiedOnDate = GETDATE(), 
+	LastModifiedByUserID = @LastModifiedByUserID,
+	AFMMiddleInitial = @AFMMiddleInitial,
+	AFMSuffix = @AFMSuffix,
+	AFMDOBVerify = @AFMDOBVerify,
+	AFMEthnicity = @AFMEthnicity
+	
+WHERE
+	ClAddFamMemID = @ClAddFamMemID
+
+
+	
+END
+
+

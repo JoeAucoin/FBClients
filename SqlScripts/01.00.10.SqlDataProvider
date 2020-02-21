@@ -1,0 +1,34 @@
+﻿/****** Object:  StoredProcedure [dbo].[GIBS_FBClientsGetCaseWorkers]    Script Date: 05/02/2013 05:18:15 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClientsGetCaseWorkers]    Script Date: 08/24/2013 09:53:01 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClientsGetCaseWorkers]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClientsGetCaseWorkers]
+GO
+
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClientsGetCaseWorkers]
+	@PortalID	int,
+	@Rolename	nvarchar(50)
+AS
+	SELECT     
+		
+		U.UserID as clientCaseWorker, 
+		 U.LastName + ', ' + U.FirstName AS CaseWorkerName
+		
+	FROM dbo.UserPortals AS UP 
+			RIGHT OUTER JOIN dbo.UserRoles  UR 
+			INNER JOIN dbo.Roles R ON UR.RoleID = R.RoleID 
+			RIGHT OUTER JOIN dbo.Users AS U ON UR.UserID = U.UserID 
+		ON UP.UserId = U.UserID	
+	WHERE ( UP.PortalId = @PortalID OR @PortalID IS Null )
+		AND (UP.IsDeleted = 0 OR UP.IsDeleted Is NULL)
+		AND (R.RoleName = @Rolename)
+		AND (R.PortalId = @PortalID OR @PortalID IS Null )
+	--ORDER BY U.FirstName + ' ' + U.LastName
+	ORDER BY U.LastName + ' ' + U.FirstName

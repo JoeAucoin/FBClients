@@ -1,0 +1,70 @@
+﻿/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search_AFM]    Script Date: 06/10/2013 06:48:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search_AFM]    Script Date: 08/24/2013 09:54:52 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Search_AFM]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Search_AFM]
+GO
+
+
+
+ CREATE PROCEDURE [dbo].[GIBS_FBClients_Search_AFM]
+
+	@PortalId NVARCHAR(30),
+	@AFMLastName NVARCHAR(30) = null,
+	@AFMFirstName NVARCHAR(30) = null
+
+as
+
+BEGIN 
+declare @sql NVARCHAR(max)
+
+
+
+
+SET @sql = 'SELECT GIBS_FBClients.ClientID, GIBS_FBClientsAddFamMem.ClAddFamMemFirstName, GIBS_FBClientsAddFamMem.ClAddFamMemLastName, ClientFirstName, ClientMiddleInitial, ClientLastName,'
+SET @sql = @sql + 'CASE WHEN ClientDOB IS NULL THEN ''01/01/1901'' ELSE ClientDOB END AS ClientDOB,'
+SET @sql = @sql + '	ClientAddress, ClientUnit, ClientCity, ClientTown, ClientState, ClientZipCode, ClientEmailAddress, 	'
+SET @sql = @sql + '	ClientIdCard, ClientPhone, ClientPhoneType, ClientCaseWorker, 	'
+SET @sql = @sql + '	cast(dbo.fn_GIBS_FBClients_GetAge(ClientDOB,GetDate()) as INT) AS ClientAge, 	'
+SET @sql = @sql + '	ModuleID, GIBS_FBClients.CreatedOnDate, GIBS_FBClients.CreatedByUserID,	'
+SET @sql = @sql + '	GIBS_FBClients.LastModifiedByUserID, GIBS_FBClients.LastModifiedOnDate, ClientDOBVerify, 	'
+SET @sql = @sql + '	PortalID, [CaseWorkerName] = Users.FirstName + '' '' + Users.LastName	'
+
+SET @sql = @sql + '	, [ModUserName] = ModUser.FirstName + '' '' + ModUser.LastName	'
+
+SET @sql = @sql + '	from dbo.GIBS_FBClients	'
+
+SET @sql = @sql + '	INNER JOIN GIBS_FBClientsAddFamMem ON GIBS_FBClients.ClientID = GIBS_FBClientsAddFamMem.ClientID '
+
+SET @sql = @sql + '	left outer join Users on GIBS_FBClients.ClientCaseWorker = Users.UserId	'
+SET @sql = @sql + '	left outer join Users ModUser on GIBS_FBClients.LastModifiedByUserID = ModUser.UserId	'
+
+
+SET @sql = @sql + ' WHERE PortalId =  ' + @PortalId
+
+IF (len(@AFMLastName) > 0)
+
+SET @sql = @sql + ' AND GIBS_FBClientsAddFamMem.ClAddFamMemLastName like ''' + @AFMLastName + '%'''
+
+IF (len(@AFMFirstName) > 0)
+
+SET @sql = @sql + ' AND GIBS_FBClientsAddFamMem.ClAddFamMemFirstName like ''' + @AFMFirstName + '%'''
+
+
+
+--else
+--SET @sql = @sql + ' '
+
+SET @sql = @sql + '	Order by ClAddFamMemLastName, ClAddFamMemFirstName	'
+
+print @sql
+
+execute sp_executesql @sql
+
+
+END
