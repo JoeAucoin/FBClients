@@ -7,7 +7,7 @@
 <%@ Register tagprefix="dnn" Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" %>
 
 
-<dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=3" />
+<dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=2" />
 
 <dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
 
@@ -184,25 +184,55 @@
         $('input').attr('autocomplete', 'off');
     }, 2000);
 
+
+    $('a.example').click(function () {   //bind handlers
+        var url = $(this).attr('href');
+        showDialog(url);
+
+        return false;
+    });
+
+    $("#targetDiv").dialog({  //create dialog, but keep it closed
+        autoOpen: false,
+        height: 300,
+        width: 350,
+        modal: true
+    });
+
+    function showDialog(url) {  //load content and open dialog
+        $("#targetDiv").load(url);
+        $("#targetDiv").dialog("open");
+    }
+
 </script>
 
 
-
+<asp:Button ID="ButtonCamera" runat="server" Text="Take Picture" OnClick="btnCamera_Click" />
 
 <div style="clear:both;"></div>
 
-<div class="ClientNameHeaderRight"><asp:Label ID="lblClientNameHeaderRight" runat="server" Text=""></asp:Label><br /><span style="font-size: 11px;"><asp:Repeater ID="rp_AgeGroupReport" runat="server">
+    <div class="row">
+        <div class="col-sm-5 ClientNameHeader"><asp:Label ID="lblClientNameHeader" runat="server" Text="" /></div>
+        <div class="col-sm-2"><div id="targetDiv"></div><a href="https://crowsnest/Client-Manager/ctl/Camera/mid/1455" class="example">TEST</a>
+            <asp:HyperLink ID="HyperLinkPhotoID" runat="server"> JOE</asp:HyperLink>
+            <asp:Image ID="ImageIDClient" runat="server" Height="100" CssClass="hover-zoom" /> 
+
+        </div>
+        <div class="col-sm-5 ClientNameHeaderRight"><asp:Label ID="lblClientNameHeaderRight" runat="server" Text=""></asp:Label><br /><span style="font-size: 11px;"><asp:Repeater ID="rp_AgeGroupReport" runat="server">
 <ItemTemplate><%# DataBinder.Eval(Container.DataItem, "AgeGroupCount")%> <%# DataBinder.Eval(Container.DataItem, "AgeGroup") %></ItemTemplate>
 <SeparatorTemplate>, </SeparatorTemplate> 
 </asp:Repeater></span>
-<br /><asp:Label ID="lblBudget" runat="server" Text="" />
+<br /><asp:Label ID="lblBudget" runat="server" Text="" /></div>
+    </div>
+
+<div class="ClientNameHeaderRight">
 
 
 </div>
 
 <div class="ClientNameHeader">
 
-<asp:Label ID="lblClientNameHeader" runat="server" Text=""></asp:Label>
+
 
 </div>
 

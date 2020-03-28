@@ -60,6 +60,7 @@ namespace GIBS.FBClients.Components
         private bool subjectToReview;
         private bool oneBagOnly;
         private string disability;
+        private byte[] iDPhoto;
 
 
         // CLIENT ADDITIONAL FAMILY MEMBERS
@@ -396,7 +397,12 @@ namespace GIBS.FBClients.Components
             set { disability = value; }
         }
 
+        public byte[] IDPhoto
+        {
 
+            get { return iDPhoto; }
+            set { iDPhoto = value; }
+        }
 
 
         #endregion

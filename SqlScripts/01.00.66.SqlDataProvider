@@ -1,6 +1,6 @@
 ﻿--ALTER TABLE GIBS_FBClients MODIFY COLUMN ClientNote nvarchar(1000); 
 
-Select * from GIBS_FBClients
+
 
 ALTER TABLE GIBS_FBClients
 ALTER COLUMN ClientNote nvarchar(1000); 

@@ -33,6 +33,42 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude2;
 
         /// <summary>
+        /// ButtonCamera control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCamera;
+
+        /// <summary>
+        /// lblClientNameHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientNameHeader;
+
+        /// <summary>
+        /// HyperLinkPhotoID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkPhotoID;
+
+        /// <summary>
+        /// ImageIDClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageIDClient;
+
+        /// <summary>
         /// lblClientNameHeaderRight control.
         /// </summary>
         /// <remarks>
@@ -58,15 +94,6 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBudget;
-
-        /// <summary>
-        /// lblClientNameHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblClientNameHeader;
 
         /// <summary>
         /// ImgFlagged control.

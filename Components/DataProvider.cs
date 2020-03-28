@@ -44,7 +44,7 @@ namespace GIBS.FBClients.Components
 
 
 
-
+        public abstract void FBClients_IDPhoto_Insert(int clientID, byte[] iDPhoto, int createdByUserID);
 
         public abstract void FBClients_DeleteClient(int clientID);
 

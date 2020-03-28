@@ -20,6 +20,7 @@ using System.Text;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using System.Linq;
 using System.Windows.Forms;
+using DotNetNuke.Common;
 
 //clientType_SelectedIndexChanged
 
@@ -69,7 +70,6 @@ namespace GIBS.Modules.FBClients
             Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "Watermark", (this.TemplateSourceDirectory + "/JavaScript/jquery.watermarkinput.js"));
             //   Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "Style", ("https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css"));
 
-
         }
 
 
@@ -105,7 +105,7 @@ namespace GIBS.Modules.FBClients
                 }
             }
 
-
+            SetPhotoIDLink();
 
             if (!IsPostBack)
             {
@@ -224,6 +224,20 @@ namespace GIBS.Modules.FBClients
                     }
 
                     BindDisabilities(item.Disability);
+
+                    if (item.IDPhoto != null)
+                    {
+                        ImageIDClient.Visible = true;
+                        byte[] imagem = (byte[])(item.IDPhoto);
+                        string PROFILE_PIC = Convert.ToBase64String(imagem);
+
+                        ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                        ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+                    }
+                    else
+                    {
+                        ImageIDClient.Visible = false;
+                    }
 
                     //  Response.Write(item);
                     ddlClientEthnicity.SelectedValue = item.ClientEthnicity.ToString();
@@ -782,6 +796,35 @@ namespace GIBS.Modules.FBClients
             }
 
         }
+
+        public void CameraLink()
+        {
+
+            try
+            {
+                //var strAddOn = '?SkinSrc=[G]';
+
+                string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
+                myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "&ContainerSrc=";
+                myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
+
+                HyperLinkXmas.Visible = true;
+                HyperLinkXmas.NavigateUrl = myLink.ToString();
+
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+
+        }
+
+
+
+
+
         public void FillClientAgeGroups()
         {
 
@@ -2625,6 +2668,50 @@ namespace GIBS.Modules.FBClients
                 txtClientMiddleInitial.Enabled = false;
                 txtClientDOB.Text = "07/07/1997";
                 txtClientDOB.Enabled = false;
+            }
+        }
+
+        public void SetPhotoIDLink()
+        {
+
+            //HyperLinkPhotoID
+            try
+            {
+
+                string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
+                myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "&ContainerSrc=";
+                myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
+                //string mytemp = "https://www.gibs.com/Default.aspx?1=1";
+                myLink = "javascript:dnnModal.show('" + myLink.ToString() + "&popUp=true',false,550,950,false);";
+                myLink = myLink.Replace("&#39", "'").Replace("&amp;", "&").ToString();
+                HyperLinkPhotoID.NavigateUrl = myLink.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+
+        }
+        protected void btnCamera_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
+                myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "&ContainerSrc=";
+                myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
+
+                Response.Redirect(myLink.ToString());
+
+                //Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "Camera", "mid=" + ModuleId.ToString() + "&ClientID=" + hidClientID.Value.ToString()));
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
             }
         }
 

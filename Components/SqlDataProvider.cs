@@ -91,7 +91,10 @@ namespace GIBS.FBClients.Components
 
         #region override methods
 
-
+        public override void FBClients_IDPhoto_Insert(int clientID, byte[] iDPhoto, int createdByUserID)
+        {
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_IDPhoto_Insert"), clientID, iDPhoto, createdByUserID);
+        }
 
         public override IDataReader FBClients_GetAll(int portalID)
         {

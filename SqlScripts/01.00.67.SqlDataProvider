@@ -1,0 +1,176 @@
+﻿
+
+/****** Object:  Table [dbo].[GIBS_FBClientsIDPhoto]    Script Date: 3/16/2020 3:23:52 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClientsIDPhoto]') AND type in (N'U'))
+DROP TABLE [dbo].[GIBS_FBClientsIDPhoto]
+GO
+
+/****** Object:  Table [dbo].[GIBS_FBClientsIDPhoto]    Script Date: 3/16/2020 3:23:52 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClientsIDPhoto]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[GIBS_FBClientsIDPhoto](
+	[ImageID] [int] IDENTITY(1,1) NOT NULL,
+	[ClientID] [int] NOT NULL,
+	[IDPhoto] [image] NOT NULL,
+	[CreatedOnDate] [datetime] NULL CONSTRAINT [DF_GIBS_FBClientsIDPhoto_CreatedOnDate]  DEFAULT (getdate()),
+	[CreatedByUserID] [int] NOT NULL,
+	[LastModifiedByUserID] [int] NULL,
+	[LastModifiedOnDate] [datetime] NULL,
+ CONSTRAINT [PK_GIBS_FBClientsIDPhoto] PRIMARY KEY CLUSTERED 
+(
+	[ImageID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_GetByID]    Script Date: 3/16/2020 3:21:33 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_GetByID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_GetByID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_GetByID]    Script Date: 3/16/2020 3:21:33 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_GetByID]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBClients_GetByID] AS' 
+END
+GO
+
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_GetByID]
+
+	@PortalId int,
+	@ClientID int
+
+as
+	SELECT
+		GIBS_FBClients.ClientID,
+		ClientFirstName, 
+		ClientMiddleInitial, 
+		ClientLastName, 
+		
+				--CASE WHEN ClientDOB IS NULL
+    --THEN ''
+    --ELSE ClientDOB END AS ClientDOB,
+     ClientDOB,
+     
+		cast(dbo.fn_GIBS_FBClients_GetAge(ClientDOB,GetDate()) as INT) AS ClientAge,
+		
+				Cast((	SELECT   Max(VisitDate)
+	from GIBS_FBClientsVisits
+	where  ClientID = @ClientID and VisitNumBags > 0) As DateTime) As LastVisitDate,
+	
+	cast((SELECT     
+		 count(ClAddFamMemID) 
+		From GIBS_FBClientsAddFamMem
+		where  ClientID = @ClientID) as INT) As AFMCount,
+		
+		ClientAddress, 
+		ClientCity, 
+		ClientTown, 
+		ClientState, 
+		ClientZipCode, 
+		ClientEmailAddress, 
+		ClientIdCard, 
+		ClientPhone, 
+        ClientPhoneType, 
+        ClientCaseWorker, 
+        ModuleID, 
+        GIBS_FBClients.CreatedOnDate, 
+        GIBS_FBClients.CreatedByUserID, 
+        GIBS_FBClients.LastModifiedByUserID, 
+        'LastModifiedByUserName' = LMU.FirstName + ' ' + LMU.LastName,
+        GIBS_FBClients.LastModifiedOnDate, 
+        PortalID,
+        Latitude,
+        Longitude,
+        ClientSuffix,
+        ClientDOBVerify,
+        ClientEthnicity,
+        ClientNote,
+        ClientUnit,
+        ClientGender,
+		ClientType,
+		ClientVerifyDate,
+		ClientAddressVerify,
+		ClientAddressVerifyDate,
+		SubjectToReview,
+		OneBagOnly,
+		Disability,
+		IsActive,
+		IsLocked,
+		GIBS_FBClientsIDPhoto.IDPhoto
+        
+
+from dbo.GIBS_FBClients
+
+	left outer JOIN Users LMU ON GIBS_FBClients.LastModifiedByUserID = LMU.UserID 
+
+	LEFT OUTER  JOIN GIBS_FBClientsIDPhoto ON GIBS_FBClients.ClientID = GIBS_FBClientsIDPhoto.ClientID
+
+where  PortalId = @PortalId and GIBS_FBClients.ClientID = @ClientID
+
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_Insert]    Script Date: 3/16/2020 3:23:06 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_IDPhoto_Insert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_Insert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_Insert]    Script Date: 3/16/2020 3:23:06 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_IDPhoto_Insert]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_Insert] AS' 
+END
+GO
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_Insert]
+(
+    @ClientID int,
+    @IDPhoto image,
+    @CreatedByUserID int
+)
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM GIBS_FBClientsIDPhoto
+        WHERE ClientID = @ClientID)
+    BEGIN
+        UPDATE GIBS_FBClientsIDPhoto set 
+		 IDPhoto = @IDPhoto,   
+		 LastModifiedByUserID = @CreatedByUserID, 
+		 LastModifiedOnDate = GetDate()
+        WHERE ClientID = @ClientID 
+            
+    END
+ELSE
+    BEGIN
+        INSERT INTO GIBS_FBClientsIDPhoto(ClientID, IDPhoto, CreatedByUserID)
+VALUES        (@ClientID, @IDPhoto, @CreatedByUserID) 
+    END
+
+END
+GO
+
+
+
+

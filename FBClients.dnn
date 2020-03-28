@@ -1,5 +1,5 @@
 ﻿<dotnetnuke type="Package" version="5.0">
-  <packages><package name="GIBS.FBClients" type="Module" version="1.0.66">
+  <packages><package name="GIBS.FBClients" type="Module" version="1.0.67">
   <friendlyName>GIBS Food Bank Client Manager</friendlyName>
   <description>GIBS Food Bank Client Manager</description>
   <iconFile />
@@ -7,7 +7,7 @@
     <name>Joseph M Aucoin</name>
     <organization>Global Internet Business Solutions</organization>
     <url>www.gibs.com</url>
-    <email>jaucoin@gibs.com</email>
+    <email>webmaster@gibs.com</email>
   </owner>
   <license>&lt;h1&gt;Global Internet Business Solutions (GIBS) Custom DNN Modules&lt;/h1&gt;
 &lt;h2&gt;    END USER LICENSE AGREEMENT&lt;/h2&gt;
@@ -244,6 +244,19 @@
                 <supportsPopUps>False</supportsPopUps>
                 <viewOrder>2</viewOrder>
               </moduleControl>
+
+              <moduleControl>
+                <controlKey>Camera</controlKey>
+                <controlSrc>desktopmodules/gibs/fbclients/Camera.ascx</controlSrc>
+                <supportsPartialRendering>False</supportsPartialRendering>
+                <controlTitle>Camera</controlTitle>
+                <controlType>View</controlType>
+                <iconFile />
+                <helpUrl />
+                <supportsPopUps>False</supportsPopUps>
+                <viewOrder>2</viewOrder>
+              </moduleControl>              
+              
               <moduleControl>
                 <controlKey>Settings</controlKey>
                 <controlSrc>DesktopModules/GIBS/FBClients/Settings.ascx</controlSrc>

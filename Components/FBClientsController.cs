@@ -17,6 +17,15 @@ namespace GIBS.FBClients.Components
 
         // CLIENTS
 
+        public void FBClients_IDPhoto_Insert(FBClientsInfo info)
+        {
+            //check we have some content to update
+            if (info.IDPhoto != null)
+            {
+                DataProvider.Instance().FBClients_IDPhoto_Insert(info.ClientID, info.IDPhoto, info.CreatedByUserID);
+            }
+        }
+
         public int FBClients_Insert(FBClientsInfo info)
         {
             if (info.ClientLastName != string.Empty)

@@ -101,6 +101,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.ascx.cs">
+      <DependentUpon>Camera.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Camera.ascx.designer.cs">
+      <DependentUpon>Camera.ascx</DependentUpon>
+    </Compile>
     <Compile Include="ClientMerge.ascx.cs">
       <DependentUpon>ClientMerge.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -152,6 +159,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Camera.ascx" />
     <Content Include="ClientMerge.ascx" />
     <Content Include="Documentation\Documentation.css" />
     <Content Include="Documentation\Documentation.html" />
@@ -166,6 +174,7 @@
     <Content Include="Images\presentNO.gif" />
     <Content Include="Images\red_light.png" />
     <Content Include="Images\yes.png" />
+    <Content Include="JavaScript\Camera.js" />
     <Content Include="JavaScript\jquery.livequery.js" />
     <Content Include="ReportChristmas.ascx" />
     <Content Include="WebcamCapture\Default.aspx" />
@@ -211,6 +220,7 @@
     <Content Include="SqlScripts\01.00.58.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.64.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.66.SqlDataProvider" />
+    <Content Include="SqlScripts\01.00.67.SqlDataProvider" />
     <None Include="Uninstall.SqlDataProvider" />
     <None Include="web.config" />
     <None Include="web.Debug.config">
