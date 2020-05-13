@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GIBS.Modules.FBClients {
-    
-    
-    public partial class ViewFBClients {
-        
+namespace GIBS.Modules.FBClients
+{
+
+
+    public partial class ViewFBClients
+    {
+
         /// <summary>
         /// DnnCssInclude1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude1;
-        
+
         /// <summary>
         /// cbxIncludeInactive control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbxIncludeInactive;
-        
+
         /// <summary>
         /// lblFormMessage control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFormMessage;
-        
+
         /// <summary>
         /// lblRequiredFields control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRequiredFields;
-        
+
         /// <summary>
         /// btnSearch1 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch1;
-        
+
         /// <summary>
         /// btnSearch control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSearch;
-        
+
         /// <summary>
         /// btnAddNewClient control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAddNewClient;
-        
+
         /// <summary>
         /// lblClientType control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblClientType;
-        
+
         /// <summary>
         /// ddlClientType control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlClientType;
-        
+
         /// <summary>
         /// lblClientId control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblClientId;
-        
+
         /// <summary>
         /// txtClientId control.
         /// </summary>
@@ -110,7 +112,16 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtClientId;
-        
+
+        /// <summary>
+        /// ClientIDRangeValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator ClientIDRangeValidator;
+
         /// <summary>
         /// lblFirstName control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblFirstName;
-        
+
         /// <summary>
         /// txtFirstName control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFirstName;
-        
+
         /// <summary>
         /// lblLastName control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblLastName;
-        
+
         /// <summary>
         /// txtLastName control.
         /// </summary>
@@ -146,7 +157,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastName;
-        
+
         /// <summary>
         /// lblAddress control.
         /// </summary>
@@ -155,7 +166,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblAddress;
-        
+
         /// <summary>
         /// txtAddress control.
         /// </summary>
@@ -164,7 +175,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAddress;
-        
+
         /// <summary>
         /// lblCity control.
         /// </summary>
@@ -173,7 +184,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblCity;
-        
+
         /// <summary>
         /// ddlCity control.
         /// </summary>
@@ -182,7 +193,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCity;
-        
+
         /// <summary>
         /// divClientIDCard control.
         /// </summary>
@@ -191,7 +202,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divClientIDCard;
-        
+
         /// <summary>
         /// lblClientIdCard control.
         /// </summary>
@@ -200,7 +211,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblClientIdCard;
-        
+
         /// <summary>
         /// txtClientIdCard control.
         /// </summary>
@@ -209,7 +220,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtClientIdCard;
-        
+
         /// <summary>
         /// btnSearchAFM control.
         /// </summary>
@@ -218,7 +229,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearchAFM;
-        
+
         /// <summary>
         /// lblFirstNameAFM control.
         /// </summary>
@@ -227,7 +238,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblFirstNameAFM;
-        
+
         /// <summary>
         /// txtFirstNameAFM control.
         /// </summary>
@@ -236,7 +247,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFirstNameAFM;
-        
+
         /// <summary>
         /// lblLastNameAFM control.
         /// </summary>
@@ -245,7 +256,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl lblLastNameAFM;
-        
+
         /// <summary>
         /// txtLastNameAFM control.
         /// </summary>
@@ -254,7 +265,7 @@ namespace GIBS.Modules.FBClients {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastNameAFM;
-        
+
         /// <summary>
         /// GridViewSearch control.
         /// </summary>

@@ -33,13 +33,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude2;
 
         /// <summary>
-        /// ButtonCamera control.
+        /// HyperLinkPhotoID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonCamera;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkPhotoID;
 
         /// <summary>
         /// lblClientNameHeader control.
@@ -49,15 +49,6 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblClientNameHeader;
-
-        /// <summary>
-        /// HyperLinkPhotoID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkPhotoID;
 
         /// <summary>
         /// ImageIDClient control.

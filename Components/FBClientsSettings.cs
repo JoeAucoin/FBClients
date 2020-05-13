@@ -18,7 +18,7 @@ namespace GIBS.FBClients.Components
     /// <summary>
     /// Provides strong typed access to settings used by module
     /// </summary>
-    public class FBClientsSettings
+    public class FBClientsSettings : ModuleSettingsBase
     {
         ModuleController controller;
         int tabModuleId;
@@ -64,6 +64,24 @@ namespace GIBS.FBClients.Components
         /// get/set template used to render the module content
         /// to the user
         /// </summary>
+
+        public string Recaptcha
+        {
+            get
+            {
+                if (TabModuleSettings.Contains("recaptcha"))
+                    return TabModuleSettings["recaptcha"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+
+                mc.UpdateTabModuleSetting(this.tabModuleId, "recaptcha", value.ToString());
+            }
+        }
+
+
         public string FBName
         {
             get { return ReadSetting<string>("fBName", null); }
@@ -134,6 +152,12 @@ namespace GIBS.FBClients.Components
         {
             get { return ReadSetting<string>("daysToValidVisit", null); }
             set { WriteSetting("daysToValidVisit", value); }
+        }
+
+        public string ShowPhotoID
+        {
+            get { return ReadSetting<string>("showPhotoID", null); }
+            set { WriteSetting("showPhotoID", value); }
         }
 
         public string ShowOneBagOnly

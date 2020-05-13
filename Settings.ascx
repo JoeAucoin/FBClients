@@ -68,6 +68,12 @@
     </tr>
 
     <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblShowPhotoID" runat="server" controlname="cbxShowPhotoID" suffix=":"></dnn:label></td>
+        <td valign="top"><asp:CheckBox ID="cbxShowPhotoID" runat="server" />
+        </td>
+    </tr>		
+
+    <tr>
         <td class="SubHead" valign="top"><dnn:label id="lblShowOneBagOnly" runat="server" controlname="cbxShowOneBagOnly" suffix=":"></dnn:label></td>
         <td valign="top"><asp:CheckBox ID="cbxShowOneBagOnly" runat="server" />
         </td>

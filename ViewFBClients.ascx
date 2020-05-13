@@ -13,9 +13,6 @@
 </script>
 
 
-
-
-
 <div class="dnnForm" id="form-demo">
 
         <ul class="dnnAdminTabNav">
@@ -60,7 +57,8 @@
 
         <div class="dnnFormItem">
             <dnn:Label runat="server" ControlName="txtClientId" ID="lblClientId" Suffix=":" ResourceKey="lblClientId" />
-            <asp:TextBox runat="server" ID="txtClientId" />
+            <asp:TextBox runat="server" ID="txtClientId" /><asp:RangeValidator runat="server" Type="Integer"  ID="ClientIDRangeValidator" 
+MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMessage="<span style='color:red'>Value must numeric</span>" />
         </div>       
        
         <div class="dnnFormItem">

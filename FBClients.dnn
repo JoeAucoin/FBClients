@@ -173,10 +173,19 @@
           <name>01.00.64.SqlDataProvider</name>
           <version>01.00.64</version>
         </script>
-
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.66.SqlDataProvider</name>
+          <version>01.00.66</version>
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.67.SqlDataProvider</name>
+          <version>01.00.67</version>
+        </script>
         <script type="UnInstall">
           <name>Uninstall.SqlDataProvider</name>
-          <version>1.0.66</version>
+          <version>1.0.67</version>
         </script>
       </scripts>
     </component>
@@ -224,7 +233,7 @@
               </moduleControl>
               <moduleControl>
                 <controlKey>ClientMerge</controlKey>
-                <controlSrc>desktopmodules/gibs/fbclients/ClientMerge.ascx</controlSrc>
+                <controlSrc>DesktopModules/GIBS/FBClients/ClientMerge.ascx</controlSrc>
                 <supportsPartialRendering>False</supportsPartialRendering>
                 <controlTitle>Client Merge</controlTitle>
                 <controlType>View</controlType>
@@ -235,7 +244,7 @@
               </moduleControl>
               <moduleControl>
                 <controlKey>EditClient</controlKey>
-                <controlSrc>desktopmodules/gibs/fbclients/EditClient.ascx</controlSrc>
+                <controlSrc>DesktopModules/GIBS/FBClients/EditClient.ascx</controlSrc>
                 <supportsPartialRendering>False</supportsPartialRendering>
                 <controlTitle>Edit Client</controlTitle>
                 <controlType>View</controlType>
@@ -247,7 +256,7 @@
 
               <moduleControl>
                 <controlKey>Camera</controlKey>
-                <controlSrc>desktopmodules/gibs/fbclients/Camera.ascx</controlSrc>
+                <controlSrc>DesktopModules/GIBS/FBClients/Camera.ascx</controlSrc>
                 <supportsPartialRendering>False</supportsPartialRendering>
                 <controlTitle>Camera</controlTitle>
                 <controlType>View</controlType>
@@ -270,7 +279,7 @@
               </moduleControl>
               <moduleControl>
                 <controlKey>XmasReport</controlKey>
-                <controlSrc>desktopmodules/gibs/fbclients/ReportChristmas.ascx</controlSrc>
+                <controlSrc>DesktopModules/GIBS/FBClients/ReportChristmas.ascx</controlSrc>
                 <supportsPartialRendering>False</supportsPartialRendering>
                 <controlTitle>Christmas Report</controlTitle>
                 <controlType>View</controlType>

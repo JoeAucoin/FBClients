@@ -185,38 +185,23 @@
     }, 2000);
 
 
-    $('a.example').click(function () {   //bind handlers
-        var url = $(this).attr('href');
-        showDialog(url);
-
-        return false;
-    });
-
-    $("#targetDiv").dialog({  //create dialog, but keep it closed
-        autoOpen: false,
-        height: 300,
-        width: 350,
-        modal: true
-    });
-
-    function showDialog(url) {  //load content and open dialog
-        $("#targetDiv").load(url);
-        $("#targetDiv").dialog("open");
-    }
+ 
+    
 
 </script>
-
-
-<asp:Button ID="ButtonCamera" runat="server" Text="Take Picture" OnClick="btnCamera_Click" />
 
 <div style="clear:both;"></div>
 
     <div class="row">
-        <div class="col-sm-5 ClientNameHeader"><asp:Label ID="lblClientNameHeader" runat="server" Text="" /></div>
-        <div class="col-sm-2"><div id="targetDiv"></div><a href="https://crowsnest/Client-Manager/ctl/Camera/mid/1455" class="example">TEST</a>
-            <asp:HyperLink ID="HyperLinkPhotoID" runat="server"> JOE</asp:HyperLink>
+        <div class="col-sm-5 ClientNameHeader">
+             <div> <asp:HyperLink ID="HyperLinkPhotoID" runat="server" Target="_blank" Visible="false">Manage PhotoID</asp:HyperLink></div>
+            <asp:Label ID="lblClientNameHeader" runat="server" Text="" />
+          
+        </div>
+        <div class="col-sm-2">
+            
             <asp:Image ID="ImageIDClient" runat="server" Height="100" CssClass="hover-zoom" /> 
-
+            &nbsp;
         </div>
         <div class="col-sm-5 ClientNameHeaderRight"><asp:Label ID="lblClientNameHeaderRight" runat="server" Text=""></asp:Label><br /><span style="font-size: 11px;"><asp:Repeater ID="rp_AgeGroupReport" runat="server">
 <ItemTemplate><%# DataBinder.Eval(Container.DataItem, "AgeGroupCount")%> <%# DataBinder.Eval(Container.DataItem, "AgeGroup") %></ItemTemplate>
@@ -1031,7 +1016,7 @@ runat="server" />
              		
 		<div class="dnnFormItem">						
 					 <dnn:Label runat="server" ID="lblMobileLocations" ControlName="ddlMobileLocations" ResourceKey="lblMobileLocations" Suffix=":" /> 
- <asp:DropDownList ID="ddlMobileLocations" runat="server" EnableViewState="true" /><asp:RequiredFieldValidator runat="server" id="reqMobileLocations" 
+ <asp:DropDownList ID="ddlMobileLocations" runat="server" EnableViewState="true" /><asp:RequiredFieldValidator runat="server" id="reqMobileLocations"  
             controltovalidate="ddlMobileLocations" InitialValue="" CssClass="dnnFormMessage dnnFormError" ResourceKey="MobileLocationsError" ValidationGroup="VisitForm" /> 
 		</div>	
 

@@ -171,4 +171,7 @@
   <data name="lblClientType.Text" xml:space="preserve">
     <value>Client Type</value>
   </data>
+  <data name="ClientIDRangeValidator.Required" xml:space="preserve">
+    <value>&lt;span style="color:white"&gt;Numeric Required!&lt;/span&gt;</value>
+  </data>
 </root>
