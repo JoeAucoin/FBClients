@@ -184,6 +184,8 @@
   <ItemGroup>
     <Content Include="BuildScripts\ModulePackage.targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
+    <Content Include="install\FBClients_1.0.68_Install.zip" />
+    <Content Include="install\FBClients_1.0.68_Source.zip" />
     <None Include="packages.config" />
     <None Include="SqlScripts\01.00.00.SqlDataProvider" />
     <None Include="SqlScripts\01.00.02.SqlDataProvider" />
