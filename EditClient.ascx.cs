@@ -57,6 +57,7 @@ namespace GIBS.Modules.FBClients
         public string _ClientManagerDeleteRecordRole = "";
         static int _XmasRequireSizeMinimumAge = 10;
         static int _XmasRequireSizeMaxAge = 14;
+        public bool _IsEthnicityRequired = false;
 
         protected override void OnInit(EventArgs e)
         {
@@ -786,6 +787,7 @@ namespace GIBS.Modules.FBClients
                 {
                     reqClientEthnicity.Enabled = bool.Parse(settingsData.ReqEthnicity);
                     reqAFMEthnicity.Enabled = bool.Parse(settingsData.ReqEthnicity);
+                    _IsEthnicityRequired = bool.Parse(settingsData.ReqEthnicity);
                 }
 
                 if (settingsData.ReqGender != null)
@@ -1291,8 +1293,8 @@ namespace GIBS.Modules.FBClients
             {
              
                 string columnValue = ((System.Web.UI.WebControls.Label)e.Row.FindControl("lblAFMEthnicity")).Text;
-              
-                if (columnValue.ToString().Length < 1)
+
+                if ((columnValue.ToString().Length < 1) && (_IsEthnicityRequired == true))
                 {
                     lblMessage.Text += "<br />" + Localization.GetString("ErrorNoEthnicity", this.LocalResourceFile);
                     ErrorMessage.Visible = true;
