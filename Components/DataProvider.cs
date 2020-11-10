@@ -64,7 +64,7 @@ namespace GIBS.FBClients.Components
         public abstract IDataReader FBClients_Visit_GetClientLastVisitDate(int clientID);
 
         // CLIENTS AFM
-        public abstract IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string clientType);
+        public abstract IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive);
         public abstract int FBClients_AFM_Insert(string clAddFamMemFirstName, string clAddFamMemLastName, DateTime clAddFamMemDOB, string aFMRelationship, int clientID, int createdByUserID, string aFMMiddleInitial, string aFMSuffix, bool aFMDOBVerify, string aFMEthnicity, string aFMGender);
         public abstract IDataReader FBClients_AFM_List(int clientID);
         public abstract IDataReader FBClients_AFM_GetByID(int clAddFamMemID);

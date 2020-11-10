@@ -155,9 +155,9 @@ namespace GIBS.FBClients.Components
 
 
         // CLIENT AFM
-        public override IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string clientType)
+        public override IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive)
         {
-            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search_AFM"), portalId, clAddFamMemLastName, clAddFamMemFirstName, clientType);
+            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search_AFM"), portalId, clAddFamMemLastName, clAddFamMemFirstName, isActive);
         }
 
         public override int FBClients_AFM_Insert(string clAddFamMemFirstName, string clAddFamMemLastName, DateTime clAddFamMemDOB, string aFMRelationship, int clientID, int createdByUserID, string aFMMiddleInitial, string aFMSuffix, bool aFMDOBVerify, string aFMEthnicity, string aFMGender)

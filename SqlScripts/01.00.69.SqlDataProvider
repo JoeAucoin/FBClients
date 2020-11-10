@@ -1,0 +1,405 @@
+﻿
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_List]    Script Date: 10/11/2020 4:55:24 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Visit_List]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Visit_List]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_List]    Script Date: 10/11/2020 4:55:24 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Visit_List]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBClients_Visit_List] AS' 
+END
+GO
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_Visit_List]
+
+	@ClientID int
+
+as
+BEGIN 
+
+	SELECT     
+		VisitID, 
+		VisitDate, 
+		VisitNotes, 
+		VisitNumBags, 
+		GIBS_FBClientsVisits.ClientID, 
+		GIBS_FBClientsVisits.CreatedOnDate, 
+		GIBS_FBClientsVisits.CreatedByUserID, 
+		GIBS_FBClientsVisits.LastModifiedByUserID, 
+		GIBS_FBClientsVisits.LastModifiedOnDate, 
+		
+		'LastModifiedByUserName' = Users.FirstName + ' ' + Users.LastName,
+		
+		coalesce(ServiceLocation,'Pantry') as ServiceLocation
+		from GIBS_FBClientsVisits
+		left outer join Users on GIBS_FBClientsVisits.LastModifiedByUserID = Users.UserId
+		
+		where  GIBS_FBClientsVisits.ClientID = @ClientID
+		order by VisitDate desc, GIBS_FBClientsVisits.LastModifiedOnDate desc
+
+END
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBReports_New_Clients_Report]    Script Date: 10/12/2020 6:11:53 AM ******/
+DROP PROCEDURE [dbo].[GIBS_FBReports_New_Clients_Report]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBReports_New_Clients_Report]    Script Date: 10/12/2020 6:11:53 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE PROCEDURE  [dbo].[GIBS_FBReports_New_Clients_Report] 
+( 
+	@StartDate datetime,
+	@EndDate datetime,
+	@PortalID int,
+    @ServiceLocation varchar(50)
+)
+AS
+
+ 
+begin
+
+Declare  @LOCStartDate datetime,
+       @LOCEndDate datetime,
+       @LOCPortalID int,
+       @LOCServiceLocation varchar(50)
+
+SET @LOCStartDate = @StartDate
+SET @LOCEndDate = @EndDate
+SET @LOCPortalID = @PortalID
+SET @LOCServiceLocation = @ServiceLocation
+
+if(@LOCServiceLocation='0' or @LOCServiceLocation is null)
+begin
+	set @LOCServiceLocation=null;
+end
+-- DETAILS
+
+SELECT  
+		GIBS_FBClients.ClientID, 
+		GIBS_FBClients.ClientFirstName + ' ' + GIBS_FBClients.ClientLastName AS ClientFullName,
+		UPPER(GIBS_FBClients.ClientCity) AS ClientCity, 
+		UPPER(GIBS_FBClients.ClientTown) AS ClientTown,
+		GIBS_FBClients.ClientZipCode, 
+		GIBS_FBClients.CreatedOnDate,
+		CONVERT(varchar,GIBS_FBClients.CreatedOnDate,101) as CreatedOnDate, 
+		cast(dbo.fn_GIBS_FBClients_GetAge(GIBS_FBClients.ClientDOB,GetDate()) as INT) AS ClientAge,
+		ClientAdult =(
+				CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB,GetDate()) 
+				WHEN 'Adult' THEN 1 
+				ELSE 0 
+				END),
+		Client65Plus =(
+				CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB,GetDate()) 
+				WHEN '65 Plus' THEN 1 
+				ELSE 0 
+				END),
+		ClientChild =(
+				CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB,GetDate()) 
+				WHEN 'Children' THEN 1 
+				ELSE 0 
+				END),
+		ClientNoDOB =(
+				CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB,GetDate()) 
+				WHEN 'No DOB' THEN 1 
+				ELSE 0 
+				END),	 
+		 cast((SELECT     
+			 count(dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate())) 
+			From GIBS_FBClientsAddFamMem
+			where  GIBS_FBClientsAddFamMem.ClientID = GIBS_FBClients.ClientID
+			AND dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate()) = 'Adult'
+			) as INT) As AFM_Adults,
+			
+cast((SELECT     
+			 count(dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate())) 
+			From GIBS_FBClientsAddFamMem
+			where  GIBS_FBClientsAddFamMem.ClientID = GIBS_FBClients.ClientID
+			AND dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate()) = '65 Plus'
+			) as INT) As AFM_65Plus,		
+
+cast((SELECT     
+			 count(dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate())) 
+			From GIBS_FBClientsAddFamMem
+			where  GIBS_FBClientsAddFamMem.ClientID = GIBS_FBClients.ClientID
+			AND dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate()) = 'Children'
+			) as INT) As AFM_Children,		
+						
+			
+cast((SELECT     
+			 count(dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate())) 
+			From GIBS_FBClientsAddFamMem
+			where  GIBS_FBClientsAddFamMem.ClientID = GIBS_FBClients.ClientID
+			AND dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClientsAddFamMem.ClAddFamMemDOB,GetDate()) = 'No DOB'
+			) as INT) As AFM_NoDOB,
+	 
+ 		cast((SELECT     
+			 count(ClAddFamMemID) 
+			From GIBS_FBClientsAddFamMem
+			where  GIBS_FBClientsAddFamMem.ClientID = GIBS_FBClients.ClientID) as INT) + 1 As HouseholdTotal
+	 
+	FROM         GIBS_FBClients 
+	inner join (
+				select clientid,max(visitdate) as visitdate,servicelocation from GIBS_FBClientsVisits visit group by clientid,servicelocation
+			) 
+			v on GIBS_FBClients.clientid = v.clientid
+
+	WHERE     (GIBS_FBClients.CreatedOnDate between  CONVERT(DATETIME, @LOCStartDate, 102) AND CONVERT(DATETIME, @LOCEndDate, 102))	
+	
+	AND (GIBS_FBClients.PortalID = @LOCPortalID)
+	and  (@LOCServiceLocation is null or v.ServiceLocation=@LOCServiceLocation)
+
+	ORDER BY GIBS_FBClients.ClientCity, GIBS_FBClients.ClientTown, GIBS_FBClients.ClientLastName
+
+end
+
+GO
+
+
+
+
+
+
+/****** Object:  View [dbo].[vw_GIBS_FBVisits]    Script Date: 11/9/2020 10:16:37 AM ******/
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[vw_GIBS_FBVisits]'))
+DROP VIEW [dbo].[vw_GIBS_FBVisits]
+GO
+
+/****** Object:  View [dbo].[vw_GIBS_FBVisits]    Script Date: 11/9/2020 10:16:37 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[vw_GIBS_FBVisits]'))
+EXEC dbo.sp_executesql @statement = N'CREATE VIEW [dbo].[vw_GIBS_FBVisits]
+AS
+
+
+select clientid 
+, VisitNumBags ,visitdate 
+from GIBS_FBClientsVisits vi
+			where visitdate = (
+
+			select max(visitdate) from GIBS_FBClientsVisits
+			 WHERE clientid = vi.clientid
+			)
+			
+					
+'
+GO
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search]    Script Date: 11/9/2020 3:09:51 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Search]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Search]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search]    Script Date: 11/9/2020 3:09:51 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Search]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBClients_Search] AS' 
+END
+GO
+
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_Search]
+
+		@PortalId NVARCHAR(30),
+	@ClientLastName NVARCHAR(30) = null,
+	@ClientIdCard NVARCHAR(50) = null,
+	@ClientFirstName NVARCHAR(30) = null,
+	@ClientID NVARCHAR(10) = null,
+	
+	@ClientAddress NVARCHAR(50) = null,
+	@ClientCity NVARCHAR(50) = null,
+	@ClientType NVARCHAR(25) = '',
+	@IsActive NVARCHAR(10) = null
+
+as
+
+BEGIN 
+declare @sql NVARCHAR(max)
+
+
+
+
+SET @sql = 'SELECT GIBS_FBClients.ClientID, ClientFirstName, ClientMiddleInitial, ClientLastName, ClientSuffix, '
+SET @sql = @sql + 'CASE WHEN ClientDOB IS NULL THEN ''01/01/1901'' ELSE ClientDOB END AS ClientDOB,'
+SET @sql = @sql + '	ClientAddress, ClientUnit, ClientCity, ClientTown, ClientState, ClientZipCode, ClientEmailAddress, 	'
+SET @sql = @sql + '	ClientIdCard, ClientPhone, ClientPhoneType, ClientCaseWorker, 	'
+SET @sql = @sql + '	cast(dbo.fn_GIBS_FBClients_GetAge(ClientDOB,GetDate()) as INT) AS ClientAge, 	'
+SET @sql = @sql + '	ModuleID, GIBS_FBClients.CreatedOnDate, GIBS_FBClients.CreatedByUserID,	'
+SET @sql = @sql + '	GIBS_FBClients.LastModifiedByUserID, GIBS_FBClients.LastModifiedOnDate, ClientDOBVerify, ClientType, isActive, isLocked, '
+SET @sql = @sql + '	PortalID, [CaseWorkerName] = Users.FirstName + '' '' + Users.LastName	'
+
+SET @sql = @sql + '	, [ModUserName] = ModUser.FirstName + '' '' + ModUser.LastName	'
+
+SET @sql = @sql + '	, COALESCE(vw_GIBS_FBVisits.visitdate, '''') AS visitdate, COALESCE(vw_GIBS_FBVisits.VisitNumBags, 0) AS VisitNumBags '
+
+SET @sql = @sql + '	from dbo.GIBS_FBClients	'
+SET @sql = @sql + '	left outer join Users on GIBS_FBClients.ClientCaseWorker = Users.UserId	'
+SET @sql = @sql + '	left outer join Users ModUser on GIBS_FBClients.LastModifiedByUserID = ModUser.UserId	'
+
+SET @sql = @sql +    ' LEFT OUTER JOIN vw_GIBS_FBVisits ON GIBS_FBClients.ClientID = vw_GIBS_FBVisits.clientid '
+
+SET @sql = @sql + ' WHERE PortalId =  ' + @PortalId
+
+IF (len(@ClientLastName) > 0)
+
+SET @sql = @sql + ' AND ClientLastName like ''' + @ClientLastName + '%'''
+
+IF (len(@ClientFirstName) > 0)
+
+SET @sql = @sql + ' AND ClientFirstName like ''' + @ClientFirstName + '%'''
+
+IF (len(@ClientIdCard) > 0)
+
+SET @sql = @sql + ' AND ClientIdCard = ''' + @ClientIdCard + ''''
+
+IF (len(@ClientAddress) > 0)
+
+SET @sql = @sql + ' AND ClientAddress like ''' + @ClientAddress + '%'''	
+				
+IF (len(@ClientCity) > 0)
+
+SET @sql = @sql + ' AND ClientCity = ''' + @ClientCity + ''''
+
+IF (len(@ClientID) > 0)
+
+SET @sql = @sql + ' AND GIBS_FBClients.ClientId = ' + @ClientId 
+
+--else
+--SET @sql = @sql + ' '
+
+IF (len(@ClientType)  > 0)
+SET @sql = @sql + ' AND ClientType = ''' + @ClientType + ''''
+
+
+IF (@IsActive = '1')
+
+SET @sql = @sql + ' AND IsActive = ' + @IsActive 
+
+
+
+SET @sql = @sql + '	Order by ClientLastName, ClientFirstName	'
+
+--print @sql
+
+execute sp_executesql @sql
+
+
+END
+
+GO
+
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search_AFM]    Script Date: 11/10/2020 4:56:20 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Search_AFM]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Search_AFM]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Search_AFM]    Script Date: 11/10/2020 4:56:20 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Search_AFM]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBClients_Search_AFM] AS' 
+END
+GO
+
+
+ALTER PROCEDURE [dbo].[GIBS_FBClients_Search_AFM]
+
+	@PortalId NVARCHAR(30),
+	@AFMLastName NVARCHAR(30) = null,
+	@AFMFirstName NVARCHAR(30) = null,
+	@isActive NVARCHAR(1) = '1'
+
+as
+
+BEGIN 
+declare @sql NVARCHAR(max)
+
+
+
+
+SET @sql = 'SELECT GIBS_FBClients.ClientID, GIBS_FBClientsAddFamMem.ClAddFamMemFirstName, GIBS_FBClientsAddFamMem.ClAddFamMemLastName, ClientFirstName, ClientMiddleInitial, ClientLastName,'
+SET @sql = @sql + 'CASE WHEN ClientDOB IS NULL THEN ''01/01/1901'' ELSE ClientDOB END AS ClientDOB,'
+SET @sql = @sql + '	ClientAddress, ClientUnit, ClientCity, ClientTown, ClientState, ClientZipCode, ClientEmailAddress, 	'
+SET @sql = @sql + '	ClientIdCard, ClientPhone, ClientPhoneType, ClientCaseWorker, 	'
+SET @sql = @sql + '	cast(dbo.fn_GIBS_FBClients_GetAge(ClientDOB,GetDate()) as INT) AS ClientAge, 	'
+SET @sql = @sql + '	ModuleID, GIBS_FBClients.CreatedOnDate, GIBS_FBClients.CreatedByUserID,	'
+SET @sql = @sql + '	GIBS_FBClients.LastModifiedByUserID, GIBS_FBClients.LastModifiedOnDate, ClientDOBVerify, ClientType, 	'
+SET @sql = @sql + '	PortalID, [CaseWorkerName] = Users.FirstName + '' '' + Users.LastName	'
+
+SET @sql = @sql + '	, [ModUserName] = ModUser.FirstName + '' '' + ModUser.LastName	'
+
+SET @sql = @sql + '	, COALESCE(vw_GIBS_FBVisits.visitdate, '''') AS visitdate, COALESCE(vw_GIBS_FBVisits.VisitNumBags, 0) AS VisitNumBags '
+
+SET @sql = @sql + '	from dbo.GIBS_FBClients	'
+
+SET @sql = @sql + '	INNER JOIN GIBS_FBClientsAddFamMem ON GIBS_FBClients.ClientID = GIBS_FBClientsAddFamMem.ClientID '
+
+SET @sql = @sql + '	left outer join Users on GIBS_FBClients.ClientCaseWorker = Users.UserId	'
+SET @sql = @sql + '	left outer join Users ModUser on GIBS_FBClients.LastModifiedByUserID = ModUser.UserId	'
+
+SET @sql = @sql +    ' left OUTER JOIN vw_GIBS_FBVisits ON GIBS_FBClients.ClientID = vw_GIBS_FBVisits.clientid '
+
+SET @sql = @sql + ' WHERE PortalId =  ' + @PortalId
+
+IF (len(@AFMLastName) > 0)
+SET @sql = @sql + ' AND GIBS_FBClientsAddFamMem.ClAddFamMemLastName like ''' + @AFMLastName + '%'''
+
+IF (len(@AFMFirstName) > 0)
+SET @sql = @sql + ' AND GIBS_FBClientsAddFamMem.ClAddFamMemFirstName like ''' + @AFMFirstName + '%'''
+
+IF (@IsActive = '1')
+SET @sql = @sql + ' AND IsActive = ' + @IsActive 
+
+--else
+--SET @sql = @sql + ' '
+
+SET @sql = @sql + '	Order by ClAddFamMemLastName, ClAddFamMemFirstName	'
+
+print @sql
+
+execute sp_executesql @sql
+
+
+END
+
+GO
+
+

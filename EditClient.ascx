@@ -806,7 +806,7 @@ runat="server" />
         <asp:BoundField HeaderText="Gender" DataField="AFMGender" ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
  
 
-<asp:TemplateField HeaderText="Ethnicity">
+<asp:TemplateField HeaderText="Ethnicity" >
             <ItemTemplate>
                 <asp:Label ID="lblAFMEthnicity" runat="server" Text='<%# Eval("AFMEthnicity") %>' />
             </ItemTemplate>

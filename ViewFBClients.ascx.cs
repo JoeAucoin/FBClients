@@ -190,9 +190,9 @@ namespace GIBS.Modules.FBClients
                 GridViewSearch.DataBind();
 
                 //ClAddFamMemFirstName
-                GridViewSearch.Columns[16].Visible = false;
+                GridViewSearch.Columns[15].Visible = false;
                 //ClAddFamMemLastName
-                GridViewSearch.Columns[17].Visible = false;
+                GridViewSearch.Columns[16].Visible = false;
 
             }
             catch (Exception ex)
@@ -221,8 +221,8 @@ namespace GIBS.Modules.FBClients
 
 
 
+                GridViewSearch.Columns[15].Visible = true;
                 GridViewSearch.Columns[16].Visible = true;
-                GridViewSearch.Columns[17].Visible = true;
                 
                 //ClientAge
                 GridViewSearch.Columns[10].Visible = false;
@@ -232,7 +232,8 @@ namespace GIBS.Modules.FBClients
                 List<FBClientsInfo> items;
                 FBClientsController controller = new FBClientsController();
 
-                items = controller.FBClients_Search_AFM(this.PortalId, txtLastNameAFM.Text.ToString().Replace("'", "''").Trim(), txtFirstNameAFM.Text.ToString().Replace("'", "''").Trim(), Should_I_IncludeInactives.ToString());
+                items = controller.FBClients_Search_AFM(this.PortalId, txtLastNameAFM.Text.ToString().Replace("'", "''").Trim(), 
+                    txtFirstNameAFM.Text.ToString().Replace("'", "''").Trim(), Should_I_IncludeInactives.ToString());
 
                 //GridViewSearch.Rows. = null;
 
@@ -254,56 +255,58 @@ namespace GIBS.Modules.FBClients
 
         }
 
-        protected void GridViewSearch_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
+        //protected void GridViewSearch_RowDataBound(object sender, GridViewRowEventArgs e)
+        //{
 
-            FBClientsController controller = new FBClientsController();
+        //    FBClientsController controller = new FBClientsController();
             
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                Label lblLastVisitDate = (Label)e.Row.FindControl("lblLastVisitDate");
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+        //    {
+             
+                
+        //        Label lblLastVisitDate = (Label)e.Row.FindControl("lblLastVisitDate");
 
                 
                 
 
-                int _clientid = Convert.ToInt32(lblLastVisitDate.Text.ToString());
+        //        int _clientid = Convert.ToInt32(lblLastVisitDate.Text.ToString());
 
-                FBClientsInfo item = controller.FBClients_Visit_GetClientLastVisitDate(_clientid);
+        //        FBClientsInfo item = controller.FBClients_Visit_GetClientLastVisitDate(_clientid);
 
-                if (item != null)
-                {
-                    lblLastVisitDate.Text = item.LastVisitDate.ToShortDateString();
-                }
+        //        if (item != null)
+        //        {
+        //            lblLastVisitDate.Text = item.LastVisitDate.ToShortDateString();
+        //        }
 
-                //if (ShowAMFinGrid == true)
-                //{
-                //    e.Row.Cells[14].Visible = true;
-                //    e.Row.Cells[15].Visible = true;
+        //        //if (ShowAMFinGrid == true)
+        //        //{
+        //        //    e.Row.Cells[14].Visible = true;
+        //        //    e.Row.Cells[15].Visible = true;
                     
-                //}
-                //else
-                //{
-                //    e.Row.Cells[14].Visible = false;
-                //    e.Row.Cells[15].Visible = false;     
-                //}
+        //        //}
+        //        //else
+        //        //{
+        //        //    e.Row.Cells[14].Visible = false;
+        //        //    e.Row.Cells[15].Visible = false;     
+        //        //}
                
 
-            }
+        //    }
 
-            //if (ShowAMFinGrid == true)
-            //{
-            //    GridViewSearch.Columns[14].Visible = true;
-            //    GridViewSearch.Columns[15].Visible = true;
-            //}
-            //else
-            //{
-            //    GridViewSearch.Columns[14].Visible = false;
-            //    GridViewSearch.Columns[15].Visible = false;
-            //}
+        //    //if (ShowAMFinGrid == true)
+        //    //{
+        //    //    GridViewSearch.Columns[14].Visible = true;
+        //    //    GridViewSearch.Columns[15].Visible = true;
+        //    //}
+        //    //else
+        //    //{
+        //    //    GridViewSearch.Columns[14].Visible = false;
+        //    //    GridViewSearch.Columns[15].Visible = false;
+        //    //}
 
 
 
-        }  
+        //}  
 
 
 

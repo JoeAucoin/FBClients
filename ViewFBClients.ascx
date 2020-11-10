@@ -121,10 +121,11 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
 
     </div>
 
-
-
+    <!----
+OnRowDataBound="GridViewSearch_RowDataBound" 
+        ---->
 <asp:GridView ID="GridViewSearch" runat="server" CssClass="table table-striped table-bordered table-list" OnPageIndexChanging="GridViewSearch_PageIndexChanging" 
-OnRowDataBound="GridViewSearch_RowDataBound"  
+ 
     DataKeyNames="ClientID" OnRowEditing="GridViewSearch_RowEditing" PageSize="10" AllowPaging="True"     
     AutoGenerateColumns="False" 
     
@@ -163,7 +164,7 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="First Name" DataField="ClientFirstName"></asp:BoundField>
         <asp:BoundField HeaderText="MI" DataField="ClientMiddleInitial"></asp:BoundField>
         
-        <asp:BoundField HeaderText="Suffix" DataField="ClientSuffix" ItemStyle-HorizontalAlign="Left"></asp:BoundField>
+        <asp:BoundField HeaderText="Suffix" DataField="ClientSuffix" ItemStyle-HorizontalAlign="Left" Visible="False"></asp:BoundField>
         <asp:BoundField HeaderText="Address" DataField="ClientAddress"></asp:BoundField>
         
         <asp:BoundField HeaderText="Unit" DataField="ClientUnit"></asp:BoundField>
@@ -185,15 +186,11 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="Interviewer" DataField="CaseWorkerName" Visible="False"></asp:BoundField>
         <asp:BoundField HeaderText="Entry Date" DataField="CreatedOnDate" Visible="False" DataFormatString="{0:MM/dd/yyyy}" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
 
-
-        <asp:TemplateField HeaderText="Last Visit" ItemStyle-HorizontalAlign="Right">   
-<ItemTemplate>   
-<asp:Label ID="lblLastVisitDate" runat="server" Text='<%#Eval("ClientID")%>'></asp:Label>   
-</ItemTemplate>   
-</asp:TemplateField>
-<asp:BoundField HeaderText="AFM First Name" DataField="ClAddFamMemFirstName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
-<asp:BoundField HeaderText="AFM Last Name" DataField="ClAddFamMemLastName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
-
+        <asp:BoundField HeaderText="AFM First Name" DataField="ClAddFamMemFirstName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
+        <asp:BoundField HeaderText="AFM Last Name" DataField="ClAddFamMemLastName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
+        
+        <asp:BoundField HeaderText="Last Visit" DataField="visitdate" DataFormatString="{0:MM/dd/yyyy}"></asp:BoundField>
+        <asp:BoundField HeaderText="Bags" DataField="VisitNumBags" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
 
     </Columns>
 </asp:GridView>	

@@ -74,9 +74,9 @@ namespace GIBS.FBClients.Components
         }
 
         // CLIENT AFM
-        public List<FBClientsInfo> FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string clientType)
+        public List<FBClientsInfo> FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive)
         {
-            return CBO.FillCollection<FBClientsInfo>(DataProvider.Instance().FBClients_Search_AFM(portalId, clAddFamMemLastName, clAddFamMemFirstName, clientType));
+            return CBO.FillCollection<FBClientsInfo>(DataProvider.Instance().FBClients_Search_AFM(portalId, clAddFamMemLastName, clAddFamMemFirstName, isActive));
         }
 
         public int FBClients_Merge(int MasterClientID, int ChildClientID)

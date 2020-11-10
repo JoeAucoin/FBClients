@@ -21,6 +21,7 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 using System.Linq;
 using System.Windows.Forms;
 using DotNetNuke.Common;
+using DotNetNuke.Framework;
 
 //clientType_SelectedIndexChanged
 
@@ -1300,6 +1301,12 @@ namespace GIBS.Modules.FBClients
                     ErrorMessage.Visible = true;
                     //return;
                 }
+                else
+                // Hide Ethnicity column
+                {
+                    gvAFM.Columns[11].Visible = false;
+
+                }
             }
         }
 
@@ -1980,7 +1987,7 @@ namespace GIBS.Modules.FBClients
                 // EmailContentHTML.Append("</tr>" + Environment.NewLine);
 
 
-
+                
 
                 return EmailContentHTML.ToString();
             }

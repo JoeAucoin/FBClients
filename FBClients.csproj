@@ -118,7 +118,9 @@
     <Compile Include="Components\DataProvider.cs" />
     <Compile Include="Components\FBClientsController.cs" />
     <Compile Include="Components\FBClientsInfo.cs" />
-    <Compile Include="Components\FBClientsSettings.cs" />
+    <Compile Include="Components\FBClientsSettings.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Components\SqlDataProvider.cs" />
     <Compile Include="EditClient.ascx.cs">
       <DependentUpon>EditClient.ascx</DependentUpon>
@@ -223,6 +225,7 @@
     <Content Include="SqlScripts\01.00.64.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.66.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.67.SqlDataProvider" />
+    <Content Include="SqlScripts\01.00.69.SqlDataProvider" />
     <None Include="Uninstall.SqlDataProvider" />
     <None Include="web.config" />
     <None Include="web.Debug.config">
