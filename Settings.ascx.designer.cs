@@ -213,6 +213,60 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.DropDownList ddlDaysToValidVisit;
 
         /// <summary>
+        /// lblShowClientServiceLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowClientServiceLocation;
+
+        /// <summary>
+        /// cbxShowClientServiceLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowClientServiceLocation;
+
+        /// <summary>
+        /// lblShowClientSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowClientSuffix;
+
+        /// <summary>
+        /// cbxShowSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowSuffix;
+
+        /// <summary>
+        /// lblShowRelationshipToClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowRelationshipToClient;
+
+        /// <summary>
+        /// cbxShowRelationshipToClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowRelationshipToClient;
+
+        /// <summary>
         /// lblShowPhotoID control.
         /// </summary>
         /// <remarks>
@@ -607,6 +661,24 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbxRequireClientEthnicity;
+
+        /// <summary>
+        /// lblReqAFMVerified control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblReqAFMVerified;
+
+        /// <summary>
+        /// cbxReqAFMVerified control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxReqAFMVerified;
 
         /// <summary>
         /// sectPermissions control.

@@ -83,6 +83,25 @@ namespace GIBS.Modules.FBClients
                         ddlDaysToValidVisit.SelectedValue = settingsData.DaysToValidVisit;
                     }
 
+                    if (settingsData.ShowClientServiceLocation != null)
+                    {
+                        cbxShowClientServiceLocation.Checked = Convert.ToBoolean(settingsData.ShowClientServiceLocation);
+                    }
+
+                    if (settingsData.ShowSuffix != null)
+                    {
+                        cbxShowSuffix.Checked = Convert.ToBoolean(settingsData.ShowSuffix);
+
+                    }
+
+
+                    if (settingsData.ShowRelationshipToClient != null)
+                    {
+                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(settingsData.ShowRelationshipToClient);
+
+                    }
+
+
                     if (settingsData.ShowPhotoID != null)
                     {
                         cbxShowPhotoID.Checked = Convert.ToBoolean(settingsData.ShowPhotoID);
@@ -177,8 +196,18 @@ namespace GIBS.Modules.FBClients
                     if (settingsData.ReqEthnicity != null)
                     {
                         cbxRequireClientEthnicity.Checked = Convert.ToBoolean(settingsData.ReqEthnicity);
-                    }	
+                    }
 
+
+                    if (settingsData.ReqAFMRelationship != null)
+                    {
+                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(settingsData.ReqAFMRelationship);
+                    }
+
+                    if (settingsData.ReqAFMVerified != null)
+                    {
+                        cbxReqAFMVerified.Checked = Convert.ToBoolean(settingsData.ReqAFMVerified);
+                    }
 
                 }
             }
@@ -209,6 +238,7 @@ namespace GIBS.Modules.FBClients
                 settingsData.ShowVisitStopLight = cbxShowVisitStopLight.Checked.ToString();
                 settingsData.DaysToValidVisit = ddlDaysToValidVisit.SelectedValue.ToString();
                 settingsData.IncomeEligibilityGuidelines = txtIncomeEligibilityGuidelines.Text.ToString();
+                settingsData.ShowClientServiceLocation = cbxShowClientServiceLocation.Checked.ToString();
                 settingsData.ShowPhotoID = cbxShowPhotoID.Checked.ToString();
                 settingsData.ShowOneBagOnly = cbxShowOneBagOnly.Checked.ToString();
                 settingsData.ShowIncExpSummary = cbxShowIncExpSummary.Checked.ToString();
@@ -227,6 +257,12 @@ namespace GIBS.Modules.FBClients
                 settingsData.AllowedIPAddress = txtAllowedIPAddress.Text.ToString();
                 settingsData.XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
                 settingsData.ToyTicketContent = txtToyTicketContent.Text.ToString();
+                settingsData.ReqAFMRelationship = cbxReqAFMVerified.Checked.ToString();
+                settingsData.ReqAFMVerified = cbxReqAFMVerified.Checked.ToString();
+                settingsData.ShowRelationshipToClient = cbxShowRelationshipToClient.Checked.ToString();
+                settingsData.ShowSuffix = cbxShowSuffix.Checked.ToString();
+
+                
             }
             catch (Exception ex)
             {

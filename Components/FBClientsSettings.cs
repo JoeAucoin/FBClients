@@ -154,6 +154,12 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("daysToValidVisit", value); }
         }
 
+        public string ShowClientServiceLocation
+        {
+            get { return ReadSetting<string>("showClientServiceLocation", null); }
+            set { WriteSetting("showClientServiceLocation", value); }
+        }
+
         public string ShowPhotoID
         {
             get { return ReadSetting<string>("showPhotoID", null); }
@@ -211,6 +217,21 @@ namespace GIBS.FBClients.Components
             get { return ReadSetting<string>("showClientType", null); }
             set { WriteSetting("showClientType", value); }
         }
+
+        public string ShowSuffix
+        {
+
+            get { return ReadSetting<string>("showSuffix", null); }
+            set { WriteSetting("showSuffix", value); }
+        }
+
+        public string ShowRelationshipToClient
+        {
+
+            get { return ReadSetting<string>("showRelationshipToClient", null); }
+            set { WriteSetting("showRelationshipToClient", value); }
+        }
+
 
         public string ShowXmasToys
         {
@@ -274,6 +295,22 @@ namespace GIBS.FBClients.Components
             get { return ReadSetting<string>("groupHomeBagAllowance", null); }
             set { WriteSetting("groupHomeBagAllowance", value); }
         }
+
+        public string ReqAFMVerified
+        {
+
+            get { return ReadSetting<string>("reqAFMVerified", null); }
+            set { WriteSetting("reqAFMVerified", value); }
+        }
+
+        public string ReqAFMRelationship
+        {
+
+            get { return ReadSetting<string>("reqAFMRelationship", null); }
+            set { WriteSetting("reqAFMRelationship", value); }
+        }
+
+
 
         public string ReqGender
         {

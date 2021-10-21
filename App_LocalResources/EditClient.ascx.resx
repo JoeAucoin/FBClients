@@ -510,4 +510,13 @@
   <data name="reqAFMEthnicity.Text" xml:space="preserve">
     <value>&lt;span style="color:white"&gt;Ethnicity is Required!&lt;/span&gt;</value>
   </data>
+  <data name="ClientOriginationError.Text" xml:space="preserve">
+    <value>&lt;span style="color:white"&gt;Required Field&lt;/span&gt;</value>
+  </data>
+  <data name="lblClientServiceLocation.Text" xml:space="preserve">
+    <value>Client Origination</value>
+  </data>
+  <data name="ClientDeleteXmasRecordSuccessful.Text" xml:space="preserve">
+    <value>&lt;font color="GREEN"&gt;&lt;b&gt;Delete XMas Record Successful&lt;/b&gt;&lt;/font&gt;</value>
+  </data>
 </root>

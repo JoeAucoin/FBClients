@@ -54,8 +54,8 @@ namespace GIBS.FBClients.Components
         public abstract IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive);
 
         // insert new client return clientid
-        public abstract int FBClients_Insert(string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int createdByUserID, int portalID, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked);
-        public abstract void FBClients_Update(int clientID, string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int lastModifiedByUserID, int portalID, double latitude, double longitude, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked);
+        public abstract int FBClients_Insert(string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int createdByUserID, int portalID, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation);
+        public abstract void FBClients_Update(int clientID, string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int lastModifiedByUserID, int portalID, double latitude, double longitude, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation);
         public abstract IDataReader FBClients_AgeGroupReport(int clientID);
         //   public abstract void FBClients_Photo_Update(int clientID, string ClientPhoto  );
         // CASEWORKERS
@@ -71,7 +71,10 @@ namespace GIBS.FBClients.Components
         public abstract void FBClients_AFM_Update(int clAddFamMemID, string clAddFamMemFirstName, string clAddFamMemLastName, DateTime clAddFamMemDOB, string aFMRelationship, int clientID, int lastModifiedByUserID, string aFMMiddleInitial, string aFMSuffix, bool aFMDOBVerify, string aFMEthnicity, string aFMGender);
         public abstract void FBClients_AFM_Delete(int clAddFamMemID);
 
-        // CHRISTMAS TOYS
+     // CHRISTMAS TOYS
+        public abstract void FBxMas_AFM_DeleteRecord(int xMasID);
+
+   
         public abstract IDataReader FBxMas_AFM_Get_CurrentYear(int clAddFamMemID, int xMasYear);
         public abstract int FBxMas_AFM_Insert_CurrentYear(int clientID, int clAddFamMemID, int xMasYear,
             string xMasSizes, bool bikeRaffle,

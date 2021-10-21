@@ -222,6 +222,42 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.DropDownList ddlClientType;
 
         /// <summary>
+        /// divClientServiceLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divClientServiceLocation;
+
+        /// <summary>
+        /// lblClientServiceLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblClientServiceLocation;
+
+        /// <summary>
+        /// ddlClientServiceLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlClientServiceLocation;
+
+        /// <summary>
+        /// reqClientOrigination control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqClientOrigination;
+
+        /// <summary>
         /// lblClientFirstMiddleLastName control.
         /// </summary>
         /// <remarks>
@@ -292,6 +328,15 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+
+        /// <summary>
+        /// PanelShowSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelShowSuffix;
 
         /// <summary>
         /// lblClientSuffix control.
@@ -679,6 +724,24 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
+
+        /// <summary>
+        /// rfvtxtEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvtxtEmail;
+
+        /// <summary>
+        /// RegularExpressionValidatorEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorEmail;
 
         /// <summary>
         /// lblPhone control.
@@ -1149,6 +1212,15 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.TextBox txtxMasYear;
 
         /// <summary>
+        /// LinkButtonDeleteXMasRecord control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButtonDeleteXMasRecord;
+
+        /// <summary>
         /// XmasSizes control.
         /// </summary>
         /// <remarks>
@@ -1374,6 +1446,15 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.RequiredFieldValidator reqAFM_LastName;
 
         /// <summary>
+        /// PanelShowAFMSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelShowAFMSuffix;
+
+        /// <summary>
         /// lblAFM_Suffix control.
         /// </summary>
         /// <remarks>
@@ -1444,6 +1525,15 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CustomValidator CustomValidator1;
+
+        /// <summary>
+        /// PanelShowAFMRelationship control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelShowAFMRelationship;
 
         /// <summary>
         /// lblAFMRelationship control.

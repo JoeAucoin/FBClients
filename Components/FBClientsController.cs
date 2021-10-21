@@ -30,7 +30,7 @@ namespace GIBS.FBClients.Components
         {
             if (info.ClientLastName != string.Empty)
             {
-                return Convert.ToInt32(DataProvider.Instance().FBClients_Insert(info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.CreatedByUserID, info.PortalId, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked));
+                return Convert.ToInt32(DataProvider.Instance().FBClients_Insert(info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.CreatedByUserID, info.PortalId, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation));
             }
             else
             {
@@ -124,7 +124,7 @@ namespace GIBS.FBClients.Components
             //check we have some content to update
             if (info.ClientLastName != string.Empty)
             {
-                DataProvider.Instance().FBClients_Update(info.ClientID, info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.LastModifiedByUserID, info.PortalId, info.Latitude, info.Longitude, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked);
+                DataProvider.Instance().FBClients_Update(info.ClientID, info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.LastModifiedByUserID, info.PortalId, info.Latitude, info.Longitude, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation);
             }
         }
 
@@ -134,6 +134,12 @@ namespace GIBS.FBClients.Components
         }
 
         // CHRISTMAS TOYS
+
+        public void FBxMas_AFM_DeleteRecord(int xMasID)
+        {
+            DataProvider.Instance().FBxMas_AFM_DeleteRecord(xMasID);
+        }
+
         public FBClientsInfo FBxMas_AFM_Get_CurrentYear(int clAddFamMemID, int xMasYear)
         {
             return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBxMas_AFM_Get_CurrentYear(clAddFamMemID, xMasYear));

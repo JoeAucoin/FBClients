@@ -296,6 +296,12 @@
             </asp:Panel>
 		</div>
 
+    		<div id="divClientServiceLocation" runat="server" class="dnnFormItem">						
+					 <dnn:Label runat="server" ID="lblClientServiceLocation" ControlName="ddlClientServiceLocation" ResourceKey="lblClientServiceLocation" Suffix=":" /> 
+ <asp:DropDownList ID="ddlClientServiceLocation" runat="server" EnableViewState="true" /><asp:RequiredFieldValidator runat="server" id="reqClientOrigination"  
+            controltovalidate="ddlClientServiceLocation" InitialValue="" CssClass="dnnFormMessage dnnFormError" ResourceKey="ClientOriginationError" ValidationGroup="UserForm" /> 
+		</div>		
+
 		<div class="dnnFormItem">
 <dnn:label id="lblClientFirstMiddleLastName" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientFirstName" />
 <asp:TextBox ID="txtClientFirstName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="2" placeholder="First Name" MaxLength="30" />
@@ -311,11 +317,12 @@
             <asp:TextBox ID="txtClientLastName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="4" MaxLength="30" />
             <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" resourcekey="reqClientLastName" controltovalidate="txtClientLastName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
         </div>
+       <asp:Panel ID="PanelShowSuffix" runat="server">
 		<div class="dnnFormItem">
 			<dnn:label id="lblClientSuffix" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientSuffix" />
             <asp:DropDownList ID="ddlClientSuffix" runat="server" TabIndex="5"></asp:DropDownList>
 		</div>	
-
+        </asp:Panel>
         <div class="dnnFormItem">
             <dnn:label id="lblClientDOB" runat="server" resourcekey="lblClientDOB" controlname="txtClientDOB" suffix=":" />
             <asp:TextBox ID="txtClientDOB" runat="server" ClientIDMode="Static" TabIndex="6" />
@@ -334,6 +341,7 @@ runat="server" />
 		        <asp:ListItem Text="----" Value=""></asp:ListItem>
                 <asp:ListItem Value="Male" Text="Male"></asp:ListItem>
                 <asp:ListItem Value="Female" Text="Female"></asp:ListItem>
+                <asp:ListItem Value="Non-Label" Text="Non-Labeling"></asp:ListItem>
                 <asp:ListItem Value="NoAnswer" Text="Prefers Not To Answer"></asp:ListItem>
 			</asp:DropDownList>
             <asp:RequiredFieldValidator ID="reqClientGender" runat="server" CssClass="dnnFormMessage dnnFormError" ControlToValidate="ddlClientGender" resourcekey="reqClientGender" Enabled="false" InitialValue=""  ValidationGroup="UserForm" />
@@ -413,6 +421,11 @@ runat="server" />
         <div class="dnnFormItem">
             <dnn:label id="lblEmail" runat="server" controlname="txtEmail" suffix=":" />
             <asp:TextBox ID="txtEmail" runat="server" TabIndex="18" />
+             <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" CssClass="dnnFormMessage dnnFormError" ErrorMessage="E-Mail Address is Required!" runat="server"
+                 Display="Dynamic" ValidationGroup="UserForm" Enabled="true" /> 
+            <asp:RegularExpressionValidator ID="RegularExpressionValidatorEmail" runat="server" ControlToValidate="txtEmail"
+    ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+    Display = "Dynamic" CssClass="dnnFormMessage dnnFormError" ErrorMessage = "Invalid E-Mail Address!"/>
         </div>
 		<div class="dnnFormItem">
             <dnn:label id="lblPhone" resourcekey="lblPhone" runat="server" controlname="txtPhone" suffix=":" />
@@ -534,7 +547,7 @@ runat="server" />
 
 		</table>
 
-                <div id="MapDiv" style="width: 100%; height: 400px; border:1px solid black; margin: 0 auto;"></div>
+                <div id="MapDiv" style="width: 100%; height: 500px; border:1px solid black; margin: 0 auto;"></div>
 
 
 <script async defer src="<%= GetMapUrl() %>" type="text/javascript"></script>                		    
@@ -545,8 +558,9 @@ runat="server" />
                     //    var uluru = { lat: mycurrentlat, lng: mycurrentlong };
                         <asp:literal id="litMapCenter" runat="server" />
                         // The map, centered at Uluru
+                        // mapTypeId: 'satellite'
                         var map = new google.maps.Map(
-                            document.getElementById('MapDiv'), { zoom: 18, center: uluru });
+                            document.getElementById('MapDiv'), { zoom: 18, center: uluru, mapTypeId: 'roadmap' });
 
                         // The marker, positioned at Uluru
                         var marker = new google.maps.Marker({
@@ -599,7 +613,7 @@ runat="server" />
                     }
 
 
-     </script>
+                </script>
 
  <br/>&nbsp;
  </div>
@@ -847,7 +861,9 @@ runat="server" />
 		<div class="dnnFormItem">					
             <dnn:label id="lblxMasYear" runat="server" suffix=":" controlname="txtxMasYear" ResourceKey="lblxMasYear" />
 			<asp:TextBox ID="txtxMasYear" runat="server" ReadOnly="true"></asp:TextBox>
-         </div>
+           
+            <asp:LinkButton ID="LinkButtonDeleteXMasRecord" runat="server" CssClass="btn btn-default btn-sm" onclick="btnDeleteAFMXmasRecord_Click">Delete Xmas Record</asp:LinkButton>
+            </div>
          
          	
         
@@ -936,10 +952,14 @@ runat="server" />
 					<asp:TextBox runat="server" ID="txtAFM_LastName" />
 					<asp:RequiredFieldValidator runat="server" id="reqAFM_LastName" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" controltovalidate="txtAFM_LastName"  ResourceKey="txtAFM_LastName.Required" />
 				</div>
+
+
+   <asp:Panel ID="PanelShowAFMSuffix" runat="server">
 				<div class="dnnFormItem">
 					<dnn:Label runat="server" ID="lblAFM_Suffix" ControlName="ddlAFMSuffix" ResourceKey="lblAFM_Suffix" suffix=":" />
 					<asp:DropDownList ID="ddlAFMSuffix" runat="server"></asp:DropDownList>
 				</div>
+   </asp:Panel>
 				<div class="dnnFormItem">
 					<dnn:Label runat="server" ID="lblAFM_DOB" ControlName="txtAFM_DOB" ResourceKey="lblAFM_DOB" suffix=":" />
 					<asp:TextBox ID="txtAFM_DOB" runat="server" ClientIDMode="Static" />
@@ -951,8 +971,9 @@ runat="server" />
                       &nbsp;<asp:CheckBox ID="cbxAFMDOB_Verified" runat="server" resourcekey="cbxAFMDOB_Verified"  Font-Size="10px"/>
 					<asp:RequiredFieldValidator runat="server" id="reqAFM_DOB"  ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
 						controltovalidate="txtAFM_DOB" ResourceKey="radAFM_DOB.Required" />
-                        <asp:CustomValidator ID="CustomValidator1" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" ErrorMessage="*" ClientValidationFunction="ValidateCheckBox" ResourceKey="cbxAFMDOB_Verified.Required"></asp:CustomValidator>
+                        <asp:CustomValidator ID="CustomValidator1" Enabled="False" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError" ErrorMessage="*" ClientValidationFunction="ValidateCheckBox" ResourceKey="cbxAFMDOB_Verified.Required"></asp:CustomValidator>
 				</div>
+            <asp:Panel ID="PanelShowAFMRelationship" runat="server">
 				<div class="dnnFormItem">
 					<dnn:Label runat="server" ID="lblAFMRelationship" ControlName="ddlAFMRelationship" ResourceKey="lblAFMRelationship" suffix=":" />
 					<asp:DropDownList ID="ddlAFMRelationship" runat="server">
@@ -960,19 +981,20 @@ runat="server" />
                     <asp:RequiredFieldValidator ID="rfvAFMRelationship" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
 						controltovalidate="ddlAFMRelationship" InitialValue="" ResourceKey="rfvAFMRelationship.Required" />
 				</div>
-
+            </asp:Panel>
 				<div class="dnnFormItem">
 					<dnn:label id="lblAFMGender" runat="server" resourcekey="lblAFMGender" controlname="ddlAFMGender" suffix=":"></dnn:label>
 					<asp:DropDownList ID="ddlAFMGender" runat="server">
 					<asp:ListItem Text="----" Value=""></asp:ListItem>
                 <asp:ListItem Value="Male" Text="Male"></asp:ListItem>
                 <asp:ListItem Value="Female" Text="Female"></asp:ListItem>
+                <asp:ListItem Value="Non-Label" Text="Non-Labeling"></asp:ListItem>
                 <asp:ListItem Value="NoAnswer" Text="Prefers Not To Answer"></asp:ListItem>
 					</asp:DropDownList>
                     <asp:RequiredFieldValidator ID="rfvAFMGender" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
 						controltovalidate="ddlAFMGender" InitialValue="" ResourceKey="rfvAFMGender.Required" />
 				</div>
-
+     
 				<div class="dnnFormItem">
 					<dnn:label id="lblAFMEthnicity" runat="server" resourcekey="lblAFMEthnicity" controlname="ddlAFMEthnicity" suffix=":"></dnn:label>
 					<asp:DropDownList ID="ddlAFMEthnicity" runat="server"></asp:DropDownList>

@@ -201,7 +201,7 @@ from GIBS_FBClientsVisits vi
 			 WHERE clientid = vi.clientid
 			)
 			
-					
+		AND VisitNumBags > 0			
 '
 GO
 

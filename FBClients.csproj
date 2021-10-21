@@ -226,6 +226,8 @@
     <Content Include="SqlScripts\01.00.66.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.67.SqlDataProvider" />
     <Content Include="SqlScripts\01.00.69.SqlDataProvider" />
+    <Content Include="SqlScripts\01.00.70.SqlDataProvider" />
+    <Content Include="SqlScripts\01.00.72.SqlDataProvider" />
     <None Include="Uninstall.SqlDataProvider" />
     <None Include="web.config" />
     <None Include="web.Debug.config">

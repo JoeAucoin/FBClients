@@ -222,4 +222,16 @@
   <data name="lblShowPhotoID.Text" xml:space="preserve">
     <value>Show Photo ID</value>
   </data>
+  <data name="lblReqAFMVerified.Text" xml:space="preserve">
+    <value>Require AFM Verified DOB</value>
+  </data>
+  <data name="lblShowClientServiceLocation.Text" xml:space="preserve">
+    <value>Show Client Service Location</value>
+  </data>
+  <data name="lblShowClientSuffix.Text" xml:space="preserve">
+    <value>Show Client &amp; AFM Suffix</value>
+  </data>
+  <data name="lblShowRelationshipToClient.Text" xml:space="preserve">
+    <value>Show AFM Relationship To Client</value>
+  </data>
 </root>

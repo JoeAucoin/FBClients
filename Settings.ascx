@@ -68,6 +68,29 @@
     </tr>
 
     <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblShowClientServiceLocation" runat="server" controlname="cbxShowClientServiceLocation" suffix=":"></dnn:label></td>
+        <td valign="top"><asp:CheckBox ID="cbxShowClientServiceLocation" runat="server" />
+        </td>
+    </tr>	
+
+    <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblShowClientSuffix" runat="server" controlname="cbxShowSuffix" suffix=":"></dnn:label></td>
+        <td valign="top"><asp:CheckBox ID="cbxShowSuffix" runat="server" />
+        </td>
+    </tr>	
+
+
+
+    <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblShowRelationshipToClient" runat="server" controlname="cbxShowRelationshipToClient" suffix=":"></dnn:label></td>
+        <td valign="top"><asp:CheckBox ID="cbxShowRelationshipToClient" runat="server" />
+        </td>
+    </tr>	
+	
+
+
+
+    <tr>
         <td class="SubHead" valign="top"><dnn:label id="lblShowPhotoID" runat="server" controlname="cbxShowPhotoID" suffix=":"></dnn:label></td>
         <td valign="top"><asp:CheckBox ID="cbxShowPhotoID" runat="server" />
         </td>
@@ -213,7 +236,11 @@
         
         <td valign="top"><asp:CheckBox ID="cbxRequireClientEthnicity" runat="server" /></td>
     </tr>		
-
+    <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblReqAFMVerified" runat="server" controlname="cbxReqAFMVerified" suffix=":"></dnn:label></td>
+        <td valign="top"><asp:CheckBox ID="cbxReqAFMVerified" runat="server" />
+        </td>
+    </tr>	
 	
 </table>
 

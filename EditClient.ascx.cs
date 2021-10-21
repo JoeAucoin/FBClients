@@ -49,16 +49,19 @@ namespace GIBS.Modules.FBClients
         static bool _ShowIncExpSummary = true;
         public bool _ShowExpense = false;
         public bool _ShowDisabilitiee = false;
+        public bool _ShowAFMRelationship = false;
+        public bool _ShowSuffix = false;
         static string _XmasToysYear;
         static string _FlagForReviewNotify = "";
         //1=3,2=3,3=3,4=5,5=5,6=5,7=6
         static string _BagAllowance = "1=1";
         static string _GroupHomeBagAllowance = "5";
         public string _bagsQualifiedFor = "";
-        public string _ClientManagerDeleteRecordRole = "";
+        public static string _ClientManagerDeleteRecordRole = "";
         static int _XmasRequireSizeMinimumAge = 10;
         static int _XmasRequireSizeMaxAge = 14;
         public bool _IsEthnicityRequired = false;
+        public bool _ReqAFMVerified = false;
 
         protected override void OnInit(EventArgs e)
         {
@@ -104,6 +107,7 @@ namespace GIBS.Modules.FBClients
                     litMapCenter.Text = "var uluru = { lat: 41.6973484, lng: -70.1030107 };";
                     lblMessage.Text = Localization.GetString("msgReadyForNewRecord", this.LocalResourceFile);
                     ErrorMessage.Visible = true;
+                    
                 }
             }
 
@@ -128,6 +132,9 @@ namespace GIBS.Modules.FBClients
                     bikeAwardedDate.Visible = true;
                     LinkButtonMerge.Visible = true;
                     cbxIsLocked.Enabled = true;
+
+                    LinkButtonDeleteXMasRecord.Visible = true;
+                    //    ddlClientServiceLocation.Enabled = true;
                     //  reqClientEthnicity.Enabled = false;
                 }
                 else
@@ -136,6 +143,7 @@ namespace GIBS.Modules.FBClients
                     cbxIsLocked.Enabled = false;
                     cmdDelete.Visible = false;
                     cmdDelete.Enabled = false;
+                    LinkButtonDeleteXMasRecord.Visible = false;
                 }
 
                 if (Request.QueryString["TabFocus"] != null)
@@ -182,6 +190,11 @@ namespace GIBS.Modules.FBClients
                 if (!Null.IsNull(clientId))
                 {
                     FillClientRecord(clientId);
+                }
+                else
+                {
+                    HyperLinkPhotoID.Visible = false;
+
                 }
 
 
@@ -241,8 +254,37 @@ namespace GIBS.Modules.FBClients
                         ImageIDClient.Visible = false;
                     }
 
+
+
+
+                    //  ClientServiceLocation
+
+                    ListItem liClientServiceLocation = ddlClientServiceLocation.Items.FindByValue(item.ServiceLocation.ToString());
+                    if (liClientServiceLocation != null)
+                    {
+                        // value found - select it
+                        ddlClientServiceLocation.SelectedValue = item.ServiceLocation.ToString();
+                    }
+                    else
+                    {
+                        //Value not found - add it and then select it
+                        ddlClientServiceLocation.Items.Insert(1, new ListItem(item.ServiceLocation.ToString(), item.ServiceLocation.ToString()));
+                        ddlClientServiceLocation.SelectedValue = item.ServiceLocation.ToString();
+                    }
+
+                    if (item.ServiceLocation.ToString().Length > 0)
+                    {
+                        ddlClientServiceLocation.Enabled = false;
+                    }
+
+                    if (UserInfo.IsInRole(_ClientManagerDeleteRecordRole))
+                    {
+                        ddlClientServiceLocation.Enabled = true;
+                    }
+
+
                     //  Response.Write(item);
-                    
+
                     ListItem liClientEthnicity = ddlClientEthnicity.Items.FindByValue(item.ClientEthnicity.ToString());
                     if (liClientEthnicity != null)
                     {
@@ -596,6 +638,13 @@ namespace GIBS.Modules.FBClients
                 ddlMobileLocations.DataBind();
                 ddlMobileLocations.Items.Insert(0, new ListItem("--Select--", "Pantry"));
 
+                ddlClientServiceLocation.DataTextField = "Text";
+                ddlClientServiceLocation.DataValueField = "Text";
+                ddlClientServiceLocation.DataSource = MobileLocations;
+                ddlClientServiceLocation.DataBind();
+                ddlClientServiceLocation.Items.Insert(0, new ListItem("--Select--", "Pantry"));
+
+
                 FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
 
@@ -611,6 +660,14 @@ namespace GIBS.Modules.FBClients
 
                 }
 
+              //  settingsData.ReqAFMVerified
+                if (settingsData.ReqAFMVerified != null)
+                {
+                    _ReqAFMVerified = bool.Parse(settingsData.ReqAFMVerified);
+
+                }
+                reqAFM_DOB.Enabled = _ReqAFMVerified;
+
                 if (settingsData.AllowedIPAddress != null)
                 {
                     if (CheckIPAddress(settingsData.AllowedIPAddress.ToString()) )
@@ -620,14 +677,16 @@ namespace GIBS.Modules.FBClients
                         ddlMobileLocations.Visible = false;
 
                         //ServiceLocation
-                        //     gvVisits.Columns[4].Visible = false;
+                        reqClientOrigination.Enabled=false;
+                     //   lblClientServiceLocation.Visible = false;
+                     //   ddlClientServiceLocation.Visible = false;
                     }
                     else
                     {
                         // if they are remote change initial value requirement so they must select A REMOTE LOCATION
                         reqMobileLocations.InitialValue = "Pantry";
 
-
+                        reqClientOrigination.InitialValue = "Pantry";
                     }
                 }
                 else
@@ -640,6 +699,11 @@ namespace GIBS.Modules.FBClients
                     reqMobileLocations.Enabled = false;
                     lblMobileLocations.Visible = true;
                     ddlMobileLocations.Visible = true;
+
+                    //ServiceLocation
+                    reqClientOrigination.Enabled = false;
+                    lblClientServiceLocation.Visible = true;
+                    ddlClientServiceLocation.Visible = true;
                 }
                
 
@@ -696,8 +760,10 @@ namespace GIBS.Modules.FBClients
 
                 }
 
-
-
+                if(settingsData.ShowClientServiceLocation != null)
+                {
+                    divClientServiceLocation.Visible = Convert.ToBoolean(settingsData.ShowClientServiceLocation);
+                }
 
 
                 if (settingsData.IncomeEligibilityGuidelines != null)
@@ -714,6 +780,15 @@ namespace GIBS.Modules.FBClients
                 {
                     _ShowClientType = bool.Parse(settingsData.ShowClientType);
                 }
+
+                if (settingsData.ShowSuffix != null)
+                { 
+                _ShowSuffix = bool.Parse(settingsData.ShowSuffix);
+                }
+
+                PanelShowSuffix.Visible = _ShowSuffix;
+                PanelShowAFMSuffix.Visible = _ShowSuffix;
+
 
                 if (settingsData.ShowClientIdCard != null)
                 {
@@ -749,6 +824,13 @@ namespace GIBS.Modules.FBClients
                 {
                     lblIncomeExpense.Text = "Income";
                 }
+
+
+                if (settingsData.ShowRelationshipToClient != null)
+                {
+                    _ShowAFMRelationship = bool.Parse(settingsData.ShowRelationshipToClient);
+                }
+                PanelShowAFMRelationship.Visible = bool.Parse(settingsData.ShowRelationshipToClient);
 
 
                 if (settingsData.ShowDisabilities != null)
@@ -815,7 +897,7 @@ namespace GIBS.Modules.FBClients
                 //var strAddOn = '?SkinSrc=[G]';
 
                 string myLink = DotNetNuke.Common.Globals.NavigateURL("XmasReport", "mid=" + this.ModuleId);
-                myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "?cid=" + hidClientID.Value.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
                 myLink += "&ContainerSrc=";
                 myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
 
@@ -839,10 +921,10 @@ namespace GIBS.Modules.FBClients
                 //var strAddOn = '?SkinSrc=[G]';
 
                 string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
-                myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "?cid=" + hidClientID.Value.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
                 myLink += "&ContainerSrc=";
                 myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
-
+                
                 HyperLinkXmas.Visible = true;
                 HyperLinkXmas.NavigateUrl = myLink.ToString();
 
@@ -873,7 +955,7 @@ namespace GIBS.Modules.FBClients
                 rp_AgeGroupReport.DataBind();
 
 
-
+                
 
             }
             catch (Exception ex)
@@ -1034,6 +1116,11 @@ namespace GIBS.Modules.FBClients
 
                 if (item != null)
                 {
+                    //if (UserInfo.IsInRole(_ClientManagerDeleteRecordRole))
+                    //{
+                    //    LinkButtonDeleteXMasRecord.Visible = true;
+                    //}
+                    
                     hidXmasID.Value = item.XmasID.ToString();
                     txtxMasYear.Text = item.XmasYear.ToString();
                     ddlSizes.SelectedValue = item.XmasSizes.ToString();
@@ -1050,7 +1137,7 @@ namespace GIBS.Modules.FBClients
                     }
                     if (item.AFM_Age < 9)
                     {
-                        cbxBikeRaffle.Text = "DISABLED - Child must be 10 years old to enter.";
+                        cbxBikeRaffle.Text = "DISABLED - Child must be 9 or older to enter.";
                         cbxBikeRaffle.Enabled = false;
                     }
 
@@ -1136,9 +1223,9 @@ namespace GIBS.Modules.FBClients
                         RequiredFieldValidatorXmasSizes.Enabled = false;
 
                     }
-                    if (item.AFM_Age < 10)
+                    if (item.AFM_Age < 9)
                     {
-                        cbxBikeRaffle.Text = "DISABLED - Child must be 10 years old to enter.";
+                        cbxBikeRaffle.Text = "DISABLED - Child must be 9 or older to enter.";
                         cbxBikeRaffle.Enabled = false;
                     }
 
@@ -1831,7 +1918,7 @@ namespace GIBS.Modules.FBClients
                 item.OneBagOnly = cbxOneBagOnly.Checked;
                 item.Disability = GetDisabilities();
 
-
+                item.ServiceLocation = ddlClientServiceLocation.SelectedValue.ToString();
 
                 //RECORD FLAGGED FOR REVIEW - NEED TO SEND AN EMAIL
                 item.SubjectToReview = cbxSubjectToReview.Checked;
@@ -1884,8 +1971,10 @@ namespace GIBS.Modules.FBClients
                     int MyNewID = Null.NullInteger;
                     MyNewID = controller.FBClients_Insert(item);
                     hidClientID.Value = Convert.ToString(MyNewID);
+                                        
+                    clientId = MyNewID;
 
-
+                    XmasReportLink();
 
                     lblMessage.Text = Localization.GetString("ClientInsertSuccessful", this.LocalResourceFile);
                     ErrorMessage.Visible = true;
@@ -2182,7 +2271,7 @@ namespace GIBS.Modules.FBClients
                 {
                     FBClientsController controller = new FBClientsController();
                     FBClientsInfo item = new FBClientsInfo();
-
+                    
                     item.ServiceLocation = ddlMobileLocations.SelectedValue.ToString();
                     item.VisitDate = DateTime.Parse(txtVisitDate.Text.ToString());
                     item.VisitNotes = txtVisitNotes.Text.ToString();
@@ -2741,6 +2830,62 @@ namespace GIBS.Modules.FBClients
             }
 
         }
+
+
+        protected void btnDeleteAFMXmasRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                
+
+                    FBClientsController controller = new FBClientsController();
+
+                    controller.FBxMas_AFM_DeleteRecord(Int32.Parse(hidXmasID.Value.ToString()));
+
+                //CLEAR CHRISTMAS FIELDS
+                txtXmasNotes.Text = "";
+                cbxBikeRaffle.Checked = false;
+                cbxBikeRaffle.Text = "";
+                cbxBikeRaffle.Enabled = true;
+                txtReceivedToysDate.Text = "";
+                ddlSizes.SelectedIndex = 0;
+                txtBikeAwardedDate.Text = "";
+
+                hidXmasID.Value = "";
+                // hide the xmas form
+               
+                LinkButtonDeleteXMasRecord.Visible = false;
+                formChristmas.Visible = false;
+
+                // CLEAR AFM FIELDS
+                hidClientAFMID.Value = "";
+                txtAFM_DOB.Text = "";
+
+                txtAFM_FirstName.Text = "";
+                txtAFM_LastName.Text = "";
+                txtAFM_MiddleInitial.Text = "";
+                ddlAFMRelationship.SelectedIndex = 0;
+                ddlAFMGender.SelectedIndex = 0;
+                ddlAFMSuffix.SelectedIndex = 0;
+                ddlAFMEthnicity.SelectedIndex = 0;
+                cbxAFMDOB_Verified.Checked = false;
+
+                lblMessage.Text = Localization.GetString("ClientDeleteXmasRecordSuccessful", this.LocalResourceFile) + "<br />";
+                // 
+
+                // Load Client Rexcord
+                FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+        }
+
+
+
         //protected void btnCamera_Click(object sender, EventArgs e)
         //{
         //    try

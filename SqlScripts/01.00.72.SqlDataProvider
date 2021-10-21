@@ -1,0 +1,34 @@
+﻿/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_Delete]    Script Date: 10/15/2021 12:00:50 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_DeleteRecord]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBxMas_AFM_DeleteRecord]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_AFM_Delete]    Script Date: 10/15/2021 12:00:50 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBxMas_AFM_DeleteRecord]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GIBS_FBxMas_AFM_DeleteRecord] AS' 
+END
+GO
+
+ALTER PROCEDURE [dbo].[GIBS_FBxMas_AFM_DeleteRecord]
+
+	@XMasID int
+	
+
+as
+BEGIN 
+
+DELETE FROM [dbo].[GIBS_FBxMas]
+ WHERE xMasID = @XMasID
+  
+		
+
+
+END
+GO
