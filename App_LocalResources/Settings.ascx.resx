@@ -234,4 +234,7 @@
   <data name="lblShowRelationshipToClient.Text" xml:space="preserve">
     <value>Show AFM Relationship To Client</value>
   </data>
+  <data name="lblGoogleAPIKey.Text" xml:space="preserve">
+    <value>Google API Key</value>
+  </data>
 </root>

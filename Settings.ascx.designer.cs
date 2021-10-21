@@ -177,6 +177,24 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.TextBox txtAllowedIPAddress;
 
         /// <summary>
+        /// lblGoogleAPIKey control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblGoogleAPIKey;
+
+        /// <summary>
+        /// txtGoogleAPIKey control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGoogleAPIKey;
+
+        /// <summary>
         /// sectGeneralSettings control.
         /// </summary>
         /// <remarks>

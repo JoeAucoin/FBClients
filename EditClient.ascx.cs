@@ -62,6 +62,7 @@ namespace GIBS.Modules.FBClients
         static int _XmasRequireSizeMaxAge = 14;
         public bool _IsEthnicityRequired = false;
         public bool _ReqAFMVerified = false;
+        static string _GoogleAPIKey = "";
 
         protected override void OnInit(EventArgs e)
         {
@@ -647,6 +648,11 @@ namespace GIBS.Modules.FBClients
 
                 FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
+                //_GoogleAPIKey
+                if (settingsData.GoogleAPIKey != null)
+                {
+                    _GoogleAPIKey = settingsData.GoogleAPIKey.ToString();
+                }
 
                 if (settingsData.ShowPhotoID != null)
                 {
@@ -966,10 +972,9 @@ namespace GIBS.Modules.FBClients
         }
         protected string GetMapUrl()
         {
-            return "https://maps.googleapis.com/maps/api/js?key=AIzaSyDo9jmzvNKckTh528_mFgXbzbvqOy11HE0&callback=load";
-          //  return "https://maps.google.com/maps?file=api&v=3&key=AIzaSyDo9jmzvNKckTh528_mFgXbzbvqOy11HE0";  // +PropertySettings.MapKey;
-            //  return "https://maps.googleapis.com/maps/api/js?key=AIzaSyDo9jmzvNKckTh528_mFgXbzbvqOy11HE0&sensor=false";  // +PropertySettings.MapKey;
+          //  return ;
 
+            return "https://maps.googleapis.com/maps/api/js?key=" + _GoogleAPIKey.ToString() + "&callback=load";
         }
         public void FillBudget()
         {

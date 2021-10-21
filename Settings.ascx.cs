@@ -30,7 +30,12 @@ namespace GIBS.Modules.FBClients
                     {
                         txtAllowedIPAddress.Text = settingsData.AllowedIPAddress;
                     }
-                    
+
+                    if (settingsData.GoogleAPIKey != null)
+                    {
+                        txtGoogleAPIKey.Text = settingsData.GoogleAPIKey;
+                    }
+
                     if (settingsData.ClientManagerUserRole != null)
                     {
 
@@ -255,6 +260,7 @@ namespace GIBS.Modules.FBClients
                 settingsData.ReqEthnicity = cbxRequireClientEthnicity.Checked.ToString();
                 settingsData.ReqGender = cbxReguireClientGender.Checked.ToString();
                 settingsData.AllowedIPAddress = txtAllowedIPAddress.Text.ToString();
+                settingsData.GoogleAPIKey = txtGoogleAPIKey.Text.ToString();
                 settingsData.XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
                 settingsData.ToyTicketContent = txtToyTicketContent.Text.ToString();
                 settingsData.ReqAFMRelationship = cbxReqAFMVerified.Checked.ToString();

@@ -332,6 +332,12 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("allowedIPAddress", value); }
         }
 
+        public string GoogleAPIKey
+        {
+            get { return ReadSetting<string>("googleAPIKey", null); }
+            set { WriteSetting("googleAPIKey", value); }
+        }
+
 
         #endregion
     }

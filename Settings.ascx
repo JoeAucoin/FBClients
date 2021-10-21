@@ -52,6 +52,11 @@
         <td valign="bottom" ><asp:TextBox ID="txtAllowedIPAddress" cssclass="NormalTextBox" runat="server" /></td>
     </tr>	
 
+    <tr>
+        <td class="SubHead" valign="top"><dnn:label id="lblGoogleAPIKey" runat="server" ResourceKey="lblGoogleAPIKey" controlname="txtGoogleAPIKey" suffix=":" /></td>
+        <td valign="bottom" ><asp:TextBox ID="txtGoogleAPIKey" cssclass="NormalTextBox" runat="server" /></td>
+    </tr>		
+
 </table>
 
 
