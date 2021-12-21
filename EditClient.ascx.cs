@@ -133,7 +133,7 @@ namespace GIBS.Modules.FBClients
                     bikeAwardedDate.Visible = true;
                     LinkButtonMerge.Visible = true;
                     cbxIsLocked.Enabled = true;
-
+                //    PanelNumTimesInsterted.Visible = true;
                     LinkButtonDeleteXMasRecord.Visible = true;
                     //    ddlClientServiceLocation.Enabled = true;
                     //  reqClientEthnicity.Enabled = false;
@@ -198,7 +198,7 @@ namespace GIBS.Modules.FBClients
 
                 }
 
-
+                XmasReportLink();
             }
             else
             {
@@ -227,7 +227,21 @@ namespace GIBS.Modules.FBClients
                     {
                         txtClientFirstName.Enabled = true;
                         txtClientMiddleInitial.Enabled = true;
+                        PanelNumTimesInsterted.Visible = false;
                     }
+                    else if(item.ClientType == "Pallet")
+                    {
+                        txtClientFirstName.Enabled = false;
+                        txtClientMiddleInitial.Enabled = false;
+                        txtClientDOB.Enabled = false;
+
+                        reqClientEthnicity.Enabled = false;
+                        reqClientGender.Enabled = false;
+                        lblClientLastName.Text = "Pallet Name";
+                        PanelNumTimesInsterted.Visible = true;
+
+                    }
+
                     else
                     {
                         lblClientLastName.Text = "Group Home Name";
@@ -237,6 +251,7 @@ namespace GIBS.Modules.FBClients
 
                         reqClientEthnicity.Enabled = false;
                         reqClientGender.Enabled = false;
+                        PanelNumTimesInsterted.Visible = false;
                     }
 
                     BindDisabilities(item.Disability);
@@ -837,7 +852,8 @@ namespace GIBS.Modules.FBClients
                     _ShowAFMRelationship = bool.Parse(settingsData.ShowRelationshipToClient);
                 }
                 PanelShowAFMRelationship.Visible = bool.Parse(settingsData.ShowRelationshipToClient);
-
+                gvAFM.Columns[13].Visible = _ShowAFMRelationship;
+                //      gvAFM.
 
                 if (settingsData.ShowDisabilities != null)
                 {
@@ -847,10 +863,11 @@ namespace GIBS.Modules.FBClients
 
                 if (settingsData.ShowXmasToys != null)
                 {
+                   
                     gvAFM.Columns[2].Visible = bool.Parse(settingsData.ShowXmasToys);
                     if (bool.Parse(settingsData.ShowXmasToys) == true)
                     {
-                        XmasReportLink();
+                        
                         HyperLinkXmas.Visible = true;
                     }
                     else
@@ -1140,16 +1157,25 @@ namespace GIBS.Modules.FBClients
                         XmasSizes.Visible = false;
                         RequiredFieldValidatorXmasSizes.Enabled = false;
                     }
-                    if (item.AFM_Age < 9)
+                    if (item.AFM_Age <= 8)
                     {
                         cbxBikeRaffle.Text = "DISABLED - Child must be 9 or older to enter.";
                         cbxBikeRaffle.Enabled = false;
+                    }
+                    else
+                    {
+                        cbxBikeRaffle.Text = "";
+                        cbxBikeRaffle.Enabled = true;
                     }
 
 
                     if (item.BikeAwardedDate.Length > 10)
                     {
                         txtBikeAwardedDate.Text = DateTime.Parse(item.BikeAwardedDate.ToString()).ToShortDateString();
+                    }
+                    else
+                    {
+                        txtBikeAwardedDate.Text = "";
                     }
                     //txtBikeAwardedDate.Text = item.BikeAwardedDate.ToString();
 
@@ -2222,6 +2248,9 @@ namespace GIBS.Modules.FBClients
 
                     }
                     //CLEAR CHRISTMAS FIELDS
+                    
+                  //  cbxBikeRaffle.Enabled = true;
+
                     txtXmasNotes.Text = "";
                     cbxBikeRaffle.Checked = false;
                     cbxBikeRaffle.Text = "";
@@ -2297,7 +2326,17 @@ namespace GIBS.Modules.FBClients
                     else
                     {
                         item.CreatedByUserID = this.UserId;
-                        controller.FBClients_Visit_Insert(item);
+
+                        int count = Int32.Parse(ddlNumTimesInsterted.SelectedValue.ToString());
+
+                        for (int i = 0; i < count; i++)
+                        {
+                            controller.FBClients_Visit_Insert(item);
+                        }
+
+                        
+                        
+                        
                         lblMessage.Text = Localization.GetString("ClientInsertVisitSuccessful", this.LocalResourceFile) + "<br />";
                     }
                     txtVisitDate.Text = DateTime.Now.Date.ToShortDateString();
@@ -2791,7 +2830,24 @@ namespace GIBS.Modules.FBClients
                 reqClientEthnicity.Enabled = true;
                 reqClientGender.Enabled = true;
                 txtClientMiddleInitial.Enabled = true;
+                txtClientDOB.Enabled = true;
+                PanelNumTimesInsterted.Visible = false;
             }
+
+            else if (ddlClientType.SelectedValue == "Pallet")
+            {
+                txtClientFirstName.Text = "Pallet";
+                txtClientFirstName.Enabled = false;
+                lblClientLastName.Text = "Pallet Name";
+                reqClientEthnicity.Enabled = false;
+                reqClientGender.Enabled = false;
+                txtClientMiddleInitial.Enabled = false;
+                txtClientDOB.Text = "07/07/1997";
+                txtClientDOB.Enabled = false;
+                PanelNumTimesInsterted.Visible = true;
+
+            }
+
             else
             {
                 txtClientFirstName.Text = "Group Home";
@@ -2802,6 +2858,7 @@ namespace GIBS.Modules.FBClients
                 txtClientMiddleInitial.Enabled = false;
                 txtClientDOB.Text = "07/07/1997";
                 txtClientDOB.Enabled = false;
+                PanelNumTimesInsterted.Visible = false;
             }
         }
 

@@ -1707,6 +1707,33 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.DropDownList ddlVisitNumBags;
 
         /// <summary>
+        /// PanelNumTimesInsterted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelNumTimesInsterted;
+
+        /// <summary>
+        /// lblNumTimesInsterted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblNumTimesInsterted;
+
+        /// <summary>
+        /// ddlNumTimesInsterted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlNumTimesInsterted;
+
+        /// <summary>
         /// lblVisitNotes control.
         /// </summary>
         /// <remarks>

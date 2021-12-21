@@ -292,6 +292,9 @@
 		
                             <asp:ListItem Text="Individual" Value="Individual"></asp:ListItem>
                             <asp:ListItem Text="Group Home" Value="Group Home"></asp:ListItem>
+                        <asp:ListItem Text="Pallet" Value="Pallet"></asp:ListItem>
+                        
+
 				            </asp:DropDownList>
             </asp:Panel>
 		</div>
@@ -422,7 +425,7 @@ runat="server" />
             <dnn:label id="lblEmail" runat="server" controlname="txtEmail" suffix=":" />
             <asp:TextBox ID="txtEmail" runat="server" TabIndex="18" />
              <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" CssClass="dnnFormMessage dnnFormError" ErrorMessage="E-Mail Address is Required!" runat="server"
-                 Display="Dynamic" ValidationGroup="UserForm" Enabled="true" /> 
+                 Display="Dynamic" ValidationGroup="UserForm" Enabled="false" /> 
             <asp:RegularExpressionValidator ID="RegularExpressionValidatorEmail" runat="server" ControlToValidate="txtEmail"
     ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
     Display = "Dynamic" CssClass="dnnFormMessage dnnFormError" ErrorMessage = "Invalid E-Mail Address!"/>
@@ -1051,7 +1054,7 @@ runat="server" />
 		</div>
 
 		<div class="dnnFormItem">
-<dnn:Label runat="server" ID="lblVisitNumBags" ControlName="txtVisitNumBags" ResourceKey="lblVisitNumBags" Suffix=":"  /> 
+<dnn:Label runat="server" ID="lblVisitNumBags" ControlName="ddlVisitNumBags" ResourceKey="lblVisitNumBags" Suffix=":"  /> 
 		  <asp:DropDownList ID="ddlVisitNumBags" runat="server">
             <asp:ListItem Text="0" Value="0"></asp:ListItem>
             <asp:ListItem Text="1" Value="1"></asp:ListItem>
@@ -1066,6 +1069,36 @@ runat="server" />
             <asp:ListItem Text="10" Value="10"></asp:ListItem>
             </asp:DropDownList> 
 		</div>
+
+<asp:Panel ID="PanelNumTimesInsterted" runat="server" Visible="false">
+		<div class="dnnFormItem">
+<dnn:Label runat="server" ID="lblNumTimesInsterted" ControlName="ddlNumTimesInsterted" ResourceKey="lblNumTimesInsterted" Suffix=":"  /> 
+		  <asp:DropDownList ID="ddlNumTimesInsterted" runat="server">
+            
+            <asp:ListItem Text="1" Value="1"  Selected="True"></asp:ListItem>
+            <asp:ListItem Text="2" Value="2"></asp:ListItem>
+            <asp:ListItem Text="3" Value="3"></asp:ListItem>
+            <asp:ListItem Text="4" Value="4"></asp:ListItem>
+            <asp:ListItem Text="5" Value="5"></asp:ListItem>
+            <asp:ListItem Text="6" Value="6"></asp:ListItem>
+            <asp:ListItem Text="7" Value="7"></asp:ListItem>
+            <asp:ListItem Text="8" Value="8"></asp:ListItem>
+            <asp:ListItem Text="9" Value="9"></asp:ListItem>
+            <asp:ListItem Text="10" Value="10"></asp:ListItem>
+			<asp:ListItem Text="11" Value="11"></asp:ListItem>
+            <asp:ListItem Text="12" Value="12"></asp:ListItem>
+            <asp:ListItem Text="13" Value="13"></asp:ListItem>
+            <asp:ListItem Text="14" Value="14"></asp:ListItem>
+            <asp:ListItem Text="15" Value="15"></asp:ListItem>
+            <asp:ListItem Text="16" Value="16"></asp:ListItem>
+            <asp:ListItem Text="17" Value="17"></asp:ListItem>
+            <asp:ListItem Text="18" Value="18"></asp:ListItem>
+            <asp:ListItem Text="19" Value="19"></asp:ListItem>
+            <asp:ListItem Text="20" Value="20"></asp:ListItem>
+            </asp:DropDownList> 
+		</div>
+		
+</asp:Panel>
 
 		<div class="dnnFormItem">
  <dnn:Label runat="server" ID="lblVisitNotes" ControlName="txtVisitNotes" ResourceKey="lblVisitNotes" Suffix=":" /> 

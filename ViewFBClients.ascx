@@ -52,6 +52,7 @@
                         <asp:ListItem Text="-" Value=""></asp:ListItem>
                         <asp:ListItem Text="Individual"></asp:ListItem>
                         <asp:ListItem Text="Group Home"></asp:ListItem>
+                       <asp:ListItem Text="Pallet"></asp:ListItem>
                     </asp:DropDownList>
         </div>
 

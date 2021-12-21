@@ -519,4 +519,7 @@
   <data name="ClientDeleteXmasRecordSuccessful.Text" xml:space="preserve">
     <value>&lt;font color="GREEN"&gt;&lt;b&gt;Delete XMas Record Successful&lt;/b&gt;&lt;/font&gt;</value>
   </data>
+  <data name="lblNumTimesInsterted.Text" xml:space="preserve">
+    <value>Repeat Insert (x) Times</value>
+  </data>
 </root>
