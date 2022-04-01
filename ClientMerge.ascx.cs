@@ -109,7 +109,7 @@ namespace GIBS.Modules.FBClients
                     "",
                     hidClientIDMaster.Value,
                     "",
-                    "", "", "0");
+                    "", "", "0", "");
 
                 GridViewSearchMaster.DataSource = items;
                 GridViewSearchMaster.DataBind();
@@ -135,7 +135,7 @@ namespace GIBS.Modules.FBClients
                     txtFirstName.Text.ToString().Replace("'", "''").Trim(),
                     txtClientId.Text.ToString(),
                     txtAddress.Text.ToString(),
-                    ddlCity.SelectedValue.ToString(), "", "0");
+                    ddlCity.SelectedValue.ToString(), "", "0", "");
                 GridViewSearchChild.DataSource = items;
                 GridViewSearchChild.DataBind();
 

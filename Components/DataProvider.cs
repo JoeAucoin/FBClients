@@ -51,7 +51,7 @@ namespace GIBS.FBClients.Components
         // CLIENTS
         public abstract IDataReader FBClients_GetByID(int portalID, int clientID);
         public abstract IDataReader FBClients_GetAll(int portalID);
-        public abstract IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive);
+        public abstract IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive, string clientDOB);
 
         // insert new client return clientid
         public abstract int FBClients_Insert(string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int createdByUserID, int portalID, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation);
@@ -64,7 +64,7 @@ namespace GIBS.FBClients.Components
         public abstract IDataReader FBClients_Visit_GetClientLastVisitDate(int clientID);
 
         // CLIENTS AFM
-        public abstract IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive);
+        public abstract IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive, string aFMDOB);
         public abstract int FBClients_AFM_Insert(string clAddFamMemFirstName, string clAddFamMemLastName, DateTime clAddFamMemDOB, string aFMRelationship, int clientID, int createdByUserID, string aFMMiddleInitial, string aFMSuffix, bool aFMDOBVerify, string aFMEthnicity, string aFMGender);
         public abstract IDataReader FBClients_AFM_List(int clientID);
         public abstract IDataReader FBClients_AFM_GetByID(int clAddFamMemID);

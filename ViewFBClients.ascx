@@ -5,10 +5,36 @@
 
 <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=1" />
 
+<dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
+
 <script type="text/javascript" language="javascript" >
 
     // BIND DNN Tabs
-    jQuery(function ($) { $('#form-demo').dnnTabs(); });
+    jQuery(function ($) {
+        $('#form-demo').dnnTabs();
+
+        $("#txtClientDOB").datepicker({
+            numberOfMonths: 1,
+            changeYear: true,
+            yearRange: '-99:-16',
+            showButtonPanel: false,
+            showCurrentAtPos: 0,
+            maxDate: "-16y",
+            minDate: "-99y"
+
+        });
+
+        $("#txtAFMDOB").datepicker({
+            numberOfMonths: 1,
+            changeYear: true,
+            yearRange: '-99:-14',
+            showButtonPanel: false,
+            showCurrentAtPos: 0,
+            maxDate: "-14y",
+            minDate: "-99y"
+
+        });
+    });
 
 </script>
 
@@ -75,6 +101,14 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
             
         </div>
 
+        <div class="dnnFormItem" id="divClientDOB" runat="server">
+            <dnn:Label runat="server" ControlName="txtClientDOB" ID="lblClientDOB" Suffix=":" ResourceKey="lblClientDOB" />
+            <asp:TextBox runat="server" ID="txtClientDOB" ClientIDMode="Static" autocomplete="off" /><asp:RegularExpressionValidator ID="dateValRegex" runat="server" CssClass="dnnFormMessage dnnFormError" 
+              display="Dynamic" ControlToValidate="txtClientDOB" ErrorMessage="Please Enter a valid date in the format (mm/dd/yyyy)" ValidationExpression="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$"></asp:RegularExpressionValidator>
+
+
+        </div>
+
         <div class="dnnFormItem">
             <dnn:Label runat="server" ID="lblAddress" ControlName="txtAddress" ResourceKey="lblAddress" Suffix=":" />
             <asp:TextBox runat="server" ID="txtAddress" MaxLength="50" />
@@ -117,6 +151,14 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
                     <dnn:Label runat="server" ID="lblLastNameAFM" ControlName="txtLastNameAFM" ResourceKey="lblLastNameAFM" Suffix=":" />
                     <asp:TextBox runat="server" ID="txtLastNameAFM" />
                 </div>
+
+        <div class="dnnFormItem" id="divAFMDOB" runat="server">
+            <dnn:Label runat="server" ControlName="txtAFMDOB" ID="lblAFMDOB" Suffix=":" ResourceKey="lblAFMDOB" />
+            <asp:TextBox runat="server" ID="txtAFMDOB" ClientIDMode="Static" autocomplete="off" /><asp:RegularExpressionValidator ID="dateValRegexAFMDOB" runat="server" CssClass="dnnFormMessage dnnFormError" 
+              display="Dynamic" ControlToValidate="txtAFMDOB" ErrorMessage="Please Enter a valid date in the format (mm/dd/yyyy)" ValidationExpression="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$"></asp:RegularExpressionValidator>
+
+
+        </div>
 
             </fieldset>
 

@@ -24,6 +24,15 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude1;
 
         /// <summary>
+        /// DnnCssInclude2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude2;
+
+        /// <summary>
         /// cbxIncludeInactive control.
         /// </summary>
         /// <remarks>
@@ -159,6 +168,42 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.TextBox txtLastName;
 
         /// <summary>
+        /// divClientDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divClientDOB;
+
+        /// <summary>
+        /// lblClientDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblClientDOB;
+
+        /// <summary>
+        /// txtClientDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtClientDOB;
+
+        /// <summary>
+        /// dateValRegex control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator dateValRegex;
+
+        /// <summary>
         /// lblAddress control.
         /// </summary>
         /// <remarks>
@@ -265,6 +310,42 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastNameAFM;
+
+        /// <summary>
+        /// divAFMDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAFMDOB;
+
+        /// <summary>
+        /// lblAFMDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblAFMDOB;
+
+        /// <summary>
+        /// txtAFMDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAFMDOB;
+
+        /// <summary>
+        /// dateValRegexAFMDOB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator dateValRegexAFMDOB;
 
         /// <summary>
         /// GridViewSearch control.

@@ -174,4 +174,10 @@
   <data name="ClientIDRangeValidator.Required" xml:space="preserve">
     <value>&lt;span style="color:white"&gt;Numeric Required!&lt;/span&gt;</value>
   </data>
+  <data name="lblClientDOB.Text" xml:space="preserve">
+    <value>Client DOB</value>
+  </data>
+  <data name="lblAFMDOB.Text" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
 </root>

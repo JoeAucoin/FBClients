@@ -122,9 +122,9 @@ namespace GIBS.FBClients.Components
             return Convert.ToInt32(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("FBClients_Insert"), clientFirstName, clientMiddleInitial, clientLastName, clientDOB, clientAddress, clientCity, clientTown, clientState, clientZipCode, clientEmailAddress, clientIdCard, clientPhone, clientPhoneType, clientCaseWorker, moduleID, createdByUserID, portalID, clientSuffix, clientDOBVerify, clientEthnicity, clientNote, clientUnit, clientGender, clientType, clientVerifyDate, clientAddressVerify, clientAddressVerifyDate, subjectToReview, oneBagOnly, disability, isActive, isLocked, serviceLocation));
         }
 
-        public override IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive)
+        public override IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive, string clientDOB)
         {
-            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search"), portalId, clientLastName, clientIdCard, clientFirstName, clientID, clientAddress, clientCity, clientType, isActive);
+            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search"), portalId, clientLastName, clientIdCard, clientFirstName, clientID, clientAddress, clientCity, clientType, isActive, clientDOB);
         }
 
         public override IDataReader FBClients_GetByID(int portalID, int clientID)
@@ -155,9 +155,9 @@ namespace GIBS.FBClients.Components
 
 
         // CLIENT AFM
-        public override IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive)
+        public override IDataReader FBClients_Search_AFM(int portalId, string clAddFamMemLastName, string clAddFamMemFirstName, string isActive, string aFMDOB)
         {
-            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search_AFM"), portalId, clAddFamMemLastName, clAddFamMemFirstName, isActive);
+            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Search_AFM"), portalId, clAddFamMemLastName, clAddFamMemFirstName, isActive, aFMDOB);
         }
 
         public override int FBClients_AFM_Insert(string clAddFamMemFirstName, string clAddFamMemLastName, DateTime clAddFamMemDOB, string aFMRelationship, int clientID, int createdByUserID, string aFMMiddleInitial, string aFMSuffix, bool aFMDOBVerify, string aFMEthnicity, string aFMGender)

@@ -1,5 +1,5 @@
 ﻿<dotnetnuke type="Package" version="5.0">
-  <packages><package name="GIBS.FBClients" type="Module" version="1.0.75">
+  <packages><package name="GIBS.FBClients" type="Module" version="1.0.77">
   <friendlyName>GIBS Food Bank Client Manager</friendlyName>
   <description>GIBS Food Bank Client Manager</description>
   <iconFile />
@@ -203,10 +203,20 @@
           <path>SqlScripts</path>
           <name>01.00.75.SqlDataProvider</name>
           <version>01.00.75</version>
-        </script>       
-        <script type="UnInstall">
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.76.SqlDataProvider</name>
+          <version>01.00.76</version>
+        </script>
+		  <script type="Install">
+			  <path>SqlScripts</path>
+			  <name>01.00.77.SqlDataProvider</name>
+			  <version>01.00.77</version>
+		  </script>
+		  <script type="UnInstall">
           <name>Uninstall.SqlDataProvider</name>
-          <version>1.0.75</version>
+          <version>1.0.77</version>
         </script>
       </scripts>
     </component>

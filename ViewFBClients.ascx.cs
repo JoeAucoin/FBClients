@@ -184,7 +184,7 @@ namespace GIBS.Modules.FBClients
                     txtFirstName.Text.ToString().Replace("'", "''").Trim(), 
                     txtClientId.Text.ToString(),
                     txtAddress.Text.ToString(),
-                    ddlCity.SelectedValue.ToString(), ddlClientType.SelectedValue.ToString(), Should_I_IncludeInactives.ToString());
+                    ddlCity.SelectedValue.ToString(), ddlClientType.SelectedValue.ToString(), Should_I_IncludeInactives.ToString(), txtClientDOB.Text.ToString().Trim());
 
                 GridViewSearch.DataSource = items;
                 GridViewSearch.DataBind();
@@ -233,7 +233,7 @@ namespace GIBS.Modules.FBClients
                 FBClientsController controller = new FBClientsController();
 
                 items = controller.FBClients_Search_AFM(this.PortalId, txtLastNameAFM.Text.ToString().Replace("'", "''").Trim(), 
-                    txtFirstNameAFM.Text.ToString().Replace("'", "''").Trim(), Should_I_IncludeInactives.ToString());
+                    txtFirstNameAFM.Text.ToString().Replace("'", "''").Trim(), Should_I_IncludeInactives.ToString(), txtAFMDOB.Text.ToString());
 
                 //GridViewSearch.Rows. = null;
 
