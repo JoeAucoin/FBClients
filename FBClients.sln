@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBClients", "FBClients.csproj", "{2E64C942-4649-43CE-ACC6-5B3E92ACCB6E}"
 EndProject
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D2C81B16-BE04-40E3-8E70-50E7FD7E19F3}
+		SolutionGuid = {2558CE64-DEA0-4EDB-BFB3-A0B84D6F0CEE}
 	EndGlobalSection
 EndGlobal

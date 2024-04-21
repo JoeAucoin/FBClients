@@ -126,7 +126,6 @@ namespace GIBS.FBClients.Components
 
         public string FBFaxNumber
         {
-
             get { return ReadSetting<string>("fBFaxNumber", null); }
             set { WriteSetting("fBFaxNumber", value); }
         }
@@ -135,15 +134,19 @@ namespace GIBS.FBClients.Components
 
         public string ClientManagerUserRole
         {
-
             get { return ReadSetting<string>("clientManagerUserRole", null); }
             set { WriteSetting("clientManagerUserRole", value); }
         }
 
 
+        public string IDCardImagePath
+        {
+            get { return ReadSetting<string>("iDCardImagePath", null); }
+            set { WriteSetting("iDCardImagePath", value); }
+        }
+
         public string ClientManagerDeleteRecordRole
         {
-
             get { return ReadSetting<string>("clientManagerDeleteRecordRole", null); }
             set { WriteSetting("clientManagerDeleteRecordRole", value); }
         }
@@ -159,6 +162,14 @@ namespace GIBS.FBClients.Components
             get { return ReadSetting<string>("showClientServiceLocation", null); }
             set { WriteSetting("showClientServiceLocation", value); }
         }
+
+        //cbxIncludeInactiveOnSearch
+        public string IncludeInactiveOnSearch
+        {
+            get { return ReadSetting<string>("includeInactiveOnSearch", null); }
+            set { WriteSetting("includeInactiveOnSearch", value); }
+        }
+
 
         public string ShowPhotoID
         {
@@ -240,11 +251,19 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("showXmasToys", value); }
         }
 
+
         public string XmasToysYear
         {
 
             get { return ReadSetting<string>("xmasToysYear", null); }
             set { WriteSetting("xmasToysYear", value); }
+        }
+
+        public string ShowXmasGiftFields
+        {
+
+            get { return ReadSetting<string>("showXmasGiftFields", null); }
+            set { WriteSetting("showXmasGiftFields", value); }
         }
 
         //xmasRequireSizeAgeRange
@@ -275,6 +294,25 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("showClientIdCard", value); }
         }
 
+        public string ShowPrintShoppingLabel
+        {
+
+            get { return ReadSetting<string>("showPrintShoppingLabel", null); }
+            set { WriteSetting("showPrintShoppingLabel", value); }
+        }
+
+        public string PrintShoppingLabelQuantity
+        {
+            get { return ReadSetting<string>("printShoppingLabelQuantity", null); }
+            set { WriteSetting("printShoppingLabelQuantity", value); }
+        }
+
+        public string ShowPrintBarCodeLabel
+        {
+
+            get { return ReadSetting<string>("showPrintBarCodeLabel", null); }
+            set { WriteSetting("showPrintBarCodeLabel", value); }
+        }
         public string FlagForReviewNotify
         {
 
@@ -338,6 +376,28 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("googleAPIKey", value); }
         }
 
+        public string TwilioAccountSid
+        {
+            get { return ReadSetting<string>("twilioAccountSid", null); }
+            set { WriteSetting("twilioAccountSid", value); }
+        }
+
+        public string TwilioAuthToken
+        {
+            get { return ReadSetting<string>("twilioAuthToken", null); }
+            set { WriteSetting("twilioAuthToken", value); }
+        }
+
+        public string TwilioPhoneNumber
+        {
+            get { return ReadSetting<string>("twilioPhoneNumber", null); }
+            set { WriteSetting("twilioPhoneNumber", value); }
+        }
+        public string ClientOrderPage
+        {
+            get { return ReadSetting<string>("clientOrderPage", null); }
+            set { WriteSetting("clientOrderPage", value); }
+        }
 
         #endregion
     }

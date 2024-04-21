@@ -22,6 +22,13 @@ using System.Linq;
 using System.Windows.Forms;
 using DotNetNuke.Common;
 using DotNetNuke.Framework;
+using System.Data;
+using System.IO;
+using System.Web.UI;
+using GIBS.Modules.FBClients.Components;
+using System.Text.Encodings.Web;
+using System.Net;
+using System.Drawing.Imaging;
 
 //clientType_SelectedIndexChanged
 
@@ -30,7 +37,7 @@ namespace GIBS.Modules.FBClients
     public partial class EditClient : PortalModuleBase, IActionable
     {
 
-        int clientId = Null.NullInteger;
+        public static int clientId = Null.NullInteger;
 
         public double IncomeTotal = 0;
         public double ExpenseTotal = 0;
@@ -51,6 +58,7 @@ namespace GIBS.Modules.FBClients
         public bool _ShowDisabilitiee = false;
         public bool _ShowAFMRelationship = false;
         public bool _ShowSuffix = false;
+        static bool _ShowGiftFields = false;
         static string _XmasToysYear;
         static string _FlagForReviewNotify = "";
         //1=3,2=3,3=3,4=5,5=5,6=5,7=6
@@ -63,7 +71,13 @@ namespace GIBS.Modules.FBClients
         public bool _IsEthnicityRequired = false;
         public bool _ReqAFMVerified = false;
         static string _GoogleAPIKey = "";
-
+        static string _ClientOrderPage = "";
+        public bool _TwilioMessageSent = false;
+        static string _TwilioAccountSid = "";
+        static string _TwilioAuthToken = "";
+        static string _TwilioPhoneNumber = "";
+        public string _ClientCellNumber = "";
+        static string _FBName = "";
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
@@ -72,8 +86,11 @@ namespace GIBS.Modules.FBClients
             JavaScript.RequestRegistration(CommonJs.jQueryUI);
             JavaScript.RequestRegistration(CommonJs.DnnPlugins);
 
-            Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "InputMasks", (this.TemplateSourceDirectory + "/JavaScript/jquery.maskedinput-1.3.js"));
+            Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "InputMasks", (this.TemplateSourceDirectory + "/JavaScript/jquery.maskedinput-1.4.1.js"));
             Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "Watermark", (this.TemplateSourceDirectory + "/JavaScript/jquery.watermarkinput.js"));
+            Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "SigWeb", (this.TemplateSourceDirectory + "/JavaScript/SigWebTablet.js"));
+            Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "Dymo", (this.TemplateSourceDirectory + "/JavaScript/dymo.connect.framework.js?1=1"));
+            Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "PrintLabel", (this.TemplateSourceDirectory + "/JavaScript/PrintLabel.js?1=9"));
             //   Page.ClientScript.RegisterClientScriptInclude(this.GetType(), "Style", ("https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css"));
 
         }
@@ -99,6 +116,10 @@ namespace GIBS.Modules.FBClients
             if (Request.QueryString["cid"] != null)
             {
                 clientId = Int32.Parse(Request.QueryString["cid"]);
+            }
+            else
+            {
+                clientId = Null.NullInteger;
             }
 
             if (Request.QueryString["TabFocus"] != null)
@@ -222,6 +243,8 @@ namespace GIBS.Modules.FBClients
 
                 if (item != null)
                 {
+                   
+
 
                     if (item.ClientType == "Individual")
                     {
@@ -314,6 +337,19 @@ namespace GIBS.Modules.FBClients
                         ddlClientEthnicity.SelectedValue = item.ClientEthnicity.ToString();
                     }
 
+                    ListItem liClientLanguage = ddlClientLanguage.Items.FindByValue(item.ClientLanguage.ToString());
+                    if (liClientLanguage != null)
+                    {
+                        // value found - select it
+                        ddlClientLanguage.SelectedValue = item.ClientLanguage.ToString();
+                    }
+                    else
+                    {
+                        //Value not found - add it and then select it
+                        ddlClientLanguage.Items.Insert(1, new ListItem(item.ClientLanguage.ToString(), item.ClientLanguage.ToString()));
+                        ddlClientLanguage.SelectedValue = item.ClientLanguage.ToString();
+                    }
+
                     ddlClientGender.SelectedValue = item.ClientGender;
                     ddlClientType.SelectedValue = item.ClientType;
                     ddlClientStatus.SelectedValue = item.IsActive.ToString();
@@ -394,6 +430,13 @@ namespace GIBS.Modules.FBClients
                     {
                         _phoneType = item.ClientPhoneType + " ";
                     }
+                    if(_phoneType.ToString().Trim() == "Cell" && item.ClientPhone.ToString().Length > 8)
+                    {
+                        var formatPhoneNumber = item.ClientPhone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "").ToString();
+                        _ClientCellNumber = "+1" + formatPhoneNumber.ToString();
+                        hidClientCellNumber.Value = _ClientCellNumber;
+                    }
+
 
                     if (item.ClientCaseWorker > 1)
                     {
@@ -509,7 +552,12 @@ namespace GIBS.Modules.FBClients
                     _bagsQualifiedFor = "Qualifies for " + masterBag.ToString() + " Bag(s)";
                     ddlVisitNumBags.SelectedValue = masterBag.ToString();
 
-
+                    hidLabelContent.Value = item.ClientFirstName.ToString() + " " + item.ClientLastName.ToString();
+                    hidLabelContent2.Value = item.ClientID.ToString() + "  -  " + item.ClientTown.ToString();
+                    hidLabelContent3.Value = "# Bags: " + masterBag.ToString();
+                    string sBarCodeClientIDNumber = item.ClientID.ToString().PadLeft(11, '0');
+                    hidLabelContentBarCode.Value = sBarCodeClientIDNumber.ToString();
+                    
 
                     int _LastVisitNumberofDays = Convert.ToInt32((DateTime.Now - item.LastVisitDate).TotalDays);
                     string _StopGoLightVisitCheck = "<img src='" + this.TemplateSourceDirectory + "/Images/red_light.png' title='Last visit was " + _LastVisitNumberofDays.ToString() + " days ago' alt='Last visit more then 21 days ago' width='16' /> &nbsp;";
@@ -663,10 +711,58 @@ namespace GIBS.Modules.FBClients
 
                 FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
+                //static string _ClientCellNumber = "";
+                if (settingsData.FBName != null)
+                {
+                    _FBName = settingsData.FBName.ToString();
+                }
+
+
+                if (settingsData.TwilioAccountSid != null)
+                {
+                    _TwilioAccountSid = settingsData.TwilioAccountSid.ToString();
+                }
+                if (settingsData.TwilioAuthToken != null)
+                {
+                    _TwilioAuthToken = settingsData.TwilioAuthToken.ToString();
+                }
+                if (settingsData.TwilioPhoneNumber != null)
+                {
+                    _TwilioPhoneNumber = settingsData.TwilioPhoneNumber.ToString();
+                }
+
+
+
+                if (settingsData.ClientOrderPage != null)
+                {
+                    _ClientOrderPage = settingsData.ClientOrderPage.ToString();
+                }
+
                 //_GoogleAPIKey
                 if (settingsData.GoogleAPIKey != null)
                 {
                     _GoogleAPIKey = settingsData.GoogleAPIKey.ToString();
+                }
+
+                //printDivBarCodeLabel  printDivLabel
+                if (settingsData.ShowPrintShoppingLabel != null)
+                {
+                    printDivLabel.Visible = Convert.ToBoolean(settingsData.ShowPrintShoppingLabel.ToString());
+                }
+
+                //hidPrintShoppingLabelQuantity.Value = masterBag.ToString();
+                if (settingsData.PrintShoppingLabelQuantity != null)
+                {
+                    hidPrintShoppingLabelQuantity.Value = settingsData.PrintShoppingLabelQuantity.ToString();
+                }
+                else
+                {
+                    hidPrintShoppingLabelQuantity.Value = "1";
+                }
+
+                if (settingsData.ShowPrintBarCodeLabel != null)
+                {
+                    printDivBarCodeLabel.Visible = Convert.ToBoolean(settingsData.ShowPrintBarCodeLabel.ToString());
                 }
 
                 if (settingsData.ShowPhotoID != null)
@@ -725,6 +821,8 @@ namespace GIBS.Modules.FBClients
                     reqClientOrigination.Enabled = false;
                     lblClientServiceLocation.Visible = true;
                     ddlClientServiceLocation.Visible = true;
+
+
                 }
                
 
@@ -791,6 +889,10 @@ namespace GIBS.Modules.FBClients
                 {
                     _IncomeEligibilityGuidelines = settingsData.IncomeEligibilityGuidelines;
                 }
+                else
+                {
+                    _IncomeEligibilityGuidelines = "";
+                }
 
                 if (settingsData.ShowOneBagOnly != null)
                 {
@@ -809,6 +911,13 @@ namespace GIBS.Modules.FBClients
 
                 PanelShowSuffix.Visible = _ShowSuffix;
                 PanelShowAFMSuffix.Visible = _ShowSuffix;
+               
+                if (settingsData.ShowXmasGiftFields != null)
+                {
+                    _ShowGiftFields = bool.Parse(settingsData.ShowXmasGiftFields);
+                }
+                ShowXmasGiftFieldsSection.Visible = _ShowGiftFields;
+
 
 
                 if (settingsData.ShowClientIdCard != null)
@@ -924,7 +1033,7 @@ namespace GIBS.Modules.FBClients
                 myLink += "&ContainerSrc=";
                 myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
 
-                HyperLinkXmas.Visible = true;
+             //   HyperLinkXmas.Visible = true;
                 HyperLinkXmas.NavigateUrl = myLink.ToString();
 
 
@@ -993,6 +1102,14 @@ namespace GIBS.Modules.FBClients
 
             return "https://maps.googleapis.com/maps/api/js?key=" + _GoogleAPIKey.ToString() + "&callback=load";
         }
+
+        protected string GetLabelContent()
+        {
+            //  return ;
+
+            return "JOE TESTFRIDAY/nClientID: 6/n3 Bags";
+        }
+
         public void FillBudget()
         {
             _budget = (_income - _expense);
@@ -1168,6 +1285,11 @@ namespace GIBS.Modules.FBClients
                         cbxBikeRaffle.Enabled = true;
                     }
 
+                    if (_ShowGiftFields == true)
+                    {
+                        XmasSizes.Visible = false;
+                        RequiredFieldValidatorXmasSizes.Enabled = false;
+                    }
 
                     if (item.BikeAwardedDate.Length > 10)
                     {
@@ -1187,6 +1309,12 @@ namespace GIBS.Modules.FBClients
                         txtReceivedToysDate.Text = DateTime.Parse(item.ReceivedToysDate.ToString()).ToShortDateString();
                     }
 
+                    txtXmasGift1.Text = item.XmasGift1.ToString();
+                    txtXmasGift1Size.Text = item.XmasGift1Size.ToString();
+                    txtXmasGift2.Text = item.XmasGift2.ToString();
+                    txtXmasGift2Size.Text = item.XMasGift2Size.ToString();
+                    txtXmasGiftRecordID.Text = item.XmasGiftRecordID.ToString();
+                    LabelXmasRecordID.Text=item.XmasID.ToString();
                 }
                 else
                 {
@@ -1254,6 +1382,13 @@ namespace GIBS.Modules.FBClients
                         RequiredFieldValidatorXmasSizes.Enabled = false;
 
                     }
+
+                    if (_ShowGiftFields == true)
+                    {
+                        XmasSizes.Visible = false;
+                        RequiredFieldValidatorXmasSizes.Enabled = false;
+                    }
+
                     if (item.AFM_Age < 9)
                     {
                         cbxBikeRaffle.Text = "DISABLED - Child must be 9 or older to enter.";
@@ -1517,6 +1652,15 @@ namespace GIBS.Modules.FBClients
                 gvVisits.DataSource = items;
                 gvVisits.DataBind();
 
+                if (UserInfo.IsInRole(_ClientManagerDeleteRecordRole))
+                {
+                    gvVisits.Columns[2].Visible = true;
+                }
+                else
+                {
+                    gvVisits.Columns[2].Visible = false;
+                }
+
                 //JMA
                 //for (int i = 0; i < items.Count; i++) // Loop through List with for
                 //{
@@ -1549,6 +1693,9 @@ namespace GIBS.Modules.FBClients
             }
         }
 
+        //
+
+
         protected void gvVisits_RowEditing(object sender, GridViewEditEventArgs e)
         {
             // Prevents the GridView from going into EDIT MODE (textboxes)
@@ -1560,17 +1707,38 @@ namespace GIBS.Modules.FBClients
         {
             try
             {
+             //   var commandkeyValue = e.CommandName;
 
-
-                if (e.CommandName == "Delete")
+                if (e.CommandName == "SendOrderSheet")
                 {
+                    var commandkey = e.CommandArgument;
+                    string key = commandkey.ToString();
+                    char separator = '-'; // Space character
+                    string[] keys = key.Split(separator); // returned array
+                    int visitID = Int32.Parse(keys[0].ToString());
+                    int clientID = Int32.Parse(keys[1].ToString());
+                  //  var enstr1 = WebUtility.HtmlEncode(key.ToString());
+                    
+                    //// Part 2: reverse the change.
+                    // string decoded = WebUtility.HtmlDecode(encoded);
 
-                    //int ieID = Convert.ToInt32(e.CommandArgument);
+                    string orderLink = _FBName.ToString() + " Ordering: " + _ClientOrderPage.ToString() + key.ToString();
 
-                    //FBClientsController controller = new FBClientsController();
+                    //lblMessage.Text = _ClientCellNumber.ToString() + "<br />" + orderLink.ToString();
+                    //ErrorMessage.Visible = true;
+                    if (hidClientCellNumber.Value.ToString().Length > 0)
+                    {
+                        SendTwilioMessage(orderLink.ToString());
+                        
+                        FBClientsController controller = new FBClientsController();
+                        FBClientsInfo item = new FBClientsInfo();
+                        item.OrderStatusCode = 1;
+                        item.VisitID = visitID;
+                        controller.UpdateVisitOrderStatusCode(item);
 
-                    //controller.FBClients_IncomeExpense_Delete(ieID);
-                    //FillIncomeExpenseGrids();
+                        _TwilioMessageSent = true;
+                        FillVisitsGrid();
+                    }
 
                 }
 
@@ -1582,7 +1750,15 @@ namespace GIBS.Modules.FBClients
                     FillVisitEdit(visitID);
 
                 }
+                if (e.CommandName == "DeleteVisit")
+                {
+                    int visitID = Convert.ToInt32(e.CommandArgument);
 
+                    FBClientsController controller = new FBClientsController();
+                    controller.FBClients_Visit_Delete(visitID);
+
+                    FillVisitsGrid();
+                }
 
 
 
@@ -1592,6 +1768,24 @@ namespace GIBS.Modules.FBClients
                 Exceptions.ProcessModuleLoadException(this, ex);
             }
 
+        }
+
+        //static string _TwilioAccountSid = "";
+        //static string _TwilioAuthToken = "";
+        //static string _TwilioPhoneNumber = "";
+        //static string _ClientCellNumber = "";
+
+        public void SendTwilioMessage(string _message)
+        {
+            string accountSid = _TwilioAccountSid.ToString();   // "ACb0ca09ec015837233c41b803be70f9d2";
+            string authToken = _TwilioAuthToken.ToString();    //  "b601ca3a097c457789c6e431feb1338c";
+            string twilioPhoneNumber = _TwilioPhoneNumber.ToString();
+
+            TwilioSMS twilioSMS = new TwilioSMS(accountSid, authToken, twilioPhoneNumber);
+            twilioSMS.SendSMS(hidClientCellNumber.Value.ToString(), _message.ToString());
+
+            lblMessage.Text += "<br />" + Localization.GetString("TwilioMessageSent", this.LocalResourceFile);
+            ErrorMessage.Visible = true;
         }
 
 
@@ -1616,6 +1810,25 @@ namespace GIBS.Modules.FBClients
                     ddlVisitNumBags.SelectedValue = item.VisitNumBags.ToString();
                     txtVisitNotes.Text = item.VisitNotes;
                     hidVisitID.Value = item.VisitID.ToString();
+                    
+                    if (item.ClientSignature != null)
+                    {
+                        lblSignatureOnFile.Visible = true;
+                        ImgInitials.Visible = true;
+                        byte[] imagem = (byte[])(item.ClientSignature);
+                        string PROFILE_PIC = Convert.ToBase64String(imagem);
+
+                        HiddenFieldSignData.Value = PROFILE_PIC;
+
+                        ImgInitials.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                        ImgInitials.AlternateText = "Signature";
+
+                    }
+                    else
+                    {
+                        ImgInitials.Visible = false;
+
+                    }
 
                     if (ddlMobileLocations.Items.FindByText(item.ServiceLocation.ToString().TrimEnd()) != null)
                     {
@@ -1749,6 +1962,14 @@ namespace GIBS.Modules.FBClients
                 ddlAFMEthnicity.DataSource = Ethnicity;
                 ddlAFMEthnicity.DataBind();
                 ddlAFMEthnicity.Items.Insert(0, new ListItem("--", ""));
+
+                var cLanguage = new ListController().GetListEntryInfoItems("ClientLanguage", "", this.PortalId);
+
+                ddlClientLanguage.DataTextField = "Text";
+                ddlClientLanguage.DataValueField = "Value";
+                ddlClientLanguage.DataSource= cLanguage; 
+                ddlClientLanguage.DataBind();
+                ddlClientLanguage.Items.Insert(0, new ListItem("--", ""));
 
                 // cblClientTrueFalseQuestions
                 var TFQuestions = new ListController().GetListEntryInfoItems("ClientTrueFalseQuestions", "", this.PortalId);
@@ -1928,6 +2149,7 @@ namespace GIBS.Modules.FBClients
                 item.ClientSuffix = ddlClientSuffix.SelectedValue.ToString();
                 item.ClientDOBVerify = cbxDOB_Verified.Checked;
                 item.ClientEthnicity = ddlClientEthnicity.SelectedValue.ToString();
+                item.ClientLanguage = ddlClientLanguage.SelectedValue.ToString();
                 item.ClientNote = txtClientNote.Text.ToString().Trim();
                 item.ClientUnit = txtUnit.Text.ToString().Trim();
                 item.ClientGender = ddlClientGender.SelectedValue.ToString();
@@ -2009,11 +2231,13 @@ namespace GIBS.Modules.FBClients
 
                     lblMessage.Text = Localization.GetString("ClientInsertSuccessful", this.LocalResourceFile);
                     ErrorMessage.Visible = true;
-
+                    LoadSettings();
+                    SetPhotoIDLink();
 
                 }
                 UpdateTrueFalseQuestions();
                 FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
+
 
             }
             catch (Exception ex)
@@ -2235,6 +2459,11 @@ namespace GIBS.Modules.FBClients
                         itemXmas.VerifiedToys = true;
                         itemXmas.LastModifiedByUserID = this.UserId;
                         itemXmas.XmasNotes = txtXmasNotes.Text.ToString();
+                        itemXmas.XmasGift1 = txtXmasGift1.Text.ToString();
+                        itemXmas.XmasGift1Size = txtXmasGift1Size.Text.ToString();
+                        itemXmas.XmasGift2 = txtXmasGift2.Text.ToString();
+                        itemXmas.XMasGift2Size=txtXmasGift2Size.Text.ToString();
+                        itemXmas.XmasGiftRecordID= txtXmasGiftRecordID.Text.ToString();
 
                         if (hidXmasID.Value.ToString().Length > 0)
                         {
@@ -2258,6 +2487,12 @@ namespace GIBS.Modules.FBClients
                     txtReceivedToysDate.Text = "";
                     ddlSizes.SelectedIndex = 0;
                     txtBikeAwardedDate.Text = "";
+
+                    txtXmasGift1.Text = "";
+                    txtXmasGift1Size.Text = "";
+                    txtXmasGift2.Text = "";
+                    txtXmasGift2Size.Text = "";
+                    txtXmasGiftRecordID.Text = "";
 
                     hidXmasID.Value = "";
                     // hide the xmas form
@@ -2301,6 +2536,27 @@ namespace GIBS.Modules.FBClients
         {
             try
             {
+
+                byte[] imageBytes = null;
+
+                if (HiddenFieldSignData.Value.Length > 15)
+                {
+                    
+                    var myImage = HiddenFieldSignData.Value.ToString();
+                    // byte[] imagem = Convert.FromBase64String(myImage);
+                    imageBytes = Convert.FromBase64String(myImage.Replace("data:image/png;base64,", String.Empty));
+                    //string PROFILE_PIC = Convert.ToBase64String(imageBytes);
+                    //ImgInitials.Visible = true;
+                    //ImgInitials.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                    //ImgInitials.AlternateText = "Initials";
+                }
+                else
+                {
+                //    ImgInitials.Visible = false;
+                    imageBytes = null;
+                }
+
+
                 if (hidClientID.Value.ToString().Length > 0)
                 {
                     FBClientsController controller = new FBClientsController();
@@ -2312,7 +2568,8 @@ namespace GIBS.Modules.FBClients
                     item.VisitNumBags = Int32.Parse(ddlVisitNumBags.SelectedValue.ToString());
                     item.ClientID = Int32.Parse(hidClientID.Value.ToString());
                     item.CreatedByUserID = this.UserId;
-
+                    item.OrderStatusCode = 0;
+                    item.ClientSignature = imageBytes;
                     if (hidVisitID.Value.Length > 0)
                     {
                         item.VisitID = Int32.Parse(hidVisitID.Value.ToString());
@@ -2333,24 +2590,22 @@ namespace GIBS.Modules.FBClients
                         {
                             controller.FBClients_Visit_Insert(item);
                         }
-
-                        
-                        
-                        
+        
                         lblMessage.Text = Localization.GetString("ClientInsertVisitSuccessful", this.LocalResourceFile) + "<br />";
                     }
+                    
+                    // RESET VALUES FOR VISIT FORM
                     txtVisitDate.Text = DateTime.Now.Date.ToShortDateString();
-
                     txtVisitNotes.Text = "";
                     ddlVisitNumBags.SelectedValue = "0";
                     hidVisitID.Value = "";
+                    HiddenFieldSignData.Value = "";
+                    HiddenFieldImgData.Value = "";
                     ddlMobileLocations.ClearSelection();
-
-
-                    //  
-
+                    SigDiv.Attributes.Add("style", "display:none;");
                     ErrorMessage.Visible = true;
-
+                    ImgInitials.Visible = false;
+                    lblSignatureOnFile.Visible = false;
                     // Load Client Rexcord
                     FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
 
@@ -2943,6 +3198,30 @@ namespace GIBS.Modules.FBClients
             catch (Exception ex)
             {
                 Exceptions.ProcessModuleLoadException(this, ex);
+            }
+        }
+
+        protected void gvVisits_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {             
+                LinkButton btnLink = (LinkButton)e.Row.FindControl("LinkButtonSendOrderSheet"); 
+                string visitdate = DataBinder.Eval(e.Row.DataItem, "VisitDate").ToString();
+                DateTime compareDate = Convert.ToDateTime(visitdate.ToString());
+                if (compareDate.Date == DateTime.Now.Date && hidClientCellNumber.Value.ToString().Length >10 )
+                {
+                    btnLink.Visible = true;
+                }
+                else
+                {
+                    btnLink.Visible = false;
+                }
+                if( _TwilioMessageSent == true)
+                {
+                    btnLink.Visible = false;
+                }
+
+
             }
         }
 

@@ -1,0 +1,258 @@
+﻿
+
+ALTER TABLE [dbo].[GIBS_FBClients] ALTER COLUMN [ClientMiddleInitial] NVARCHAR (30);
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Insert]    Script Date: 4/27/2022 1:41:37 PM ******/
+DROP PROCEDURE [dbo].[GIBS_FBClients_Insert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Insert]    Script Date: 4/27/2022 1:41:37 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_Insert] 
+	
+	@ClientFirstName NVARCHAR(30),
+	@ClientMiddleInitial NVARCHAR(30),
+	@ClientLastName NVARCHAR(30),
+	@ClientDOB date,
+	@ClientAddress NVARCHAR(50),
+	@ClientCity NVARCHAR(50),
+	@ClientTown NVARCHAR(50),
+	@ClientState NVARCHAR(20),
+	@ClientZipCode NVARCHAR(10),
+	@ClientEmailAddress NVARCHAR(50),
+	@ClientIdCard NVARCHAR(50),
+	@ClientPhone NVARCHAR(25),
+	@ClientPhoneType NVARCHAR(25),
+	@ClientCaseWorker int,
+	@ModuleId INT,
+	@CreatedByUserID INT, 
+	@PortalID INT,
+	@ClientSuffix NVARCHAR(10),
+	@ClientDOBVerify bit,
+	@ClientEthnicity NVARCHAR(60),
+	@ClientNote NVARCHAR(1000),
+	@ClientUnit NVARCHAR(20),
+	@ClientGender NVARCHAR(10),
+	@ClientType NVARCHAR(25),
+	@ClientVerifyDate date,
+	@ClientAddressVerify bit,
+	@ClientAddressVerifyDate date,
+	@SubjectToReview bit,
+	@OneBagOnly bit,
+	@Disability varchar(250),
+	@IsActive bit,
+	@IsLocked bit,
+	@ServiceLocation varchar(30)
+
+	
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+insert into dbo.GIBS_FBClients (
+	ClientFirstName, 
+	ClientMiddleInitial, 
+	ClientLastName, 
+	ClientDOB, 
+	ClientAddress, 
+	ClientCity, 
+	ClientTown, 
+	ClientState, 
+	ClientZipCode, 
+	ClientEmailAddress, 
+    ClientIdCard, 
+    ClientPhone, 
+    ClientPhoneType, 
+    ClientCaseWorker, 
+    ModuleID, 
+    CreatedOnDate, 
+    CreatedByUserID, 
+    LastModifiedByUserID,
+    LastModifiedOnDate,
+    PortalID,
+    ClientSuffix,
+    ClientDOBVerify,
+    ClientEthnicity,
+    ClientNote,
+    ClientUnit,
+    ClientGender,
+	ClientType,
+	ClientVerifyDate,
+	ClientAddressVerify,
+	ClientAddressVerifyDate,
+	SubjectToReview,
+	OneBagOnly,
+	Disability,
+	IsActive,
+	IsLocked,
+	ServiceLocation
+) 
+values (
+	@ClientFirstName, 
+	@ClientMiddleInitial, 
+	@ClientLastName, 
+	@ClientDOB, 
+	@ClientAddress, 
+	@ClientCity, 
+	@ClientTown, 
+	@ClientState, 
+	@ClientZipCode, 
+	@ClientEmailAddress, 
+    @ClientIdCard, 
+    @ClientPhone, 
+    @ClientPhoneType, 
+    @ClientCaseWorker,
+	@ModuleId,
+	GETDATE(),
+	@CreatedByUserID,
+	@CreatedByUserID,
+	GETDATE(),
+	@PortalID,
+	@ClientSuffix,
+	@ClientDOBVerify,
+	@ClientEthnicity,
+	@ClientNote,
+	@ClientUnit,
+	@ClientGender,
+	@ClientType,
+	@ClientVerifyDate,
+	@ClientAddressVerify,
+	@ClientAddressVerifyDate,
+	@SubjectToReview,
+	@OneBagOnly,
+	@Disability,
+	@IsActive,
+	@IsLocked,
+	@ServiceLocation
+)
+
+select SCOPE_IDENTITY()
+	
+END
+
+
+
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Update]    Script Date: 4/27/2022 1:41:55 PM ******/
+DROP PROCEDURE [dbo].[GIBS_FBClients_Update]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Update]    Script Date: 4/27/2022 1:41:55 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_Update] 
+	
+	@ClientID INT,
+	@ClientFirstName NVARCHAR(30),
+	@ClientMiddleInitial NVARCHAR(30),
+	@ClientLastName NVARCHAR(30),
+	@ClientDOB date,
+	@ClientAddress NVARCHAR(50),
+	@ClientCity NVARCHAR(50), 
+	@ClientTown NVARCHAR(50), 
+	@ClientState NVARCHAR(20),
+	@ClientZipCode NVARCHAR(10),
+	@ClientEmailAddress NVARCHAR(50),
+	@ClientIdCard NVARCHAR(50),
+	@ClientPhone NVARCHAR(25),
+	@ClientPhoneType NVARCHAR(25),
+	@ClientCaseWorker int,
+	@ModuleId INT,
+	@LastModifiedByUserID INT,
+	@PortalID INT,
+	@Latitude float,
+	@Longitude float,
+	@ClientSuffix NVARCHAR(10),
+    @ClientDOBVerify bit,
+    @ClientEthnicity NVARCHAR(60),
+    @ClientNote NVARCHAR(1000),
+    @ClientUnit NVARCHAR(20),
+    @ClientGender NVARCHAR(10),
+	@ClientType NVARCHAR(25),
+	@ClientVerifyDate date,
+		@ClientAddressVerify bit,
+	@ClientAddressVerifyDate date,
+	@SubjectToReview bit,
+	@OneBagOnly bit,
+	@Disability varchar(250),
+	@IsActive bit,
+	@IsLocked bit,
+	@ServiceLocation varchar(30)
+	
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+UPDATE    GIBS_FBClients
+SET              
+		ClientFirstName = @ClientFirstName, 
+		ClientMiddleInitial = @ClientMiddleInitial, 
+		ClientLastName = @ClientLastName, 
+		ClientDOB = @ClientDOB, 
+		ClientAddress = @ClientAddress, 
+		ClientCity = @ClientCity, 
+		ClientTown = @ClientTown, 
+		ClientState = @ClientState, 
+		ClientZipCode = @ClientZipCode, 
+		ClientEmailAddress = @ClientEmailAddress, 
+		ClientIdCard = @ClientIdCard, 
+		ClientPhone = @ClientPhone, 
+		ClientPhoneType = @ClientPhoneType, 
+		ClientCaseWorker = @ClientCaseWorker, 
+		ModuleID = @ModuleId, 		 
+		LastModifiedByUserID = @LastModifiedByUserID, 
+		LastModifiedOnDate = GETDATE(),
+		PortalID = @PortalID,
+		Latitude = @Latitude,
+		Longitude = @Longitude,
+		ClientSuffix = @ClientSuffix,
+		ClientDOBVerify = @ClientDOBVerify,
+		ClientEthnicity = @ClientEthnicity,
+		ClientNote = @ClientNote,
+		ClientUnit = @ClientUnit,
+		ClientGender = @ClientGender,
+		ClientType = @ClientType,
+		ClientVerifyDate = @ClientVerifyDate,
+		ClientAddressVerify = @ClientAddressVerify,
+		ClientAddressVerifyDate = @ClientAddressVerifyDate,
+		SubjectToReview = @SubjectToReview,
+		OneBagOnly = @OneBagOnly,
+		Disability = @Disability,
+		IsActive = @IsActive,
+		IsLocked = @IsLocked,
+		ServiceLocation = @ServiceLocation
+		
+WHERE ClientID = @ClientID
+
+	
+END
+
+
+GO
+
+

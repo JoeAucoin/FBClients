@@ -98,7 +98,11 @@ namespace GIBS.Modules.FBClients
                     divClientIDCard.Visible = Convert.ToBoolean(settingsData.ShowClientIdCard);
                 }
 
-
+                if (settingsData.IncludeInactiveOnSearch != null)
+                {
+                    cbxIncludeInactive.Checked = Convert.ToBoolean(settingsData.IncludeInactiveOnSearch);
+                   
+                }
 
 
 
@@ -182,7 +186,7 @@ namespace GIBS.Modules.FBClients
                 items = controller.FBClients_Search(this.PortalId, txtLastName.Text.ToString().Replace("'","''").Trim(), 
                     txtClientIdCard.Text.ToString().Trim(),
                     txtFirstName.Text.ToString().Replace("'", "''").Trim(), 
-                    txtClientId.Text.ToString(),
+                    txtClientId.Text.TrimStart(new Char[] { '0' }).ToString(),
                     txtAddress.Text.ToString(),
                     ddlCity.SelectedValue.ToString(), ddlClientType.SelectedValue.ToString(), Should_I_IncludeInactives.ToString(), txtClientDOB.Text.ToString().Trim());
 
@@ -193,6 +197,14 @@ namespace GIBS.Modules.FBClients
                 GridViewSearch.Columns[15].Visible = false;
                 //ClAddFamMemLastName
                 GridViewSearch.Columns[16].Visible = false;
+
+                if (items.Count == 1)
+                {
+                    string clientID = items[0].ClientID.ToString();
+                  //  lblFormMessage.Text = "Found 1 Record";
+                 //   lblFormMessage.Visible = true;
+                    Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID ));
+                }
 
             }
             catch (Exception ex)
@@ -255,58 +267,58 @@ namespace GIBS.Modules.FBClients
 
         }
 
-        //protected void GridViewSearch_RowDataBound(object sender, GridViewRowEventArgs e)
-        //{
+        protected void GridViewSearch_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
 
-        //    FBClientsController controller = new FBClientsController();
-            
-        //    if (e.Row.RowType == DataControlRowType.DataRow)
-        //    {
-             
-                
-        //        Label lblLastVisitDate = (Label)e.Row.FindControl("lblLastVisitDate");
+            FBClientsController controller = new FBClientsController();
 
-                
-                
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
 
-        //        int _clientid = Convert.ToInt32(lblLastVisitDate.Text.ToString());
 
-        //        FBClientsInfo item = controller.FBClients_Visit_GetClientLastVisitDate(_clientid);
-
-        //        if (item != null)
-        //        {
-        //            lblLastVisitDate.Text = item.LastVisitDate.ToShortDateString();
-        //        }
-
-        //        //if (ShowAMFinGrid == true)
-        //        //{
-        //        //    e.Row.Cells[14].Visible = true;
-        //        //    e.Row.Cells[15].Visible = true;
-                    
-        //        //}
-        //        //else
-        //        //{
-        //        //    e.Row.Cells[14].Visible = false;
-        //        //    e.Row.Cells[15].Visible = false;     
-        //        //}
-               
-
-        //    }
-
-        //    //if (ShowAMFinGrid == true)
-        //    //{
-        //    //    GridViewSearch.Columns[14].Visible = true;
-        //    //    GridViewSearch.Columns[15].Visible = true;
-        //    //}
-        //    //else
-        //    //{
-        //    //    GridViewSearch.Columns[14].Visible = false;
-        //    //    GridViewSearch.Columns[15].Visible = false;
-        //    //}
+                Label lblLastVisitDate = (Label)e.Row.FindControl("lblLastVisitDate");
 
 
 
-        //}  
+
+                int _clientid = Convert.ToInt32(lblLastVisitDate.Text.ToString());
+
+                FBClientsInfo item = controller.FBClients_Visit_GetClientLastVisitDate(_clientid);
+
+                if (item != null)
+                {
+                    lblLastVisitDate.Text = item.LastVisitDate.ToShortDateString();
+                }
+
+                //if (ShowAMFinGrid == true)
+                //{
+                //    e.Row.Cells[14].Visible = true;
+                //    e.Row.Cells[15].Visible = true;
+
+                //}
+                //else
+                //{
+                //    e.Row.Cells[14].Visible = false;
+                //    e.Row.Cells[15].Visible = false;     
+                //}
+
+
+            }
+
+            //if (ShowAMFinGrid == true)
+            //{
+            //    GridViewSearch.Columns[14].Visible = true;
+            //    GridViewSearch.Columns[15].Visible = true;
+            //}
+            //else
+            //{
+            //    GridViewSearch.Columns[14].Visible = false;
+            //    GridViewSearch.Columns[15].Visible = false;
+            //}
+
+
+
+        }
 
 
 

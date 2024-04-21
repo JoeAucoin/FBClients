@@ -117,9 +117,9 @@ namespace GIBS.FBClients.Components
 
 
         // CLIENTS
-        public override int FBClients_Insert(string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int createdByUserID, int portalID, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation)
+        public override int FBClients_Insert(string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int createdByUserID, int portalID, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation, string clientLanguage)
         {
-            return Convert.ToInt32(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("FBClients_Insert"), clientFirstName, clientMiddleInitial, clientLastName, clientDOB, clientAddress, clientCity, clientTown, clientState, clientZipCode, clientEmailAddress, clientIdCard, clientPhone, clientPhoneType, clientCaseWorker, moduleID, createdByUserID, portalID, clientSuffix, clientDOBVerify, clientEthnicity, clientNote, clientUnit, clientGender, clientType, clientVerifyDate, clientAddressVerify, clientAddressVerifyDate, subjectToReview, oneBagOnly, disability, isActive, isLocked, serviceLocation));
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("FBClients_Insert"), clientFirstName, clientMiddleInitial, clientLastName, clientDOB, clientAddress, clientCity, clientTown, clientState, clientZipCode, clientEmailAddress, clientIdCard, clientPhone, clientPhoneType, clientCaseWorker, moduleID, createdByUserID, portalID, clientSuffix, clientDOBVerify, clientEthnicity, clientNote, clientUnit, clientGender, clientType, clientVerifyDate, clientAddressVerify, clientAddressVerifyDate, subjectToReview, oneBagOnly, disability, isActive, isLocked, serviceLocation, clientLanguage));
         }
 
         public override IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive, string clientDOB)
@@ -132,9 +132,9 @@ namespace GIBS.FBClients.Components
             return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_GetByID"), portalID, clientID);
         }
 
-        public override void FBClients_Update(int clientID, string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int lastModifiedByUserID, int portalID, double latitude, double longitude, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation)
+        public override void FBClients_Update(int clientID, string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int lastModifiedByUserID, int portalID, double latitude, double longitude, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation, string clientLanguage)
         {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Update"), clientID, clientFirstName, clientMiddleInitial, clientLastName, clientDOB, clientAddress, clientCity, clientTown, clientState, clientZipCode, clientEmailAddress, clientIdCard, clientPhone, clientPhoneType, clientCaseWorker, moduleID, lastModifiedByUserID, portalID, latitude, longitude, clientSuffix, clientDOBVerify, clientEthnicity, clientNote, clientUnit, clientGender, clientType, clientVerifyDate, clientAddressVerify, clientAddressVerifyDate, subjectToReview, oneBagOnly, disability, isActive, isLocked, serviceLocation);
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Update"), clientID, clientFirstName, clientMiddleInitial, clientLastName, clientDOB, clientAddress, clientCity, clientTown, clientState, clientZipCode, clientEmailAddress, clientIdCard, clientPhone, clientPhoneType, clientCaseWorker, moduleID, lastModifiedByUserID, portalID, latitude, longitude, clientSuffix, clientDOBVerify, clientEthnicity, clientNote, clientUnit, clientGender, clientType, clientVerifyDate, clientAddressVerify, clientAddressVerifyDate, subjectToReview, oneBagOnly, disability, isActive, isLocked, serviceLocation, clientLanguage);
         }
 
         public override IDataReader FBClients_AgeGroupReport(int clientID)
@@ -206,7 +206,7 @@ namespace GIBS.FBClients.Components
             bool wantsToys,
             bool verifiedToys,
             string receivedToysDate,
-            int lastModifiedByUserID, string xMasNotes)
+            int lastModifiedByUserID, string xMasNotes, string xMasGift1, string xMasGift2, string xMasGift1Size, string xMasGift2Size, string xMasGiftRecordID)
         {
             return Convert.ToInt32(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("FBxMas_AFM_Insert_CurrentYear"),
                 clientID,
@@ -218,12 +218,13 @@ namespace GIBS.FBClients.Components
                 wantsToys,
                 verifiedToys,
                 receivedToysDate,
-                lastModifiedByUserID, xMasNotes));
+                lastModifiedByUserID, xMasNotes,
+                xMasGift1, xMasGift2, xMasGift1Size, xMasGift2Size, xMasGiftRecordID));
         }
 
-        public override void FBxMas_AFM_Update_CurrentYear(int xMasID, string xMasSizes, bool bikeRaffle, string bikeAwardedDate, bool wantsToys, bool verifiedToys, string receivedToysDate, int lastModifiedByUserID, string xMasNotes)
+        public override void FBxMas_AFM_Update_CurrentYear(int xMasID, string xMasSizes, bool bikeRaffle, string bikeAwardedDate, bool wantsToys, bool verifiedToys, string receivedToysDate, int lastModifiedByUserID, string xMasNotes, string xMasGift1, string xMasGift2, string xMasGift1Size, string xMasGift2Size, string xMasGiftRecordID)
         {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBxMas_AFM_Update_CurrentYear"), xMasID, xMasSizes, bikeRaffle, bikeAwardedDate, wantsToys, verifiedToys, receivedToysDate, lastModifiedByUserID, xMasNotes);
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBxMas_AFM_Update_CurrentYear"), xMasID, xMasSizes, bikeRaffle, bikeAwardedDate, wantsToys, verifiedToys, receivedToysDate, lastModifiedByUserID, xMasNotes, xMasGift1, xMasGift2, xMasGift1Size, xMasGift2Size, xMasGiftRecordID);
         }
 
         public override IDataReader FBxMas_AFM_PrintTicket(int clientID)
@@ -243,20 +244,26 @@ namespace GIBS.FBClients.Components
             return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Visit_List"), clientID);
         }
 
-        public override void FBClients_Visit_Insert(DateTime visitDate, string visitNotes, int visitNumBags, int clientID, int createdByUserID, string serviceLocation)
+        public override void FBClients_Visit_Insert(DateTime visitDate, string visitNotes, int visitNumBags, int clientID, int createdByUserID, string serviceLocation, byte[] clientSignature, int orderStatusCode)
         {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Visit_Insert"), visitDate, visitNotes, visitNumBags, clientID, createdByUserID, serviceLocation);
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Visit_Insert"), visitDate, visitNotes, visitNumBags, clientID, createdByUserID, serviceLocation, clientSignature, orderStatusCode);
         }
 
-        public override void FBClients_Visit_Update(int visitID, DateTime visitDate, string visitNotes, int visitNumBags, int clientID, int lastModifiedByUserID, string serviceLocation)
+        public override void FBClients_Visit_Update(int visitID, DateTime visitDate, string visitNotes, int visitNumBags, int clientID, int lastModifiedByUserID, string serviceLocation, byte[] clientSignature)
         {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Visit_Update"), visitID, visitDate, visitNotes, visitNumBags, clientID, lastModifiedByUserID, serviceLocation);
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Visit_Update"), visitID, visitDate, visitNotes, visitNumBags, clientID, lastModifiedByUserID, serviceLocation, clientSignature);
         }
 
         public override IDataReader FBClients_Visit_GetByID(int visitID)
         {
             return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_Visit_GetByID"), visitID);
         }
+
+        public override void FBClients_Visit_Delete(int visitID)
+        {
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_Visit_Delete"), visitID);
+        }
+
 
         // CLIENT TRUE FALSE QUESTIONS
         public override void FBClients_TrueFalseQuestions_InsertUpdate(string tfQuestion, bool tfAnswer, int clientID, int createdByUserID)
@@ -299,6 +306,11 @@ namespace GIBS.FBClients.Components
         public override void FBClients_IncomeExpense_Update(int ieID, string ieType, string ieDescription, double ieAmount, int clientID, int lastModifiedByUserID)
         {
             SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_IncomeExpense_Update"), ieID, ieType, ieDescription, ieAmount, clientID, lastModifiedByUserID);
+        }
+
+        public override void UpdateVisitOrderStatusCode(int visitID, int orderStatusCode)
+        {
+            SqlHelper.ExecuteNonQuery(ConnectionString, GetFullyQualifiedName("FBClients_UpdateVisitOrderStatusCode"), visitID, orderStatusCode);
         }
 
         #endregion

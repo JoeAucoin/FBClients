@@ -1,12 +1,12 @@
 ﻿<dotnetnuke type="Package" version="5.0">
-  <packages><package name="GIBS.FBClients" type="Module" version="1.0.77">
+  <packages><package name="GIBS.FBClients" type="Module" version="1.0.92">
   <friendlyName>GIBS Food Bank Client Manager</friendlyName>
   <description>GIBS Food Bank Client Manager</description>
   <iconFile />
   <owner>
     <name>Joseph M Aucoin</name>
     <organization>Global Internet Business Solutions</organization>
-    <url>www.gibs.com</url>
+    <url>https://www.gibs.com</url>
     <email>webmaster@gibs.com</email>
   </owner>
   <license>&lt;h1&gt;Global Internet Business Solutions (GIBS) Custom DNN Modules&lt;/h1&gt;
@@ -214,9 +214,39 @@
 			  <name>01.00.77.SqlDataProvider</name>
 			  <version>01.00.77</version>
 		  </script>
-		  <script type="UnInstall">
+		  <script type="Install">
+			  <path>SqlScripts</path>
+			  <name>01.00.78.SqlDataProvider</name>
+			  <version>01.00.78</version>
+		  </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.83.SqlDataProvider</name>
+          <version>01.00.83</version>
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.86.SqlDataProvider</name>
+          <version>01.00.86</version>
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.88.SqlDataProvider</name>
+          <version>01.00.88</version>
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.89.SqlDataProvider</name>
+          <version>01.00.89</version>
+        </script>
+        <script type="Install">
+          <path>SqlScripts</path>
+          <name>01.00.92.SqlDataProvider</name>
+          <version>01.00.92</version>
+        </script>        
+        <script type="UnInstall">
           <name>Uninstall.SqlDataProvider</name>
-          <version>1.0.77</version>
+          <version>1.0.92</version>
         </script>
       </scripts>
     </component>
@@ -295,8 +325,21 @@
                 <helpUrl />
                 <supportsPopUps>False</supportsPopUps>
                 <viewOrder>2</viewOrder>
-              </moduleControl>              
-              
+              </moduleControl>
+
+
+              <moduleControl>
+                <controlKey>MakeID</controlKey>
+                <controlSrc>DesktopModules/GIBS/FBClients/MakeID.ascx</controlSrc>
+                <supportsPartialRendering>False</supportsPartialRendering>
+                <controlTitle>MakeID</controlTitle>
+                <controlType>View</controlType>
+                <iconFile />
+                <helpUrl />
+                <supportsPopUps>False</supportsPopUps>
+                <viewOrder>3</viewOrder>
+              </moduleControl>
+
               <moduleControl>
                 <controlKey>Settings</controlKey>
                 <controlSrc>DesktopModules/GIBS/FBClients/Settings.ascx</controlSrc>
@@ -330,6 +373,30 @@
         <assembly>
           <name>GIBS.Modules.FBClients.dll</name>
         </assembly>
+        <assembly>
+          <name>MigraDoc.DocumentObjectModel.dll</name>
+        </assembly>
+        <assembly>
+          <name>MigraDoc.Rendering.dll</name>
+        </assembly>
+        <assembly>
+          <name>MigraDoc.RtfRendering.dll</name>
+        </assembly>
+        <assembly>
+          <name>PdfSharp.Charting.dll</name>
+        </assembly>
+        <assembly>
+          <name>PdfSharp.dll</name>
+        </assembly>
+        <assembly>
+          <name>BarcodeStandard.dll</name>
+        </assembly>
+        <assembly>
+          <name>System.Drawing.Common.dll</name>
+        </assembly>
+        <assembly>
+          <name>Twilio.dll</name>
+        </assembly>        
       </assemblies>
     </component>
    

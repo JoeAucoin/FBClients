@@ -33,6 +33,69 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.Web.Client.ClientResourceManagement.DnnCssInclude DnnCssInclude2;
 
         /// <summary>
+        /// hidLabelContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelContent;
+
+        /// <summary>
+        /// hidLabelContent2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelContent2;
+
+        /// <summary>
+        /// hidLabelContent3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelContent3;
+
+        /// <summary>
+        /// hidLabelContentBarCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelContentBarCode;
+
+        /// <summary>
+        /// hidPrintShoppingLabelQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidPrintShoppingLabelQuantity;
+
+        /// <summary>
+        /// hidLabelXML control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelXML;
+
+        /// <summary>
+        /// hidLabelBarCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidLabelBarCode;
+
+        /// <summary>
         /// HyperLinkPhotoID control.
         /// </summary>
         /// <remarks>
@@ -85,6 +148,24 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBudget;
+
+        /// <summary>
+        /// printDivLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printDivLabel;
+
+        /// <summary>
+        /// printDivBarCodeLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printDivBarCodeLabel;
 
         /// <summary>
         /// ImgFlagged control.
@@ -445,6 +526,33 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator reqClientEthnicity;
+
+        /// <summary>
+        /// lblClientLanguage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblClientLanguage;
+
+        /// <summary>
+        /// ddlClientLanguage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlClientLanguage;
+
+        /// <summary>
+        /// reqClientLanguage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqClientLanguage;
 
         /// <summary>
         /// lblVerifyDate control.
@@ -1257,6 +1365,105 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorXmasSizes;
 
         /// <summary>
+        /// ShowXmasGiftFieldsSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ShowXmasGiftFieldsSection;
+
+        /// <summary>
+        /// lblXmasGift1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasGift1;
+
+        /// <summary>
+        /// txtXmasGift1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasGift1;
+
+        /// <summary>
+        /// lblXmasGift1Size control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasGift1Size;
+
+        /// <summary>
+        /// txtXmasGift1Size control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasGift1Size;
+
+        /// <summary>
+        /// lblXmasGift2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasGift2;
+
+        /// <summary>
+        /// txtXmasGift2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasGift2;
+
+        /// <summary>
+        /// lblXmasGift2Size control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasGift2Size;
+
+        /// <summary>
+        /// txtXmasGift2Size control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasGift2Size;
+
+        /// <summary>
+        /// lblXmasGiftRecordID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasGiftRecordID;
+
+        /// <summary>
+        /// txtXmasGiftRecordID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasGiftRecordID;
+
+        /// <summary>
         /// lblXmasNotes control.
         /// </summary>
         /// <remarks>
@@ -1293,24 +1500,6 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.CheckBox cbxBikeRaffle;
 
         /// <summary>
-        /// lblReceivedToys control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DotNetNuke.UI.UserControls.LabelControl lblReceivedToys;
-
-        /// <summary>
-        /// txtReceivedToysDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReceivedToysDate;
-
-        /// <summary>
         /// bikeAwardedDate control.
         /// </summary>
         /// <remarks>
@@ -1336,6 +1525,33 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBikeAwardedDate;
+
+        /// <summary>
+        /// lblReceivedToys control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblReceivedToys;
+
+        /// <summary>
+        /// txtReceivedToysDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReceivedToysDate;
+
+        /// <summary>
+        /// LabelXmasRecordID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelXmasRecordID;
 
         /// <summary>
         /// hidXmasID control.
@@ -1734,6 +1950,60 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.DropDownList ddlNumTimesInsterted;
 
         /// <summary>
+        /// SigDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SigDiv;
+
+        /// <summary>
+        /// lblSignature control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblSignature;
+
+        /// <summary>
+        /// HiddenFieldSignData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenFieldSignData;
+
+        /// <summary>
+        /// HiddenFieldImgData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenFieldImgData;
+
+        /// <summary>
+        /// lblSignatureOnFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblSignatureOnFile;
+
+        /// <summary>
+        /// ImgInitials control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgInitials;
+
+        /// <summary>
         /// lblVisitNotes control.
         /// </summary>
         /// <remarks>
@@ -1759,6 +2029,15 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidVisitID;
+
+        /// <summary>
+        /// hidClientCellNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidClientCellNumber;
 
         /// <summary>
         /// gvVisits control.

@@ -24,6 +24,15 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.Label LabelClientInfo;
 
         /// <summary>
+        /// HyperLinkMakeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkMakeID;
+
+        /// <summary>
         /// ButtonSaveImage control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image ImageIDClient;
+
+        /// <summary>
+        /// ButtonReturnToClientManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonReturnToClientManager;
 
         /// <summary>
         /// HiddenFieldImage control.

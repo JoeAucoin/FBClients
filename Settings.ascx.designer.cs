@@ -213,6 +213,24 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.HtmlControls.HtmlTable tblGeneralSettings;
 
         /// <summary>
+        /// lblIDCardImagePath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblIDCardImagePath;
+
+        /// <summary>
+        /// txtIDCardImagePath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIDCardImagePath;
+
+        /// <summary>
         /// lblDaysToValidVisit control.
         /// </summary>
         /// <remarks>
@@ -429,58 +447,76 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.CheckBox cbxShowClientIdCard;
 
         /// <summary>
-        /// lblShowXmasToys control.
+        /// lblShowPrintShoppingLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowXmasToys;
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowPrintShoppingLabel;
 
         /// <summary>
-        /// cbxShowXmasToys control.
+        /// cbxShowPrintShoppingLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbxShowXmasToys;
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowPrintShoppingLabel;
 
         /// <summary>
-        /// lblXmasToysYear control.
+        /// lblPrintShoppingLabelQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasToysYear;
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblPrintShoppingLabelQuantity;
 
         /// <summary>
-        /// txtXmasToysYear control.
+        /// txtPrintShoppingLabelQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtXmasToysYear;
+        protected global::System.Web.UI.WebControls.TextBox txtPrintShoppingLabelQuantity;
 
         /// <summary>
-        /// lblXmasRequireSizeAgeRange control.
+        /// lblShowPrintBarCodeLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasRequireSizeAgeRange;
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowPrintBarCodeLabel;
 
         /// <summary>
-        /// txtXmasRequireSizeAgeRange control.
+        /// cbxShowPrintBarCodeLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtXmasRequireSizeAgeRange;
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowPrintBarCodeLabel;
+
+        /// <summary>
+        /// lblIncludeInactiveOnSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblIncludeInactiveOnSearch;
+
+        /// <summary>
+        /// cbxIncludeInactiveOnSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxIncludeInactiveOnSearch;
 
         /// <summary>
         /// lblFlagForReviewNotify control.
@@ -555,6 +591,96 @@ namespace GIBS.Modules.FBClients
         protected global::System.Web.UI.WebControls.TextBox txtGroupHomeBagAllowance;
 
         /// <summary>
+        /// sectTwilio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectTwilio;
+
+        /// <summary>
+        /// tblTwilio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable tblTwilio;
+
+        /// <summary>
+        /// lblTwilioAccountSid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblTwilioAccountSid;
+
+        /// <summary>
+        /// txtTwilioAccountSid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTwilioAccountSid;
+
+        /// <summary>
+        /// lblTwilioAuthToken control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblTwilioAuthToken;
+
+        /// <summary>
+        /// txtTwilioAuthToken control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTwilioAuthToken;
+
+        /// <summary>
+        /// lblTwilioPhoneNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblTwilioPhoneNumber;
+
+        /// <summary>
+        /// txtTwilioPhoneNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTwilioPhoneNumber;
+
+        /// <summary>
+        /// lblClientOrderPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblClientOrderPage;
+
+        /// <summary>
+        /// txtClientOrderPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtClientOrderPage;
+
+        /// <summary>
         /// sectToyTicket control.
         /// </summary>
         /// <remarks>
@@ -571,6 +697,78 @@ namespace GIBS.Modules.FBClients
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tblToyTicket;
+
+        /// <summary>
+        /// lblShowXmasToys control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowXmasToys;
+
+        /// <summary>
+        /// cbxShowXmasToys control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowXmasToys;
+
+        /// <summary>
+        /// lblXmasToysYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasToysYear;
+
+        /// <summary>
+        /// txtXmasToysYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasToysYear;
+
+        /// <summary>
+        /// lblXmasRequireSizeAgeRange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblXmasRequireSizeAgeRange;
+
+        /// <summary>
+        /// txtXmasRequireSizeAgeRange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtXmasRequireSizeAgeRange;
+
+        /// <summary>
+        /// lblShowXmasGiftFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl lblShowXmasGiftFields;
+
+        /// <summary>
+        /// cbxShowXmasGiftFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbxShowXmasGiftFields;
 
         /// <summary>
         /// lblToyTicketContent control.

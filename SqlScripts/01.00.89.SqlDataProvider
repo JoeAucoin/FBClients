@@ -1,0 +1,118 @@
+﻿
+
+IF COL_LENGTH('GIBS_FBClientsVisits','OrderStatusCode') IS NULL
+ BEGIN
+  /*COLUMN DOES NOT EXIST OR CALLER DOES NOT HAVE PERMISSION TO VIEW THE OBJECT*/
+ Alter TABLE [dbo].[GIBS_FBClientsVisits]
+ADD OrderStatusCode int DEFAULT 0
+ END
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_Insert]    Script Date: 4/4/2024 5:06:48 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Visit_Insert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Visit_Insert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_Insert]    Script Date: 4/4/2024 5:06:48 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 04/04/2024
+-- Description:	Food Pantry Client Order List
+-- =============================================
+
+ CREATE PROCEDURE [dbo].[GIBS_FBClients_Visit_Insert] 
+	
+
+	@VisitDate date,
+	@VisitNotes NTEXT,
+	@VisitNumBags INT,
+	@ClientID INT,
+	@CreatedByUserID INT,
+	@ServiceLocation Char(50),
+	@ClientSignature image,
+	@OrderStatusCode int
+	 
+AS 
+BEGIN 
+	SET NOCOUNT ON;
+	
+
+insert into dbo.GIBS_FBClientsVisits (
+	VisitDate, 
+	VisitNotes, 
+	VisitNumBags, 
+	ClientID, 
+	CreatedOnDate, 
+	CreatedByUserID ,
+	LastModifiedByUserID, 
+	LastModifiedOnDate,
+	ServiceLocation,
+	ClientSignature,
+	OrderStatusCode
+) 
+values (
+	@VisitDate, 
+	@VisitNotes, 
+	@VisitNumBags, 
+	@ClientID, 
+	GETDATE(), 
+	@CreatedByUserID,
+	@CreatedByUserID,
+	GETDATE(),
+	@ServiceLocation,
+	@ClientSignature,
+	@OrderStatusCode
+)
+
+select SCOPE_IDENTITY()
+	
+END
+GO
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_UpdateVisitOrderStatusCode]    Script Date: 4/16/2024 6:35:51 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_UpdateVisitOrderStatusCode]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_UpdateVisitOrderStatusCode]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_UpdateVisitOrderStatusCode]    Script Date: 4/16/2024 6:35:51 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:		Joseph Aucoin
+-- Create date: 04/04/2024
+-- Description:	Food Pantry Client Order Status
+-- =============================================
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_UpdateVisitOrderStatusCode]
+	
+@VisitID int,
+@OrderStatusCode int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	UPDATE [dbo].[GIBS_FBClientsVisits]
+   SET  [OrderStatusCode] = @OrderStatusCode
+ WHERE VisitID = @VisitID
+
+END
+GO

@@ -1,8 +1,12 @@
-﻿using DotNetNuke.Entities.Modules;
+﻿
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Modules;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Abstractions;
 using GIBS.FBClients.Components;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,6 +41,7 @@ namespace GIBS.Modules.FBClients
                 clientId = Int32.Parse(Request.QueryString["cid"]);
             }
             FillClientRecord(clientId);
+            SetMakeIDLink();
         }
 
         public void SaveImageToDatabase(string imageData)
@@ -99,6 +104,7 @@ namespace GIBS.Modules.FBClients
             {
               //  UploadImage(HiddenFieldImage.Value);
                 SaveImageToDatabase(HiddenFieldImage.Value);
+                HyperLinkMakeID.Visible = true;
             }
             catch (Exception ex)
             {
@@ -120,6 +126,11 @@ namespace GIBS.Modules.FBClients
 
                     LabelClientInfo.Text = item.ClientFirstName + ' ' + item.ClientLastName + " - ";
                     LabelClientInfo.Text += item.ClientAddress + ", " + item.ClientTown + ", " + item.ClientState + " " + item.ClientZipCode;
+
+                    Session["ClientID"] = clientID.ToString();
+                    var queryString = "?ClientID=" + Session["ClientID"].ToString() + "&contactname=" + item.ClientFirstName.ToString() + " " + item.ClientLastName.ToString();
+
+
                     if (item.IDPhoto != null)
                     {
                         ImageIDClient.Visible = true;
@@ -128,10 +139,12 @@ namespace GIBS.Modules.FBClients
 
                         ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
                         ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+                        HyperLinkMakeID.Visible = true;
                     }
                     else
                     {
                         ImageIDClient.Visible = false;
+                        HyperLinkMakeID.Visible = false;
                     }
 
                 }
@@ -148,6 +161,40 @@ namespace GIBS.Modules.FBClients
 
         }
 
+        public void SetMakeIDLink()
+        {
 
+            //HyperLinkPhotoID
+            try
+            {
+
+                string myLink = DotNetNuke.Common.Globals.NavigateURL("MakeID", "mid=" + this.ModuleId);
+                //myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "?cid=" + clientId.ToString();
+
+                myLink += "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                myLink += "&ContainerSrc=";
+                myLink += DotNetNuke.Common.Globals.QueryStringEncode("/Portals/_default/Containers/_default/No Container");
+                
+
+                string redirectUrl = UrlUtils.PopUpUrl(myLink, this, PortalSettings, false, true);
+
+                HyperLinkMakeID.NavigateUrl = redirectUrl.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+
+        }
+
+        protected void ButtonReturnToClientManager_Click(object sender, EventArgs e)
+        {
+            
+           Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientId.ToString()));
+      //   object p =   DependencyProvider.GetRequiredService( INavigationManager).NavigateURL(PortalSettings.ActiveTab.TabID, "Edit", "mid=" + ModuleId.ToString());
+      //      object p = DependencyProvider.GetRequiredService(INavigationManager).NavigateURL(PortalSettings.ActiveTab.TabID, "Edit", "mid=" + ModuleId.ToString());
+        }
     }
 }

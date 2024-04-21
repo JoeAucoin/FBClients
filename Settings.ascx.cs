@@ -23,8 +23,14 @@ namespace GIBS.Modules.FBClients
                 {
 
                     GetRoles();
+
                     
                     FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
+
+                    if (settingsData.IDCardImagePath != null)
+                    {
+                        txtIDCardImagePath.Text = settingsData.IDCardImagePath;
+                    }
 
                     if (settingsData.AllowedIPAddress != null)
                     {
@@ -131,6 +137,13 @@ namespace GIBS.Modules.FBClients
                     {
                         cbxShowIncExpSummary.Checked = Convert.ToBoolean(settingsData.ShowIncExpSummary);
                     }
+                    //settingsData.IncludeInactiveOnSearch
+
+                    if (settingsData.IncludeInactiveOnSearch != null)
+                    {
+                        cbxIncludeInactiveOnSearch.Checked = Convert.ToBoolean(settingsData.IncludeInactiveOnSearch);
+                    }
+           
 
                     if (settingsData.ShowExpense != null)
                     {
@@ -151,6 +164,12 @@ namespace GIBS.Modules.FBClients
                     {
                         cbxShowXmasToys.Checked = Convert.ToBoolean(settingsData.ShowXmasToys);
                     }
+                    //ShowXmasGiftFields
+                    if (settingsData.ShowXmasGiftFields != null)
+                    {
+                        cbxShowXmasGiftFields.Checked = Convert.ToBoolean(settingsData.ShowXmasGiftFields);
+                    }
+
                     if (settingsData.XmasToysYear != null)
                     {
                         txtXmasToysYear.Text = settingsData.XmasToysYear;
@@ -169,6 +188,21 @@ namespace GIBS.Modules.FBClients
                     if (settingsData.ShowClientIdCard != null)
                     {
                         cbxShowClientIdCard.Checked = Convert.ToBoolean(settingsData.ShowClientIdCard);
+                    }
+                    if (settingsData.ShowPrintShoppingLabel != null)
+                    {
+
+                        cbxShowPrintShoppingLabel.Checked = Convert.ToBoolean(settingsData.ShowPrintShoppingLabel);
+                    }
+
+                    if (settingsData.ShowPrintBarCodeLabel != null)
+                    {
+                        cbxShowPrintBarCodeLabel.Checked = Convert.ToBoolean(settingsData.ShowPrintBarCodeLabel);
+                    }
+                    //     txtPrintShoppingLabelQuantity
+                    if (settingsData.PrintShoppingLabelQuantity != null)
+                    {
+                        txtPrintShoppingLabelQuantity.Text = settingsData.PrintShoppingLabelQuantity;
                     }
 
                     if (settingsData.FocusableControl != null)
@@ -204,7 +238,7 @@ namespace GIBS.Modules.FBClients
                     }
 
 
-                    if (settingsData.ReqAFMRelationship != null)
+                    if (settingsData.ShowRelationshipToClient != null)
                     {
                         cbxShowRelationshipToClient.Checked = Convert.ToBoolean(settingsData.ReqAFMRelationship);
                     }
@@ -212,6 +246,26 @@ namespace GIBS.Modules.FBClients
                     if (settingsData.ReqAFMVerified != null)
                     {
                         cbxReqAFMVerified.Checked = Convert.ToBoolean(settingsData.ReqAFMVerified);
+                    }
+
+                    if (settingsData.TwilioAccountSid != null)
+                    {
+                        txtTwilioAccountSid.Text = settingsData.TwilioAccountSid;
+                    }
+
+                    if (settingsData.TwilioAuthToken != null)
+                    {
+                        txtTwilioAuthToken.Text = settingsData.TwilioAuthToken;
+                    }
+
+                    if (settingsData.TwilioPhoneNumber != null)
+                    {
+                        txtTwilioPhoneNumber.Text = settingsData.TwilioPhoneNumber;
+                    }
+
+                    if (settingsData.ClientOrderPage != null)
+                    {
+                        txtClientOrderPage.Text = settingsData.ClientOrderPage;
                     }
 
                 }
@@ -251,8 +305,13 @@ namespace GIBS.Modules.FBClients
                 settingsData.ShowDisabilities = cbxShowDisabilities.Checked.ToString();
                 settingsData.ShowClientType = cbxShowClientType.Checked.ToString();
                 settingsData.ShowXmasToys = cbxShowXmasToys.Checked.ToString();
+                settingsData.ShowXmasGiftFields = cbxShowXmasGiftFields.Checked.ToString();
+                settingsData.IncludeInactiveOnSearch = cbxIncludeInactiveOnSearch.Checked.ToString();
                 settingsData.FocusableControl = ddlFocusableControl.SelectedValue.ToString();
                 settingsData.ShowClientIdCard = cbxShowClientIdCard.Checked.ToString();
+                settingsData.ShowPrintShoppingLabel = cbxShowPrintShoppingLabel.Checked.ToString();
+                settingsData.PrintShoppingLabelQuantity = txtPrintShoppingLabelQuantity.Text.ToString();
+                settingsData.ShowPrintBarCodeLabel = cbxShowPrintBarCodeLabel.Checked.ToString();
                 settingsData.XmasToysYear = txtXmasToysYear.Text;
                 settingsData.FlagForReviewNotify = txtFlagForReviewNotify.Text.ToString();
                 settingsData.BagAllowance = txtBagAllowance.Text.ToString();
@@ -263,12 +322,17 @@ namespace GIBS.Modules.FBClients
                 settingsData.GoogleAPIKey = txtGoogleAPIKey.Text.ToString();
                 settingsData.XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
                 settingsData.ToyTicketContent = txtToyTicketContent.Text.ToString();
-                settingsData.ReqAFMRelationship = cbxReqAFMVerified.Checked.ToString();
+                settingsData.ReqAFMRelationship = cbxShowRelationshipToClient.Checked.ToString();
                 settingsData.ReqAFMVerified = cbxReqAFMVerified.Checked.ToString();
                 settingsData.ShowRelationshipToClient = cbxShowRelationshipToClient.Checked.ToString();
                 settingsData.ShowSuffix = cbxShowSuffix.Checked.ToString();
+                settingsData.IDCardImagePath = txtIDCardImagePath.Text.ToString();
+                settingsData.TwilioAccountSid = txtTwilioAccountSid.Text.ToString();
+                settingsData.TwilioAuthToken = txtTwilioAuthToken.Text.ToString();
+                settingsData.TwilioPhoneNumber = txtTwilioPhoneNumber.Text.ToString();
+                settingsData.ClientOrderPage = txtClientOrderPage.Text.ToString();
 
-                
+
             }
             catch (Exception ex)
             {

@@ -6,7 +6,6 @@
 <%@ Register TagPrefix="dnn" TagName="Audit" Src="~/controls/ModuleAuditControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 
-<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css" />
 <dnn:DnnCssInclude ID="DnnCssInclude3" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
 

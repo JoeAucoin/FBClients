@@ -30,7 +30,7 @@ namespace GIBS.FBClients.Components
         {
             if (info.ClientLastName != string.Empty)
             {
-                return Convert.ToInt32(DataProvider.Instance().FBClients_Insert(info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.CreatedByUserID, info.PortalId, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation));
+                return Convert.ToInt32(DataProvider.Instance().FBClients_Insert(info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.CreatedByUserID, info.PortalId, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation, info.ClientLanguage));
             }
             else
             {
@@ -124,7 +124,7 @@ namespace GIBS.FBClients.Components
             //check we have some content to update
             if (info.ClientLastName != string.Empty)
             {
-                DataProvider.Instance().FBClients_Update(info.ClientID, info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.LastModifiedByUserID, info.PortalId, info.Latitude, info.Longitude, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation);
+                DataProvider.Instance().FBClients_Update(info.ClientID, info.ClientFirstName, info.ClientMiddleInitial, info.ClientLastName, info.ClientDOB, info.ClientAddress, info.ClientCity, info.ClientTown, info.ClientState, info.ClientZipCode, info.ClientEmailAddress, info.ClientIdCard, info.ClientPhone, info.ClientPhoneType, info.ClientCaseWorker, info.ModuleId, info.LastModifiedByUserID, info.PortalId, info.Latitude, info.Longitude, info.ClientSuffix, info.ClientDOBVerify, info.ClientEthnicity, info.ClientNote, info.ClientUnit, info.ClientGender, info.ClientType, info.ClientVerifyDate, info.ClientAddressVerify, info.ClientAddressVerifyDate, info.SubjectToReview, info.OneBagOnly, info.Disability, info.IsActive, info.IsLocked, info.ServiceLocation, info.ClientLanguage);
             }
         }
 
@@ -153,14 +153,14 @@ namespace GIBS.FBClients.Components
                     info.XmasYear, info.XmasSizes,
                     info.BikeRaffle, info.BikeAwardedDate,
                     info.WantsToys, info.VerifiedToys,
-                    info.ReceivedToysDate, info.LastModifiedByUserID, info.XmasNotes);
+                    info.ReceivedToysDate, info.LastModifiedByUserID, info.XmasNotes, info.XmasGift1, info.XmasGift2, info.XmasGift1Size, info.XMasGift2Size, info.XmasGiftRecordID);
             }
         }
 
         public void FBxMas_AFM_Update_CurrentYear(FBClientsInfo info)
         {
 
-            DataProvider.Instance().FBxMas_AFM_Update_CurrentYear(info.XmasID, info.XmasSizes, info.BikeRaffle, info.BikeAwardedDate, info.WantsToys, info.VerifiedToys, info.ReceivedToysDate, info.LastModifiedByUserID, info.XmasNotes);
+            DataProvider.Instance().FBxMas_AFM_Update_CurrentYear(info.XmasID, info.XmasSizes, info.BikeRaffle, info.BikeAwardedDate, info.WantsToys, info.VerifiedToys, info.ReceivedToysDate, info.LastModifiedByUserID, info.XmasNotes, info.XmasGift1, info.XmasGift2, info.XmasGift1Size, info.XMasGift2Size, info.XmasGiftRecordID);
 
         }
 
@@ -186,7 +186,7 @@ namespace GIBS.FBClients.Components
         {
             if (info.VisitDate.ToString() != string.Empty)
             {
-                DataProvider.Instance().FBClients_Visit_Insert(info.VisitDate, info.VisitNotes, info.VisitNumBags, info.ClientID, info.CreatedByUserID, info.ServiceLocation);
+                DataProvider.Instance().FBClients_Visit_Insert(info.VisitDate, info.VisitNotes, info.VisitNumBags, info.ClientID, info.CreatedByUserID, info.ServiceLocation, info.ClientSignature, info.OrderStatusCode);
             }
         }
 
@@ -195,7 +195,7 @@ namespace GIBS.FBClients.Components
             //check we have some content to update
             if (info.VisitDate != null)
             {
-                DataProvider.Instance().FBClients_Visit_Update(info.VisitID, info.VisitDate, info.VisitNotes, info.VisitNumBags, info.ClientID, info.LastModifiedByUserID, info.ServiceLocation);
+                DataProvider.Instance().FBClients_Visit_Update(info.VisitID, info.VisitDate, info.VisitNotes, info.VisitNumBags, info.ClientID, info.LastModifiedByUserID, info.ServiceLocation, info.ClientSignature);
             }
         }
 
@@ -204,7 +204,10 @@ namespace GIBS.FBClients.Components
             return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_Visit_GetByID(visitID));
         }
 
-
+        public void FBClients_Visit_Delete(int visitID)
+        {
+            DataProvider.Instance().FBClients_Visit_Delete(visitID);
+        }
 
         // CLIENT INCOME & EXPENSE
         public int FBClients_IncomeExpense_Insert(FBClientsInfo info)
@@ -264,7 +267,13 @@ namespace GIBS.FBClients.Components
             DataProvider.Instance().FBClients_TrueFalseQuestions_Delete(TfQuestion, clientID);
         }
 
-
+        public void UpdateVisitOrderStatusCode(FBClientsInfo info)
+        {
+            if (info.VisitID > 0)
+            {
+                DataProvider.Instance().UpdateVisitOrderStatusCode(info.VisitID, info.OrderStatusCode);
+            }
+        }
 
         /// <summary>
         /// Adds a new FBClientsInfo object into the database

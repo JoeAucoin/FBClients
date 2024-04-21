@@ -1,0 +1,29 @@
+﻿
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_Delete]    Script Date: 4/19/2024 9:21:24 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_Visit_Delete]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_Visit_Delete]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_Visit_Delete]    Script Date: 4/19/2024 9:21:24 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_Visit_Delete]
+
+	@VisitID int
+
+as
+BEGIN 
+
+	
+DELETE FROM [dbo].[GIBS_FBClientsVisits]
+      WHERE VisitID = @VisitID
+
+
+END
+GO

@@ -48,12 +48,14 @@ namespace GIBS.FBClients.Components
         private double latitude;
         private double longitude;
         private string clientPhoto;
+        private string clientSignatureString;
         private string clientEthnicity;
         private string clientNote;
         private string clientUnit;
         private string clientGender;
         private string clientType;
         private DateTime clientVerifyDate;
+        private string clientLanguage = "";
 
         private bool clientAddressVerify;
         private DateTime clientAddressVerifyDate;
@@ -61,7 +63,7 @@ namespace GIBS.FBClients.Components
         private bool oneBagOnly;
         private string disability;
         private byte[] iDPhoto;
-
+        private byte[] clientSignature = null;
 
         // CLIENT ADDITIONAL FAMILY MEMBERS
         private int clAddFamMemID;
@@ -88,6 +90,12 @@ namespace GIBS.FBClients.Components
         private bool qualifiedToys;  // Meets Age Criteria --- < 16 years old
         private string xMasNotes;
 
+        private string xMasGift1;
+        private string xMasGift2;
+        private string xMasGift1Size;
+        private string xMasGift2Size;
+        private string xMasGiftRecordID;
+
         // CLIENT INCOME/EXPENSE
         private int ieID;
         private string ieType;
@@ -102,7 +110,14 @@ namespace GIBS.FBClients.Components
         private string visitNotes;
         private int visitNumBags;
         private string serviceLocation;
-        //ClientServiceLocation
+        private int orderStatusCode;
+
+        //      OrderStatusCode
+        //0	OrderEntered //Paper Process
+        //1	OrderLinkSent  //Client Sent Order Link via Text
+        //2	OrderSubmitted  //Client Submitted Order via Text Web Link
+        //3	Order Currently Being Processed  //Order Ready in process of Fulfillment
+        //4	OrderFilled  //Order filled, ready for pickup
 
         // CLIENT TrueFalseQuestions
         private int tfID;
@@ -324,6 +339,11 @@ namespace GIBS.FBClients.Components
             set { clientPhoto = value; }
         }
 
+        public string ClientSignatureString
+        {
+            get { return clientSignatureString; }
+            set { clientSignatureString = value; }
+        }
         public string ClientEthnicity
         {
             get { return clientEthnicity; }
@@ -403,8 +423,13 @@ namespace GIBS.FBClients.Components
             get { return iDPhoto; }
             set { iDPhoto = value; }
         }
+       
+        public byte[] ClientSignature
+        {
 
-
+            get { return clientSignature; }
+            set { clientSignature = value; }
+        }
         #endregion
 
         // CLIENT ADDITIONAL FAMILY MEMBERS
@@ -476,7 +501,12 @@ namespace GIBS.FBClients.Components
             get { return aFMGender; }
             set { aFMGender = value; }
         }
-
+        //clientLanguage ClientLanguage
+        public string ClientLanguage
+        {
+            get { return clientLanguage; }
+            set { clientLanguage = value; }
+        }
 
         // CHRISTMAS TOYS
         public int XmasID
@@ -530,6 +560,37 @@ namespace GIBS.FBClients.Components
             get { return xMasNotes; }
             set { xMasNotes = value; }
         }
+
+        public string XmasGift1
+        {
+            get { return xMasGift1; }
+            set { xMasGift1 = value; }
+        }
+
+        public string XmasGift2
+        {
+            get { return xMasGift2; }
+            set { xMasGift2 = value; }
+        }
+
+        public string XmasGift1Size
+        {
+            get { return xMasGift1Size; }
+            set { xMasGift1Size = value; }
+        }
+
+        public string XMasGift2Size
+        {
+            get { return xMasGift2Size; }
+            set { xMasGift2Size = value; }
+        }
+
+        public string XmasGiftRecordID
+        {
+            get { return xMasGiftRecordID; }
+            set { xMasGiftRecordID = value; }
+        }
+
 
         //qualifiedToys
         public bool QualifiedToys
@@ -605,7 +666,11 @@ namespace GIBS.FBClients.Components
 
         }
 
-
+        public int OrderStatusCode
+        {
+            get { return orderStatusCode; }
+            set { orderStatusCode = value; }
+        }
 
         // COMMON
         #region Common

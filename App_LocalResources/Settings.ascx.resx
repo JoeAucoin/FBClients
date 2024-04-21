@@ -237,4 +237,37 @@
   <data name="lblGoogleAPIKey.Text" xml:space="preserve">
     <value>Google API Key</value>
   </data>
+  <data name="lblIDCardImagePath.Text" xml:space="preserve">
+    <value>ID Card Image Path</value>
+  </data>
+  <data name="lblShowXmasGiftFields.Text" xml:space="preserve">
+    <value>Show Xmas Gift Fields</value>
+  </data>
+  <data name="lblToyTicketContent.Text" xml:space="preserve">
+    <value>Toy Ticket Content</value>
+  </data>
+  <data name="lblShowPrintBarCodeLabel.Text" xml:space="preserve">
+    <value>Show Print BarCode Label</value>
+  </data>
+  <data name="lblShowPrintShoppingLabel.Text" xml:space="preserve">
+    <value>Show Print Shopping Label</value>
+  </data>
+  <data name="lblPrintShoppingLabelQuantity.Text" xml:space="preserve">
+    <value>Print Shopping Label Quantity</value>
+  </data>
+  <data name="lblIncludeInactiveOnSearch.Text" xml:space="preserve">
+    <value>Include InActives On Search</value>
+  </data>
+  <data name="lblClientOrderPage.Text" xml:space="preserve">
+    <value>Client Order Page</value>
+  </data>
+  <data name="lblTwilioAccountSid.Text" xml:space="preserve">
+    <value>Twilio AccountSid</value>
+  </data>
+  <data name="lblTwilioAuthToken.Text" xml:space="preserve">
+    <value>Twilio AuthToken</value>
+  </data>
+  <data name="lblTwilioPhoneNumber.Text" xml:space="preserve">
+    <value>Twilio Phone Number</value>
+  </data>
 </root>

@@ -6,19 +6,30 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
 <%@ Register tagprefix="dnn" Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" %>
 
-
-<dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=2" />
-
+ <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=2" />
 <dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
 
+<style>
+.sigZoom {
+  padding: 0px;
+  
+  transition: transform .2s; /* Animation */
+  width: 150px;
+  height: 30px;
+  margin: 0 auto;
+}
 
-
+.sigZoom:hover {
+  transform: scale(3.3); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+</style>
 
 
 
 <script type="text/javascript" >
 
-
+ 
+    
     function ValidateCheckBox(sender, args) {
         if (document.getElementById("<%=cbxAFMDOB_Verified.ClientID %>").checked == true) {
             args.IsValid = true;
@@ -78,7 +89,7 @@
 
 
 
-    jQuery(function ($) { $("#<%= txtPhone.ClientID %>").mask("(999) 999-9999? x99999"); });
+    jQuery(function ($) { $("#<%= txtPhone.ClientID %>").mask("(999) 999-9999"); });
     jQuery(function ($) { $("#<%= txtZip.ClientID %>").mask("99999?-9999"); });
 
     // BIND DNN Tabs
@@ -184,17 +195,165 @@
         $('input').attr('autocomplete', 'off');
     }, 2000);
 
+    // SIGNATURE JAVASCRIPT BELOW
+    // SIGNATURE JAVASCRIPT BELOW
+    // SIGNATURE JAVASCRIPT BELOW
+    // SIGNATURE JAVASCRIPT BELOW
 
  
-    
+    //btnAddClientVisit
+
+    var tmr;
+
+    function onSign() {
+      //  alert("here");
+        if (IsSigWebInstalled()) {
+        //    alert("here");  
+            var mySigLabel = document.getElementById('<%= SigDiv.ClientID %>');
+            mySigLabel.style.display = null;
+            var myButton = document.getElementById('<%= btnAddClientVisit.ClientID %>');
+            myButton.disabled = true;
+            myButton.style.display = "none";
+            
+            $("#SignBtn").css("display", "none");
+            $("#ClearBtn").css("display", "");
+            $("#DoneBtn").css("display", "");
+           
+            
+
+
+            var ctx = document.getElementById("cnv").getContext("2d");
+            SetDisplayXSize(500);
+            SetDisplayYSize(100);
+            SetJustifyMode(0);
+            // SetEncryptionMode(0);
+            SetTabletState(0, tmr);
+            SetJustifyMode(0);
+            ClearTablet();
+            tmr = SetTabletState(1, ctx, 50) || tmr;
+        } else {
+            alert("Unable to communicate with SigWeb. Please confirm that SigWeb is installed and running on this PC.");
+        }
+
+    }
+
+    function onClear() {
+        ClearTablet();
+    }
+
+    function onDone() {
+        if (NumberOfTabletPoints() == 0) {
+            alert("Please sign before continuing");
+        }
+        else {
+            SetTabletState(0, tmr);
+            //RETURN TOPAZ-FORMAT SIGSTRING
+            SetSigCompressionMode(1);
+            var elem = document.getElementById('<%= HiddenFieldImgData.ClientID %>');
+            elem.value = GetSigString();
+            SetImageXSize(500);
+            SetImageYSize(100);
+            SetImagePenWidth(5);
+            GetSigImageB64(SigImageCallback);
+            //   var SIGSTRINGIMAGE = GetSigImageB64(SigImageCallback);
+
+
+            //   alert("Signature created. Submit Form to Save.");
+
+        }
+    }
+
+    function SigImageCallback(str) {
+
+        document.getElementById('<%= HiddenFieldSignData.ClientID %>').value = str;
+      //    document.getElementById("<%=btnAddClientVisit.ClientID%>").disabled = false;
+        var myButton = document.getElementById('<%= btnAddClientVisit.ClientID %>');
+        $(myButton).removeAttr('disabled');
+        $(myButton).click();
+        //   alert("Signature created. Please submit form to save.");
+
+    }
+
+    window.onunload = window.onbeforeunload = (function () {
+        closingSigWeb();
+    })
+
+    function closingSigWeb() {
+        ClearTablet();
+        SetTabletState(0, tmr);
+    }
+
+    function RunOnDone() {
+        // put your code here 
+        onDone();
+        return false;
+    }
+
+ 
+    // END SIGNATURE JAVASCRIPT
+    // END SIGNATURE JAVASCRIPT
+    // END SIGNATURE JAVASCRIPT
+
+
+    // DYMO JAVASCRIPT
+    // DYMO JAVASCRIPT
+    // DYMO JAVASCRIPT
+
+    function updatePreview() {
+        if (!label)
+            return;
+
+        var pngData = label.render();
+        var labelImage = document.getElementById('labelImage');
+        labelImage.src = "data:image/png;base64," + pngData;
+    }
+
+    $(function () {
+        $("#<%= printDivLabel.ClientID %>").click(function () {
+
+            var line1 = $("#<%= hidLabelContent.ClientID %>").val();
+            var line2 = $("#<%= hidLabelContent2.ClientID %>").val();
+            var line3 = $("#<%= hidLabelContent3.ClientID %>").val();
+            var xmlLabel = $("#<%= hidLabelXML.ClientID %>").val();
+            var quantityPrint = $("#<%= hidPrintShoppingLabelQuantity.ClientID %>").val();
+            //async function printLabel(line1, line2, line3, howmanycopies, xmlLabel)
+            printLabel(line1, line2, line3, quantityPrint, xmlLabel);
+        }
+        );
+
+        $("#<%= printDivBarCodeLabel.ClientID %>").click(function () {
+
+            var line1 = $("#<%= hidLabelContent.ClientID %>").val();
+            var barcodeNumber = $("#<%= hidLabelContentBarCode.ClientID %>").val();
+            var xmlLabelBarCode = $("#<%= hidLabelBarCode.ClientID %>").val();
+
+            //   async function printBarCodeLabel(line1, barcodenumber, howmanycopies, xmlLabel)
+            printBarCodeLabel(line1, barcodeNumber, 1, xmlLabelBarCode);
+
+        }
+        );
+
+    });
+
+    // END DYMO JAVASCRIPT
+    // END DYMO JAVASCRIPT
+    // END DYMO JAVASCRIPT
+
 
 </script>
 
+<asp:HiddenField ID="hidLabelContent" runat="server"  />
+<asp:HiddenField ID="hidLabelContent2" runat="server"  />
+<asp:HiddenField ID="hidLabelContent3" runat="server"  />
+<asp:HiddenField ID="hidLabelContentBarCode" runat="server"  />
+<asp:HiddenField ID="hidPrintShoppingLabelQuantity" runat="server"  />
+<asp:HiddenField ID="hidLabelXML" runat="server" Value='<?xml version="1.0" encoding="utf-8"?><DesktopLabel Version="1">  <DYMOLabel Version="3"><Description>DYMO Label</Description><Orientation>Landscape</Orientation><LabelName>Address</LabelName><InitialLength>0</InitialLength><BorderStyle>SolidLine</BorderStyle><DYMORect><DYMOPoint><X>0.23</X><Y>0.06</Y></DYMOPoint><Size><Width>3.21</Width><Height>0.9966666</Height></Size></DYMORect><BorderColor><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderColor><BorderThickness>1</BorderThickness><Show_Border>False</Show_Border><DynamicLayoutManager><RotationBehavior>ClearObjects</RotationBehavior><LabelObjects><TextObject><Name>Line_1</Name><Brushes><BackgroundBrush><SolidColorBrush><Color A="0" R="1" G="1" B="1"></Color></SolidColorBrush></BackgroundBrush><BorderBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderBrush><StrokeBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></StrokeBrush><FillBrush><SolidColorBrush>  <Color A="0" R="1" G="1" B="1"></Color></SolidColorBrush></FillBrush></Brushes><Rotation>Rotation0</Rotation><OutlineThickness>1</OutlineThickness><IsOutlined>False</IsOutlined><BorderStyle>SolidLine</BorderStyle><Margin><DYMOThickness Left="0" Top="0" Right="0" Bottom="0" /></Margin><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><FitMode>AlwaysFit</FitMode><IsVertical>False</IsVertical><FormattedText><FitMode>AlwaysFit</FitMode><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><IsVertical>False</IsVertical><LineTextSpan><TextSpan>  <Text>Enter Text</Text>  <FontInfo><FontName>Arial</FontName><FontSize>23.4</FontSize><IsBold>False</IsBold><IsItalic>False</IsItalic><IsUnderline>False</IsUnderline><FontBrush>  <SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color>  </SolidColorBrush></FontBrush>  </FontInfo></TextSpan></LineTextSpan></FormattedText><ObjectLayout><DYMOPoint><X>0.3867604</X><Y>0.0716153</Y></DYMOPoint><Size><Width>2.726479</Width><Height>0.3758107</Height></Size></ObjectLayout></TextObject><TextObject><Name>Line_2</Name><Brushes><BackgroundBrush><SolidColorBrush>  <Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></BackgroundBrush><BorderBrush><SolidColorBrush>  <Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderBrush><StrokeBrush><SolidColorBrush>  <Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></StrokeBrush><FillBrush><SolidColorBrush>  <Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></FillBrush></Brushes><Rotation>Rotation0</Rotation><OutlineThickness>1</OutlineThickness><IsOutlined>False</IsOutlined><BorderStyle>SolidLine</BorderStyle><Margin><DYMOThickness Left="0" Top="0" Right="0" Bottom="0" /></Margin><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><FitMode>AlwaysFit</FitMode><IsVertical>False</IsVertical><FormattedText><FitMode>AlwaysFit</FitMode><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><IsVertical>False</IsVertical><LineTextSpan><TextSpan>  <Text>ABC</Text>  <FontInfo><FontName>Segoe UI</FontName><FontSize>19.3</FontSize><IsBold>False</IsBold><IsItalic>False</IsItalic><IsUnderline>False</IsUnderline><FontBrush>  <SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color>  </SolidColorBrush></FontBrush>  </FontInfo></TextSpan></LineTextSpan></FormattedText><ObjectLayout><DYMOPoint><X>0.2437118</X><Y>0.3820833</Y></DYMOPoint><Size><Width>3.046935</Width><Height>0.3600001</Height></Size></ObjectLayout></TextObject><TextObject><Name>Line_3</Name><Brushes><BackgroundBrush><SolidColorBrush>  <Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></BackgroundBrush><BorderBrush><SolidColorBrush>  <Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderBrush><StrokeBrush><SolidColorBrush>  <Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></StrokeBrush><FillBrush><SolidColorBrush>  <Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></FillBrush></Brushes><Rotation>Rotation0</Rotation><OutlineThickness>1</OutlineThickness><IsOutlined>False</IsOutlined><BorderStyle>SolidLine</BorderStyle><Margin><DYMOThickness Left="0" Top="0" Right="0" Bottom="0" /></Margin><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><FitMode>AlwaysFit</FitMode><IsVertical>False</IsVertical><FormattedText><FitMode>AlwaysFit</FitMode><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><IsVertical>False</IsVertical><LineTextSpan><TextSpan>  <Text>ABC</Text>  <FontInfo><FontName>Segoe UI</FontName><FontSize>21.2</FontSize><IsBold>False</IsBold><IsItalic>False</IsItalic><IsUnderline>False</IsUnderline><FontBrush>  <SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color>  </SolidColorBrush></FontBrush>  </FontInfo></TextSpan></LineTextSpan></FormattedText><ObjectLayout><DYMOPoint><X>0.5063462</X><Y>0.6558337</Y></DYMOPoint><Size><Width>2.438336</Width><Height>0.3979165</Height></Size></ObjectLayout></TextObject></LabelObjects></DynamicLayoutManager></DYMOLabel><LabelApplication>Blank</LabelApplication><DataTable><Columns></Columns><Rows></Rows></DataTable></DesktopLabel>' />
+<asp:HiddenField ID="hidLabelBarCode" runat="server" Value='<?xml version="1.0" encoding="utf-8"?><DesktopLabel Version="1"><DYMOLabel Version="3"><Description>DYMO Label</Description><Orientation>Landscape</Orientation><LabelName>Address</LabelName><InitialLength>0</InitialLength><BorderStyle>SolidLine</BorderStyle><DYMORect><DYMOPoint><X>0.23</X><Y>0.06</Y></DYMOPoint><Size><Width>3.21</Width><Height>0.9966666</Height></Size></DYMORect><BorderColor><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderColor><BorderThickness>1</BorderThickness><Show_Border>False</Show_Border><DynamicLayoutManager><RotationBehavior>ClearObjects</RotationBehavior><LabelObjects><TextObject><Name>TextObject0</Name><Brushes><BackgroundBrush><SolidColorBrush><Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></BackgroundBrush><BorderBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderBrush><StrokeBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></StrokeBrush><FillBrush><SolidColorBrush><Color A="0" R="0" G="0" B="0"></Color></SolidColorBrush></FillBrush></Brushes><Rotation>Rotation0</Rotation><OutlineThickness>1</OutlineThickness><IsOutlined>False</IsOutlined><BorderStyle>SolidLine</BorderStyle><Margin><DYMOThickness Left="0" Top="0" Right="0" Bottom="0" /></Margin><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><FitMode>AlwaysFit</FitMode><IsVertical>False</IsVertical><FormattedText><FitMode>AlwaysFit</FitMode><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><IsVertical>False</IsVertical><LineTextSpan><TextSpan><Text>ABC</Text><FontInfo><FontName>Segoe UI</FontName><FontSize>25.1</FontSize><IsBold>False</IsBold><IsItalic>False</IsItalic><IsUnderline>False</IsUnderline><FontBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></FontBrush></FontInfo></TextSpan></LineTextSpan></FormattedText><ObjectLayout><DYMOPoint><X>0.25</X><Y>0.06041637</Y></DYMOPoint><Size><Width>3.006255</Width><Height>0.4683344</Height></Size></ObjectLayout></TextObject><BarcodeObject><Name>BarcodeObject0</Name><Brushes><BackgroundBrush><SolidColorBrush><Color A="1" R="1" G="1" B="1"></Color></SolidColorBrush></BackgroundBrush><BorderBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></BorderBrush><StrokeBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></StrokeBrush><FillBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></FillBrush></Brushes><Rotation>Rotation0</Rotation><OutlineThickness>1</OutlineThickness><IsOutlined>False</IsOutlined><BorderStyle>SolidLine</BorderStyle><Margin><DYMOThickness Left="0" Top="0" Right="0" Bottom="0" /></Margin><BarcodeFormat>Code128Auto</BarcodeFormat><Data><DataString>123</DataString></Data><HorizontalAlignment>Center</HorizontalAlignment><VerticalAlignment>Middle</VerticalAlignment><Size>SmallMedium</Size><TextPosition>Bottom</TextPosition><FontInfo><FontName>Arial</FontName><FontSize>12</FontSize><IsBold>False</IsBold><IsItalic>False</IsItalic><IsUnderline>False</IsUnderline><FontBrush><SolidColorBrush><Color A="1" R="0" G="0" B="0"></Color></SolidColorBrush></FontBrush></FontInfo><ObjectLayout><DYMOPoint><X>0.2595834</X><Y>0.5287508</Y></DYMOPoint><Size><Width>3.03293</Width><Height>0.527916</Height></Size></ObjectLayout></BarcodeObject></LabelObjects></DynamicLayoutManager></DYMOLabel><LabelApplication>Blank</LabelApplication><DataTable><Columns></Columns><Rows></Rows></DataTable></DesktopLabel>' />
 <div style="clear:both;"></div>
 
     <div class="row">
         <div class="col-sm-5 ClientNameHeader">
-             <div> <asp:HyperLink ID="HyperLinkPhotoID" runat="server" Target="_blank" Visible="false">Manage PhotoID</asp:HyperLink></div>
+             <div> <asp:HyperLink ID="HyperLinkPhotoID" runat="server" Visible="false">Manage PhotoID</asp:HyperLink></div>
             <asp:Label ID="lblClientNameHeader" runat="server" Text="" />
           
         </div>
@@ -212,11 +371,14 @@
 
 <div class="ClientNameHeaderRight">
 
-
+    <div id="printDivLabel" class="btn btn-default" runat="server" ClientIDMode="Static" >Print Shopping Label</div> 
+    <div id="printDivBarCodeLabel" class="btn btn-default" runat="server" ClientIDMode="Static" >Print Barcode Label</div> 
+  
+        
 </div>
 
 <div class="ClientNameHeader">
-
+    
 
 
 </div>
@@ -307,17 +469,17 @@
 
 		<div class="dnnFormItem">
 <dnn:label id="lblClientFirstMiddleLastName" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientFirstName" />
-<asp:TextBox ID="txtClientFirstName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="2" placeholder="First Name" MaxLength="30" />
+<asp:TextBox ID="txtClientFirstName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="2" placeholder="First Name" MaxLength="30" AutoCompleteType="Disabled" />
 <asp:RequiredFieldValidator runat="server" id="reqClientFirstName" resourcekey="reqClientFirstName" controltovalidate="txtClientFirstName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
         </div>
 
 		<div class="dnnFormItem">
 			<dnn:label id="lblClientMiddleName" runat="server" controlname="txtClientMiddleInitial" suffix=":" ResourceKey="lblClientMiddleName" />
-            <asp:TextBox ID="txtClientMiddleInitial" runat="server" ValidationGroup="UserForm" TabIndex="3" MaxLength="15"></asp:TextBox>
+            <asp:TextBox ID="txtClientMiddleInitial" runat="server" ValidationGroup="UserForm" TabIndex="3" MaxLength="30" AutoCompleteType="Disabled" />
         </div>
         <div class="dnnFormItem">
 			<dnn:label id="lblClientLastName" runat="server" controlname="txtClientLastName" suffix=":" Text="Last Name" />
-            <asp:TextBox ID="txtClientLastName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="4" MaxLength="30" />
+            <asp:TextBox ID="txtClientLastName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="4" MaxLength="30" AutoCompleteType="Disabled" />
             <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" resourcekey="reqClientLastName" controltovalidate="txtClientLastName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
         </div>
        <asp:Panel ID="PanelShowSuffix" runat="server">
@@ -328,7 +490,7 @@
         </asp:Panel>
         <div class="dnnFormItem">
             <dnn:label id="lblClientDOB" runat="server" resourcekey="lblClientDOB" controlname="txtClientDOB" suffix=":" />
-            <asp:TextBox ID="txtClientDOB" runat="server" ClientIDMode="Static" TabIndex="6" />
+            <asp:TextBox ID="txtClientDOB" runat="server" ClientIDMode="Static" TabIndex="6" AutoCompleteType="Disabled" />
             <asp:RangeValidator ID="Range1" ControlToValidate="txtClientDOB" 
 Type="Date" Format="MM/DD/YYYY" ValidationGroup="UserForm" 
 CssClass="dnnFormMessage dnnFormError" 
@@ -356,10 +518,18 @@ runat="server" />
             <asp:RequiredFieldValidator ID="reqClientEthnicity" runat="server" CssClass="dnnFormMessage dnnFormError" ControlToValidate="ddlClientEthnicity" InitialValue="" Enabled="false" resourcekey="reqClientEthnicity" ValidationGroup="UserForm" />
         </div>
 
+
+<div class="dnnFormItem">
+            <dnn:label id="lblClientLanguage" runat="server" resourcekey="lblClientLanguage" controlname="ddlClientLanguage" suffix=":" />
+            <asp:DropDownList ID="ddlClientLanguage" runat="server" TabIndex="9" ></asp:DropDownList>
+            <asp:RequiredFieldValidator ID="reqClientLanguage" runat="server" CssClass="dnnFormMessage dnnFormError" ControlToValidate="ddlClientLanguage" InitialValue="" Enabled="false" resourcekey="reqClientLanguage" ValidationGroup="UserForm" />
+        </div>
+
+
 		<div class="dnnFormItem">
-            <dnn:label id="lblVerifyDate" runat="server" resourcekey="lblVerifyDate" controlname="radVerifyDate" suffix=":" />
-<asp:TextBox ID="txtVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="9" /> 
-                    <asp:CheckBox ID="cbxDOB_Verified" runat="server" resourcekey="cbxDOB_Verified" OnClick="requireClientVerifyDate();" TabIndex="10" />
+            <dnn:label id="lblVerifyDate" runat="server" resourcekey="lblVerifyDate" controlname="txtVerifyDate" suffix=":" />
+<asp:TextBox ID="txtVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="10" AutoCompleteType="Disabled" /> 
+                    <asp:CheckBox ID="cbxDOB_Verified" runat="server" resourcekey="cbxDOB_Verified" OnClick="requireClientVerifyDate();" TabIndex="11" />
  <asp:RequiredFieldValidator ID="rfvClientVerifyDate" ControlToValidate="txtVerifyDate" ForeColor="Red" ErrorMessage="<b>You must enter a date.</b>" runat="server" Display="Dynamic" ValidationGroup="UserForm" Enabled="false" />                  
 		</div>		
         
@@ -376,42 +546,42 @@ runat="server" />
 <div id="sectAddress" runat="server">   
 
         <div class="dnnFormItem">
-            <dnn:label id="lblAddress" runat="server" resourcekey="lblAddress" controlname="txtLastName" suffix=":" />
-		    <asp:TextBox ID="txtAddress" runat="server" ValidationGroup="UserForm" MaxLength="50" TabIndex="11" />
+            <dnn:label id="lblAddress" runat="server" resourcekey="lblAddress" controlname="txtAddress" suffix=":" />
+		    <asp:TextBox ID="txtAddress" runat="server" ValidationGroup="UserForm" MaxLength="50" TabIndex="12" AutoCompleteType="Disabled" />
 		    <asp:RequiredFieldValidator runat="server" id="reqAddress" resourcekey="reqAddress" controltovalidate="txtAddress" errormessage="Required!-----" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
 
         </div>
 		<div class="dnnFormItem">
             <dnn:label id="lblUnit" runat="server" resourcekey="lblUnit" controlname="txtUnit" suffix=":"/>
-		    <asp:TextBox ID="txtUnit" runat="server" TabIndex="12" />
+		    <asp:TextBox ID="txtUnit" runat="server" TabIndex="13" AutoCompleteType="Disabled" />
 		</div>		
         
         <div class="dnnFormItem">
-            <dnn:label id="lblCityStateZip" runat="server" resourcekey="lblCityStateZip" controlname="txtCity" suffix=":" />
-		    <asp:DropDownList ID="ddlCity" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCity_SelectedIndexChanged" TabIndex="13"></asp:DropDownList>
+            <dnn:label id="lblCityStateZip" runat="server" resourcekey="lblCityStateZip" controlname="ddlCity" suffix=":" />
+		    <asp:DropDownList ID="ddlCity" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCity_SelectedIndexChanged" TabIndex="14"></asp:DropDownList>
             <asp:RequiredFieldValidator runat="server" id="reqCity" resourcekey="reqCity" controltovalidate="ddlCity" InitialValue="-1" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
         </div>
 
 		<div class="dnnFormItem">
-			<dnn:label id="lblClientVillage" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientVillage" />
-			<asp:DropDownList ID="ddlTown" runat="server" TabIndex="14"></asp:DropDownList>
+			<dnn:label id="lblClientVillage" runat="server" controlname="ddlTown" suffix=":" ResourceKey="lblClientVillage" />
+			<asp:DropDownList ID="ddlTown" runat="server" TabIndex="15"></asp:DropDownList>
             <asp:TextBox ID="txtOtherTown" Visible="False" runat="server" />
             <asp:RequiredFieldValidator runat="server" id="reqTown" Enabled="False" resourcekey="reqTown" controltovalidate="ddlTown" InitialValue="-1" errormessage="Required!" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" />
         </div>
 
 		<div class="dnnFormItem">
-            <dnn:label id="lblClientState" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientState" />
+            <dnn:label id="lblClientState" runat="server" controlname="ddlState" suffix=":" ResourceKey="lblClientState" />
             <asp:DropDownList ID="ddlState" runat="server"></asp:DropDownList>
 		</div>	
         	
         <div class="dnnFormItem">
-			<dnn:label id="lblClientZipCode" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientZipCode" />
-			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="15" />
+			<dnn:label id="lblClientZipCode" runat="server" controlname="txtZip" suffix=":" ResourceKey="lblClientZipCode" />
+			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="16" AutoCompleteType="Disabled" />
         </div>
         <div class="dnnFormItem">
             <dnn:label id="lblClientAddressVerify" runat="server" resourcekey="lblClientAddressVerify" controlname="ClientAddressVerifyDate" suffix=":" />
-            <asp:TextBox ID="txtClientAddressVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="16" />
-            <asp:CheckBox ID="cbxClientAddressVerify" runat="server" resourcekey="cbxClientAddressVerify" OnClick="requireAddressVerifyDate();" TabIndex="17" />
+            <asp:TextBox ID="txtClientAddressVerifyDate" runat="server" ClientIDMode="Static" Width="120px" TabIndex="17" />
+            <asp:CheckBox ID="cbxClientAddressVerify" runat="server" resourcekey="cbxClientAddressVerify" OnClick="requireAddressVerifyDate();" TabIndex="18" />
             <asp:RequiredFieldValidator ID="rfvAddressVerifyDate" ControlToValidate="txtClientAddressVerifyDate" ForeColor="Red" ErrorMessage="<b>You must enter a date.</b>" runat="server" Display="Dynamic" ValidationGroup="UserForm" Enabled="false" />      
         </div>
 <asp:Panel ID="PanelShowOneBagOnly" runat="server">		
@@ -423,7 +593,7 @@ runat="server" />
 
         <div class="dnnFormItem">
             <dnn:label id="lblEmail" runat="server" controlname="txtEmail" suffix=":" />
-            <asp:TextBox ID="txtEmail" runat="server" TabIndex="18" />
+            <asp:TextBox ID="txtEmail" runat="server" TabIndex="19" AutoCompleteType="Disabled" />
              <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" CssClass="dnnFormMessage dnnFormError" ErrorMessage="E-Mail Address is Required!" runat="server"
                  Display="Dynamic" ValidationGroup="UserForm" Enabled="false" /> 
             <asp:RegularExpressionValidator ID="RegularExpressionValidatorEmail" runat="server" ControlToValidate="txtEmail"
@@ -432,8 +602,8 @@ runat="server" />
         </div>
 		<div class="dnnFormItem">
             <dnn:label id="lblPhone" resourcekey="lblPhone" runat="server" controlname="txtPhone" suffix=":" />
-		    <asp:TextBox ID="txtPhone" runat="server" Width="200px" TabIndex="19" /> <asp:DropDownList 
-                ID="ddlClientPhoneType" runat="server" Width="100px" TabIndex="20">
+		    <asp:TextBox ID="txtPhone" runat="server" Width="200px" TabIndex="20" AutoCompleteType="Disabled" /> <asp:DropDownList 
+                ID="ddlClientPhoneType" runat="server" Width="100px" TabIndex="21">
                 <asp:ListItem Text="-- Type --" Value="0"></asp:ListItem>
                 <asp:ListItem Text="Home"></asp:ListItem>
                 <asp:ListItem Text="Cell"></asp:ListItem>
@@ -462,7 +632,7 @@ runat="server" />
 
         <div class="dnnFormItem">
             <dnn:label id="lblCaseWorker" runat="server" resourcekey="lblCaseWorker" controlname="ddlCaseWorker" suffix=":" />
-            <asp:DropDownList ID="ddlCaseWorker" runat="server" TabIndex="21"></asp:DropDownList>
+            <asp:DropDownList ID="ddlCaseWorker" runat="server" TabIndex="22"></asp:DropDownList>
         </div>
 
     <div class="dnnFormItem" id="DisabilitiesRow" runat="server">
@@ -480,7 +650,7 @@ runat="server" />
 		</div>	
         <div class="dnnFormItem">
             <dnn:label id="lblClientNote" runat="server" resourcekey="lblClientNote" controlname="txtClientNote" suffix=":" />
-		    <asp:TextBox ID="txtClientNote" runat="server" Width="100%" Height="120px" TextMode="MultiLine" TabIndex="22" />
+		    <asp:TextBox ID="txtClientNote" runat="server" Width="100%" Height="120px" TextMode="MultiLine" TabIndex="23" />
         </div>
         	
         <div class="dnnFormItem">
@@ -887,7 +1057,42 @@ runat="server" />
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidatorXmasSizes" runat="server" ValidationGroup="AFM" CssClass="dnnFormMessage dnnFormError"
             ControlToValidate="ddlSizes" InitialValue="" ResourceKey="ddlSizes.Required"></asp:RequiredFieldValidator>
-        </div>			
+        </div>		
+        <div class="dnnFormItem" id="ShowXmasGiftFieldsSection" visible="false" runat="server">
+
+
+
+
+	 <div class="dnnFormItem"> 
+		
+            <dnn:Label runat="server" ID="lblXmasGift1" ControlName="txtXmasGift1" ResourceKey="lblXmasGift1" Suffix=":" />
+            <asp:TextBox ID="txtXmasGift1" runat="server" />
+    </div>
+        <div class="dnnFormItem"> 
+         
+		<dnn:Label runat="server" ID="lblXmasGift1Size" ControlName="txtXmasGift1Size" ResourceKey="lblXmasGift1Size" Suffix=":" />
+            <asp:TextBox ID="txtXmasGift1Size" runat="server" />
+		
+		
+	</div>	
+	
+	<div class="dnnFormItem">
+		
+            <dnn:Label runat="server" ID="lblXmasGift2" ControlName="txtXmasGift2" ResourceKey="lblXmasGift2" Suffix=":" />
+            <asp:TextBox ID="txtXmasGift2" runat="server" />
+        </div>	
+        <div class="dnnFormItem">
+		
+		<dnn:Label runat="server" ID="lblXmasGift2Size" ControlName="txtXmasGift2Size" ResourceKey="lblXmasGift2Size" Suffix=":" />
+            <asp:TextBox ID="txtXmasGift2Size" runat="server" />
+		</div>
+		
+        <div class="dnnFormItem" style="display:none;">
+		
+		<dnn:Label runat="server" ID="lblXmasGiftRecordID" ControlName="txtXmasGiftRecordID" ResourceKey="lblXmasGiftRecordID" Suffix=":" />
+            <asp:TextBox ID="txtXmasGiftRecordID" runat="server" />
+		</div>
+	        </div>		
 
         <div class="dnnFormItem">
             <dnn:Label runat="server" ID="lblXmasNotes" ControlName="txtXmasNotes" ResourceKey="lblXmasNotes" Suffix=":" />
@@ -899,17 +1104,22 @@ runat="server" />
             <asp:CheckBox ID="cbxBikeRaffle" runat="server" />
            
         </div>	
-        <div class="dnnFormItem">
-            <dnn:Label runat="server" ID="lblReceivedToys" ControlName="txtReceivedToysDate" ResourceKey="lblReceivedToys" Suffix=":" />
-            
-            <asp:TextBox ID="txtReceivedToysDate" runat="server" ClientIDMode="Static" />
-        </div>	    
+    
         <div class="dnnFormItem" id="bikeAwardedDate" runat="server">
             <dnn:Label ID="lblBikeAwardedDate" runat="server" CssClass="dnnFormLabel" AssociatedControlID="txtBikeAwardedDate" Suffix=":" />
             <asp:TextBox ID="txtBikeAwardedDate" runat="server" ClientIDMode="Static" />
         </div>		
 
-
+        <div class="dnnFormItem">
+            <dnn:Label runat="server" ID="lblReceivedToys" ControlName="txtReceivedToysDate" ResourceKey="lblReceivedToys" Suffix=":" />
+            
+            <asp:TextBox ID="txtReceivedToysDate" runat="server" ClientIDMode="Static" />
+        </div>	
+        <div class="dnnFormItem">
+            <h5>
+                <asp:Label ID="LabelXmasRecordID" runat="server" Text="RecordID"></asp:Label>
+            </h5>
+            </div>
         <asp:HiddenField ID="hidXmasID" runat="server" />
 
 
@@ -920,7 +1130,7 @@ runat="server" />
         <asp:BoundField HeaderText="Year" DataField="xMasYear" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
         
         <asp:BoundField HeaderText="Received Toys" DataField="ReceivedToysDate" DataFormatString="{0:d}" ItemStyle-VerticalAlign="Top" HtmlEncode="false" />
-        <asp:BoundField HeaderText="Size" DataField="xMasSizes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:BoundField HeaderText="Size" DataField="xMasSizes" ItemStyle-VerticalAlign="Top" Visible="false" ></asp:BoundField>
         <asp:BoundField HeaderText="Notes" DataField="XmasNotes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
         <asp:BoundField HeaderText="Enter Bike Raffle" DataField="BikeRaffle" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
         <asp:BoundField HeaderText="Bike Awarded" DataField="BikeAwardedDate" DataFormatString="{0:d}" ItemStyle-VerticalAlign="Top" />
@@ -1025,7 +1235,12 @@ runat="server" />
  
  <div style="position:absolute; right: 0;"><asp:LinkButton runat="server" ID="btnAddClientVisit" OnClientClick="dataChanged=0;" 
                 CssClass="btn btn-primary" ResourceKey="btnAddClientVisit" ValidationGroup="VisitForm" 
-                onclick="btnAddClientVisit_Click" /></div>   
+                onclick="btnAddClientVisit_Click" />
+     <input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="javascript:onSign();" class="btn btn-primary" />
+        <input id="ClearBtn" name="ClearBtn" type="button" value="Clear" onclick="javascript:onClear();" class="btn btn-primary" style="display:none;"  />&nbsp;
+
+        <input id="DoneBtn" name="DoneBtn" type="button" value="Save/Update Visit"  class="btn btn-primary" onclick="javascript:onDone();" style="display:none;"  />
+ </div>   
 
         
 <br clear="all" />    
@@ -1099,6 +1314,18 @@ runat="server" />
 		</div>
 		
 </asp:Panel>
+        <div id="SigDiv" class="dnnFormItem" style="display:none;" runat="server">
+            <dnn:Label runat="server" ID="lblSignature" ControlName="cnv" ResourceKey="lblSignature" Suffix=":"  /> 
+<canvas id="cnv" name="cnv" width="443" height="100" style="border: 2px solid #ddd;"></canvas>
+            <asp:HiddenField ID="HiddenFieldSignData" runat="server" />
+          <asp:HiddenField ID="HiddenFieldImgData" runat="server" />
+            </div>
+
+        <div class="dnnFormItem">
+<dnn:Label runat="server" ID="lblSignatureOnFile" ControlName="ImgInitials" ResourceKey="lblSignatureOnFile" Suffix=":" Visible="false" /> 
+<asp:Image ID="ImgInitials" runat="server" Visible="false" />
+
+        </div>
 
 		<div class="dnnFormItem">
  <dnn:Label runat="server" ID="lblVisitNotes" ControlName="txtVisitNotes" ResourceKey="lblVisitNotes" Suffix=":" /> 
@@ -1116,26 +1343,48 @@ runat="server" />
 
     <asp:HiddenField ID="hidVisitID" runat="server" />
 
-
+    <asp:HiddenField ID="hidClientCellNumber" runat="server" />
 
 
 <asp:GridView ID="gvVisits" runat="server" 
-    DataKeyNames="VisitID" OnRowEditing="gvVisits_RowEditing" OnRowCommand="gvVisits_RowCommand" OnPageIndexChanging="gvVisits_PageIndexChanging"     
+    DataKeyNames="VisitID" OnRowEditing="gvVisits_RowEditing" OnRowCommand="gvVisits_RowCommand" 
+    OnPageIndexChanging="gvVisits_PageIndexChanging" OnRowDataBound="gvVisits_RowDataBound"          
     AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
     resourcekey="gvVisits" AllowPaging="True" PageSize="10">
 <AlternatingRowStyle CssClass="alt" />    
 <PagerStyle CssClass="pgr" />  
 <PagerSettings Mode="NumericFirstLast" /> 
     <Columns>
+          <asp:TemplateField HeaderText="Send Text" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonSendOrderSheet" CausesValidation="False"     
+             CommandArgument='<%# Eval("VisitID") + "-" + Eval("ClientID")%>' CommandName="SendOrderSheet" runat="server"><asp:image ID="imgSendOrderSheet" runat="server" imageurl="~/Icons/Sigma/Email_32x32_Standard.png" AlternateText="Send Order Sheet" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
         <asp:TemplateField HeaderText="Edit" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
          <ItemTemplate>
            <asp:LinkButton ID="LinkButtonEdit" CausesValidation="False"     
              CommandArgument='<%# Eval("VisitID") %>' 
-             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/images/edit.gif" AlternateText="Edit Record" /></asp:LinkButton>
+             CommandName="Edit" runat="server"><asp:image ID="imgEdit" runat="server" imageurl="~/Icons/Sigma/Edit_32X32_Standard.png" AlternateText="Edit Record" /></asp:LinkButton>
          </ItemTemplate>
        </asp:TemplateField>
+
+        <asp:TemplateField HeaderText="Delete" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
+         <ItemTemplate>
+           <asp:LinkButton ID="LinkButtonDelete" CausesValidation="False"     
+             CommandArgument='<%# Eval("VisitID") %>' 
+             CommandName="DeleteVisit" runat="server"><asp:image ID="imgDeleteVisit" runat="server" imageurl="~/Icons/Sigma/Delete_32X32_Standard.png" AlternateText="Delete Record" /></asp:LinkButton>
+         </ItemTemplate>
+       </asp:TemplateField>
+
       <asp:BoundField HeaderText="Visit Date" ItemStyle-VerticalAlign="Top" DataField="VisitDate" DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
        <asp:BoundField HeaderText="Notes" DataField="VisitNotes" ItemStyle-VerticalAlign="Top" ></asp:BoundField>
+        <asp:TemplateField HeaderText="Signature" ItemStyle-VerticalAlign="Top" ItemStyle-Width="150px">    
+            <ItemTemplate><asp:Image ID="ImageSignature" CssClass="sigZoom" runat="server" Height="30px" ImageUrl='<%# "data:image/png;base64," + Convert.ToBase64String((byte[])Eval("ClientSignature"))%>'  Width="150px"></asp:Image>      
+          
+            </ItemTemplate>
+        </asp:TemplateField>	
         <asp:BoundField HeaderText="# of Bags" DataField="VisitNumBags" ItemStyle-VerticalAlign="Top" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
         <asp:BoundField HeaderText="Service Location" DataField="ServiceLocation" ItemStyle-VerticalAlign="Top" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Left"></asp:BoundField>
         <asp:BoundField HeaderText="Recorded By" DataField="LastModifiedByUserName" ItemStyle-VerticalAlign="Top" ItemStyle-Width="160px"  ItemStyle-HorizontalAlign="Center"></asp:BoundField>

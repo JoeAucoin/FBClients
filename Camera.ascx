@@ -90,6 +90,8 @@
   <button id="btn-capture" type="button" class="button">Capture Image</button>
 
     <asp:Label ID="LabelClientInfo" runat="server" Text="LabelClientInfo"></asp:Label>
+
+     <asp:HyperLink ID="HyperLinkMakeID" runat="server" CssClass="button" Visible="true">Make ID Card</asp:HyperLink>
     
 </div>
 
@@ -123,6 +125,16 @@
 <asp:Image ID="ImageIDClient" runat="server" Height="100" CssClass="hover-zoom" />
 
 </div>
+
+<div class="button-group">
+  
+ 
+    <asp:Button ID="ButtonReturnToClientManager" runat="server" Text="Return To Client Manager" OnClick="ButtonReturnToClientManager_Click" />
+
+    
+    
+</div>
+
 
 <br /> &nbsp;
 <br /> &nbsp;

@@ -36,6 +36,15 @@
         });
     });
 
+    $(function () {
+        var $id = $('#txtClientId');
+        $id.keyup(function (e) {
+            if ($id.val().length >= 11) {
+                $(this.form).submit();
+            }
+        });
+    });
+
 </script>
 
 
@@ -90,14 +99,14 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
        
         <div class="dnnFormItem">
             <dnn:Label runat="server" ID="lblFirstName" ControlName="txtFirstName" ResourceKey="lblFirstName" Suffix=":" />
-            <asp:TextBox runat="server" ID="txtFirstName" />
+            <asp:TextBox runat="server" ID="txtFirstName" AutoCompleteType="Disabled" />
             
         </div>
 
 
         <div class="dnnFormItem">
             <dnn:Label runat="server" ID="lblLastName" ControlName="txtLastName" ResourceKey="lblLastName" Suffix=":" />
-            <asp:TextBox runat="server" ID="txtLastName" />
+            <asp:TextBox runat="server" ID="txtLastName" AutoCompleteType="Disabled" />
             
         </div>
 
@@ -111,7 +120,7 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
 
         <div class="dnnFormItem">
             <dnn:Label runat="server" ID="lblAddress" ControlName="txtAddress" ResourceKey="lblAddress" Suffix=":" />
-            <asp:TextBox runat="server" ID="txtAddress" MaxLength="50" />
+            <asp:TextBox runat="server" ID="txtAddress" MaxLength="50" AutoCompleteType="Disabled" />
             
         </div>
 		
@@ -123,7 +132,7 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
 
         <div class="dnnFormItem" id="divClientIDCard" runat="server">
             <dnn:Label runat="server" ControlName="txtClientIdCard" ID="lblClientIdCard" Suffix=":" ResourceKey="lblClientIdCard" />
-            <asp:TextBox runat="server" ID="txtClientIdCard" />
+            <asp:TextBox runat="server" ID="txtClientIdCard" AutoCompleteType="Disabled" />
         </div>
 
 
@@ -144,12 +153,12 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
             <fieldset>
                 <div class="dnnFormItem">
                     <dnn:Label runat="server" ID="lblFirstNameAFM" ControlName="txtFirstNameAFM" ResourceKey="lblFirstNameAFM" Suffix=":" />
-                    <asp:TextBox runat="server" ID="txtFirstNameAFM" />
+                    <asp:TextBox runat="server" ID="txtFirstNameAFM" AutoCompleteType="Disabled" />
                 </div>
 
                 <div class="dnnFormItem">
                     <dnn:Label runat="server" ID="lblLastNameAFM" ControlName="txtLastNameAFM" ResourceKey="lblLastNameAFM" Suffix=":" />
-                    <asp:TextBox runat="server" ID="txtLastNameAFM" />
+                    <asp:TextBox runat="server" ID="txtLastNameAFM" AutoCompleteType="Disabled" />
                 </div>
 
         <div class="dnnFormItem" id="divAFMDOB" runat="server">
@@ -164,7 +173,7 @@ MinimumValue="0" MaximumValue="999999" ControlToValidate="txtClientId" ErrorMess
 
     </div>
 
-    <!----
+   <!----
 OnRowDataBound="GridViewSearch_RowDataBound" 
         ---->
 <asp:GridView ID="GridViewSearch" runat="server" CssClass="table table-striped table-bordered table-list" OnPageIndexChanging="GridViewSearch_PageIndexChanging" 
@@ -205,13 +214,13 @@ OnRowDataBound="GridViewSearch_RowDataBound"
 
         <asp:BoundField HeaderText="Last Name" DataField="ClientLastName" ItemStyle-HorizontalAlign="Left"></asp:BoundField>
         <asp:BoundField HeaderText="First Name" DataField="ClientFirstName"></asp:BoundField>
-        <asp:BoundField HeaderText="MI" DataField="ClientMiddleInitial"></asp:BoundField>
+        <asp:BoundField HeaderText="MI" DataField="ClientMiddleInitial" Visible="false"></asp:BoundField>
         
         <asp:BoundField HeaderText="Suffix" DataField="ClientSuffix" ItemStyle-HorizontalAlign="Left" Visible="False"></asp:BoundField>
         <asp:BoundField HeaderText="Address" DataField="ClientAddress"></asp:BoundField>
         
         <asp:BoundField HeaderText="Unit" DataField="ClientUnit"></asp:BoundField>
-        <asp:BoundField HeaderText="Village" DataField="ClientTown" ></asp:BoundField>
+        <asp:BoundField HeaderText="Town" DataField="ClientCity" ></asp:BoundField>
 
         <asp:BoundField HeaderText="Age" DataField="ClientAge" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
        
@@ -237,6 +246,7 @@ OnRowDataBound="GridViewSearch_RowDataBound"
 
     </Columns>
 </asp:GridView>	
+
 
 
 </div>

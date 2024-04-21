@@ -48,10 +48,11 @@ END
 GO
 
 
-
-/****** Object:  StoredProcedure [dbo].[GIBS_FBReports_New_Clients_Report]    Script Date: 10/12/2020 6:11:53 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBReports_New_Clients_Report]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[GIBS_FBReports_New_Clients_Report]
 GO
+
+
 
 /****** Object:  StoredProcedure [dbo].[GIBS_FBReports_New_Clients_Report]    Script Date: 10/12/2020 6:11:53 AM ******/
 SET ANSI_NULLS ON
