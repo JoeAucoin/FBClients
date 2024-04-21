@@ -1777,8 +1777,8 @@ namespace GIBS.Modules.FBClients
 
         public void SendTwilioMessage(string _message)
         {
-            string accountSid = _TwilioAccountSid.ToString();   // "ACb0ca09ec015837233c41b803be70f9d2";
-            string authToken = _TwilioAuthToken.ToString();    //  "b601ca3a097c457789c6e431feb1338c";
+            string accountSid = _TwilioAccountSid.ToString();   
+            string authToken = _TwilioAuthToken.ToString();    
             string twilioPhoneNumber = _TwilioPhoneNumber.ToString();
 
             TwilioSMS twilioSMS = new TwilioSMS(accountSid, authToken, twilioPhoneNumber);

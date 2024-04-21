@@ -297,6 +297,8 @@
     <Content Include="install\FBClients_1.0.68_Source.zip" />
     <Content Include="install\FBClients_1.0.74_Install.zip" />
     <Content Include="install\FBClients_1.0.74_Source.zip" />
+    <Content Include="install\FBClients_1.0.91_Install.zip" />
+    <Content Include="install\FBClients_1.0.91_Source.zip" />
     <None Include="packages.config" />
     <None Include="SqlScripts\01.00.00.SqlDataProvider" />
     <None Include="SqlScripts\01.00.02.SqlDataProvider" />
