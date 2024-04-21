@@ -1770,7 +1770,7 @@ namespace GIBS.Modules.FBClients
 
         }
 
-        //static string _TwilioAccountSid = "";
+        //static string _TwilioAccountSid = ""; 
         //static string _TwilioAuthToken = "";
         //static string _TwilioPhoneNumber = "";
         //static string _ClientCellNumber = "";
