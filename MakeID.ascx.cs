@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-
+using Spire.Barcode;
 
 namespace GIBS.Modules.FBClients
 {
@@ -139,14 +139,34 @@ namespace GIBS.Modules.FBClients
 
             try
             {
-                //start here
-                BarcodeLib.Barcode b = new BarcodeLib.Barcode();
-                System.Drawing.Image imgBarCode = b.Encode(BarcodeLib.TYPE.CODE128, barcodeText.ToString(), System.Drawing.Color.Black, System.Drawing.Color.White, 290, 30);
+                ////start here
+                //BarcodeLib.Barcode b = new BarcodeLib.Barcode();
+                //System.Drawing.Image imgBarCode = b.Encode(BarcodeLib.TYPE.CODE128, barcodeText.ToString(), System.Drawing.Color.Black, System.Drawing.Color.White, 290, 30);
 
-                FileStream fileStreamBarCode = new FileStream(PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg", FileMode.Create); //I use file stream instead of Memory stream here
-                imgBarCode.Save(fileStreamBarCode, ImageFormat.Jpeg);
-                fileStreamBarCode.Close();
+                //FileStream fileStreamBarCode = new FileStream(PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg", FileMode.Create); //I use file stream instead of Memory stream here
+                //imgBarCode.Save(fileStreamBarCode, ImageFormat.Jpeg);
+                //fileStreamBarCode.Close();
+                //_BarCodeImage = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg";
+
+                BarcodeSettings bs = new BarcodeSettings();
+
+                bs.Type = BarCodeType.Code128;
+                bs.Data = barcodeText.ToString();
+                bs.ShowText = false;
+                bs.AutoResize = false;
+                bs.Unit = GraphicsUnit.Millimeter;
+                bs.BarHeight = 9;
+
+                bs.ImageWidth = 290;
+                bs.ImageHeight = 9;
+
+                BarCodeGenerator bg = new BarCodeGenerator(bs);
+
+                bg.GenerateImage().Save(PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg");
+
                 _BarCodeImage = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg";
+
+
             }
             catch (Exception ex)
             {

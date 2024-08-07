@@ -6,6 +6,10 @@
     </file>
     <file>
       <path>JavaScript/</path>
+      <name>dymo.connect.framework.js</name>
+    </file>
+    <file>
+      <path>JavaScript/</path>
       <name>jquery.livequery.js</name>
     </file>
     <file>
@@ -14,15 +18,19 @@
     </file>
     <file>
       <path>JavaScript/</path>
+      <name>jquery.maskedinput-1.4.1.js</name>
+    </file>
+    <file>
+      <path>JavaScript/</path>
       <name>jquery.watermarkinput.js</name>
     </file>
     <file>
-      <path>WebcamCapture/</path>
-      <name>Default.aspx</name>
+      <path>JavaScript/</path>
+      <name>PrintLabel.js</name>
     </file>
     <file>
-      <path>WebcamCapture/</path>
-      <name>ImageConversions.aspx</name>
+      <path>JavaScript/</path>
+      <name>SigWebTablet.js</name>
     </file>
     <file>
       <path>Documentation/</path>
@@ -31,6 +39,14 @@
     <file>
       <path>Documentation/</path>
       <name>Documentation.html</name>
+    </file>
+    <file>
+      <path>WebcamCapture/</path>
+      <name>Default.aspx</name>
+    </file>
+    <file>
+      <path>WebcamCapture/</path>
+      <name>ImageConversions.aspx</name>
     </file>
     <file>
       <path>Images/</path>
@@ -111,6 +127,10 @@
     <file>
       <path />
       <name>EditClient.ascx</name>
+    </file>
+    <file>
+      <path />
+      <name>MakeID.ascx</name>
     </file>
     <file>
       <path />
