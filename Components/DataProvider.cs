@@ -46,10 +46,13 @@ namespace GIBS.FBClients.Components
 
         public abstract void FBClients_IDPhoto_Insert(int clientID, byte[] iDPhoto, int createdByUserID);
 
+        public abstract void FBClients_IDPhoto_DeleteByClientID(int clientID);
+
         public abstract void FBClients_DeleteClient(int clientID);
 
         // CLIENTS
         public abstract IDataReader FBClients_GetByID(int portalID, int clientID);
+        public abstract IDataReader FBClients_IDPhoto_GetByClientID(int clientID);
         public abstract IDataReader FBClients_GetAll(int portalID);
         public abstract IDataReader FBClients_Search(int portalId, string clientLastName, string clientIdCard, string clientFirstName, string clientID, string clientAddress, string clientCity, string clientType, string isActive, string clientDOB);
 

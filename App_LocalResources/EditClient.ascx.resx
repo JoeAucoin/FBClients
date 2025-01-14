@@ -421,13 +421,13 @@
     <value>Are you sure you want to edit this visit record for this client?</value>
   </data>
   <data name="cbxOneBagOnly.Text" xml:space="preserve">
-    <value>One Bag Limit</value>
+    <value>Check to Limit One Bag</value>
   </data>
   <data name="lblOneBagOnly.Help" xml:space="preserve">
     <value>Check this box if the client lives in a rooming house or boarding house</value>
   </data>
   <data name="lblOneBagOnly.Text" xml:space="preserve">
-    <value>One Room Rental</value>
+    <value>One Bag Client</value>
   </data>
   <data name="lblClientLastNameSAVE.Text" xml:space="preserve">
     <value>Last Name</value>

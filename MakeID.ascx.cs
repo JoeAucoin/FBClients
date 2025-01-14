@@ -24,12 +24,12 @@ namespace GIBS.Modules.FBClients
 
         public int clientId = 0;
 
-        string _ClientPhoto = "";
-        string _ClientPhotoRS = "";
-        string _BarCodeImage = "";
-        string _PdfFilename = "";
-        string _IDCardImagePath = "";
-        string _CertWatermark = "";
+        public string _ClientPhoto = "";
+        public string _ClientPhotoRS = "";
+        public string _BarCodeImage = "";
+        public string _PdfFilename = "";
+        public string _IDCardImagePath = "";
+        
 
 
         protected override void OnInit(EventArgs e)
@@ -52,6 +52,23 @@ namespace GIBS.Modules.FBClients
                 clientId = Int32.Parse(Request.QueryString["cid"]);
             }
             LoadSettings();
+
+            string _clientImage = "/Portals/" + this.PortalId + "/" + _IDCardImagePath.ToString() + clientId.ToString() + ".jpg";
+            if (File.Exists(Server.MapPath(_clientImage)))
+            {
+                string format1 = "Mddyyyyhhmmsstt";
+                var myTimeStamp = String.Format("{0}", DateTime.Now.ToString(format1));
+                ImageIDClient.Visible = true;
+                ImageIDClient.ImageUrl = _clientImage + "?v=" + myTimeStamp.ToString();
+                ImageIDClient.AlternateText = "picture";
+                _ClientPhoto = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + ".jpg";
+            }
+            else
+            {
+                ImageIDClient.Visible = false;
+            }
+
+
             FillClientRecord(clientId);
         }
 
@@ -73,10 +90,10 @@ namespace GIBS.Modules.FBClients
                     {
                         ImageIDClient.Visible = true;
                         byte[] imagem = (byte[])(item.IDPhoto);
-                        var PROFILE_PIC = Convert.ToBase64String(imagem);
-                        HiddenFieldClientPicture.Value = item.IDPhoto.ToString();
-                        ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
-                        ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+                        //var PROFILE_PIC = Convert.ToBase64String(imagem);
+                        //HiddenFieldClientPicture.Value = item.IDPhoto.ToString();
+                        //ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                        //ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
 
                         MemoryStream ms = new MemoryStream(imagem);
                         //write to file
@@ -89,36 +106,34 @@ namespace GIBS.Modules.FBClients
                         }
 
                         FileStream file = new FileStream(_ClientPhoto.ToString(), FileMode.Create, FileAccess.Write);
+                        
                         ms.WriteTo(file);
                         ms.Close();
                         file.Close();
                         file.Dispose();
 
-                        // RESIZE THE IMAGE
-                        ////System.Drawing.Image original = System.Drawing.Image.FromFile(_ClientPhoto);
-                        ////System.Drawing.Image resized = ResizeImage(original, new Size(150, 150));
-                        ////FileStream fileStream = new FileStream(PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientID.ToString() + "rs.jpg", FileMode.Create); //I use file stream instead of Memory stream here
+                        CompressImage(_ClientPhoto, 90);
 
 
-                        ////resized.Save(fileStream, ImageFormat.Jpeg);
-                        ////original.Dispose();
-                        ////fileStream.Dispose();
-                        ////fileStream.Close(); //close after use
+                        string _clientImage = "/Portals/" + this.PortalId + "/" + _IDCardImagePath.ToString() + clientID.ToString() + ".jpg";
+                        string format1 = "Mddyyyyhhmmsstt";
+                        var myTimeStamp = String.Format("{0}", DateTime.Now.ToString(format1));
+                        ImageIDClient.Visible = true;
+                        ImageIDClient.ImageUrl = _clientImage + "?v=" + myTimeStamp.ToString();
+                        ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
 
-                        //file.Close();
+                        // New image created, delete database image . .
+                        controller.FBClients_IDPhoto_DeleteByClientID(clientID);
+  
 
-                        //      _ClientPhotoRS = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientID.ToString() + "rs.jpg";
-
-                        // CREATE THE BARCODE
+                    }
+                    //else
+                    //{
+                    //    ImageIDClient.Visible = false;
+                    //}
+// CREATE THE BARCODE
                         string s = clientID.ToString().PadLeft(11, '0');
                         CreateBarCode(s.ToString());
-
-                    }
-                    else
-                    {
-                        ImageIDClient.Visible = false;
-                    }
-
                 }
                 else
                 {
@@ -134,20 +149,48 @@ namespace GIBS.Modules.FBClients
         }
 
 
+        public static void CompressImage(string SoucePath, int quality)
+        {
+            FileStream fs = new FileStream(SoucePath, FileMode.Open);
+            System.Drawing.Image imgPhoto = System.Drawing.Image.FromStream(fs);
+            fs.Close();
+
+            using (Bitmap bmp1 = new Bitmap(imgPhoto))
+            {
+                ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+                System.Drawing.Imaging.Encoder QualityEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                EncoderParameter myEncoderParameter = new EncoderParameter(QualityEncoder, quality);
+
+                myEncoderParameters.Param[0] = myEncoderParameter;
+                File.Delete(SoucePath);
+                bmp1.Save(SoucePath, jpgEncoder, myEncoderParameters);
+
+            }
+        }
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+
         public void CreateBarCode(string barcodeText)
         {
 
             try
             {
-                ////start here
-                //BarcodeLib.Barcode b = new BarcodeLib.Barcode();
-                //System.Drawing.Image imgBarCode = b.Encode(BarcodeLib.TYPE.CODE128, barcodeText.ToString(), System.Drawing.Color.Black, System.Drawing.Color.White, 290, 30);
-
-                //FileStream fileStreamBarCode = new FileStream(PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg", FileMode.Create); //I use file stream instead of Memory stream here
-                //imgBarCode.Save(fileStreamBarCode, ImageFormat.Jpeg);
-                //fileStreamBarCode.Close();
-                //_BarCodeImage = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientId.ToString() + "BarCode.jpg";
-
+               
                 BarcodeSettings bs = new BarcodeSettings();
 
                 bs.Type = BarCodeType.Code128;
@@ -190,15 +233,12 @@ namespace GIBS.Modules.FBClients
             try
             {
 
-
                 string myPortalName = this.PortalSettings.PortalName.ToString();
 
-
-
                 Document document = new Document();
-                document.Info.Author = "Joseph Aucoin";
+                document.Info.Author = "Joseph Aucoin - www.gibs.com";
                 document.Info.Keywords = "Food Pantry ID Card";
-                document.Info.Title = myPortalName.ToString() + " ID Card";
+                document.Info.Title = myPortalName.ToString() + " ID Card - " + LabelClientInfo.Text.ToString();
 
                 // Get the A4 page size
                 MigraDoc.DocumentObjectModel.Unit width, height;
@@ -342,66 +382,6 @@ namespace GIBS.Modules.FBClients
 
                 pdfRenderer.PdfDocument.Save(_PdfFilename);
 
-
-
-
-
-
-
-
-                bool watermarkIsNeeded = false;
-                if (_CertWatermark.ToString().Trim().Length > 1)
-                {
-                    watermarkIsNeeded = true;
-                }
-
-                if (watermarkIsNeeded)
-                {
-                    PdfDocument pdfIn = PdfReader.Open(_PdfFilename, PdfDocumentOpenMode.Import);
-                    PdfDocument pdfOut = new PdfDocument();
-
-                    for (int i = 0; i < pdfIn.PageCount; i++)
-                    {
-                        PdfPage pg = pdfIn.Pages[i];
-                        pg = pdfOut.AddPage(pg);
-                        // WATERMARK TEXT
-                        string draftFlagStr = _CertWatermark.ToString();
-
-                        // Get an XGraphics object for drawing beneath the existing content
-                        XGraphics gfx = XGraphics.FromPdfPage(pg, XGraphicsPdfPageOptions.Prepend);
-
-                        // Get the size (in point) of the text
-                        XFont fontWM = new XFont("Verdana", 62, XFontStyle.Bold);
-                        XSize size = gfx.MeasureString(draftFlagStr, fontWM);
-
-                        // Define a rotation transformation at the center of the page
-                        gfx.TranslateTransform(pg.Width / 2, pg.Height / 2);
-                        gfx.RotateTransform(-Math.Atan(pg.Height / pg.Width) * 180 / Math.PI);
-                        gfx.TranslateTransform(-pg.Width / 2, -pg.Height / 2);
-
-                        // Create a string format
-                        XStringFormat format = new XStringFormat();
-                        format.Alignment = XStringAlignment.Near;
-                        format.LineAlignment = XLineAlignment.Near;
-
-                        // Create a dimmed red brush
-                        XBrush brush = new XSolidBrush(XColor.FromArgb(32, 0, 0, 255));
-
-                        // Draw the string
-                        gfx.DrawString(draftFlagStr, fontWM, brush,
-                            new XPoint((pg.Width - size.Width) / 2, (pg.Height - size.Height) / 2),
-                            format);
-                    }
-                    pdfOut.Save(_PdfFilename);
-                }
-
-
-
-                // Save and show the document
-                //  pdfRenderer.PdfDocument.Save("TestDocument.pdf");
-       //         Process.Start("explorer.exe", _PdfFilename);
-
-
                 HyperLinkPDF.Visible = true;
                 HyperLinkPDF.NavigateUrl = PortalSettings.HomeDirectory + _IDCardImagePath.ToString() + "ID" + clientId.ToString() + ".pdf";
 
@@ -451,15 +431,15 @@ namespace GIBS.Modules.FBClients
             try
             {
                 //  _ClientPhoto
-                if (File.Exists(_ClientPhoto))
-                {
-                    File.Delete(_ClientPhoto);
-                }
+                //if (File.Exists(_ClientPhoto))
+                //{
+                //    File.Delete(_ClientPhoto);
+                //}
 
-                if (File.Exists(_ClientPhotoRS))
-                {
-                    File.Delete(_ClientPhotoRS);
-                }
+                //if (File.Exists(_ClientPhotoRS))
+                //{
+                //    File.Delete(_ClientPhotoRS);
+                //}
 
                 if (File.Exists(_BarCodeImage))
                 {

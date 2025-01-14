@@ -405,12 +405,22 @@ namespace GIBS.Modules.FBClients
             {
                 txtFirstNameAFM.Text = "";
                 txtLastNameAFM.Text = "";
-
+                txtAFMDOB.Text = "";
                 lblFormMessage.Visible = false;
-               
-            //    ShowAMFinGrid = false;
 
-                SearchClients();
+                //    ShowAMFinGrid = false;
+
+                if (txtClientId.Text.ToString().Length >= 1)
+                {
+                    string clientID = txtClientId.Text.ToString().Trim();
+                    Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID));
+                }
+                else
+                {
+                    SearchClients();
+                }
+
+                
 
 
 

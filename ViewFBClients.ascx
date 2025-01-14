@@ -241,8 +241,8 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="AFM First Name" DataField="ClAddFamMemFirstName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
         <asp:BoundField HeaderText="AFM Last Name" DataField="ClAddFamMemLastName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
         
-        <asp:BoundField HeaderText="Last Visit" DataField="visitdate" DataFormatString="{0:MM/dd/yyyy}"></asp:BoundField>
-        <asp:BoundField HeaderText="Bags" DataField="VisitNumBags" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
+        <asp:BoundField HeaderText="Last Visit" DataField="visitdate" DataFormatString="{0:MM/dd/yyyy}" Visible="True"></asp:BoundField>
+        <asp:BoundField HeaderText="Bags" DataField="VisitNumBags" ItemStyle-HorizontalAlign="Center" Visible="True"></asp:BoundField>
 
     </Columns>
 </asp:GridView>	

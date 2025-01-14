@@ -29,6 +29,7 @@ using GIBS.Modules.FBClients.Components;
 using System.Text.Encodings.Web;
 using System.Net;
 using System.Drawing.Imaging;
+using System.Drawing;
 
 //clientType_SelectedIndexChanged
 
@@ -53,6 +54,7 @@ namespace GIBS.Modules.FBClients
         public string _IncomeEligibilityGuidelines;
         bool _ShowOneBagOnly;
         bool _ShowClientType;
+        bool _ShowSendText = false;
         static bool _ShowIncExpSummary = true;
         public bool _ShowExpense = false;
         public bool _ShowDisabilitiee = false;
@@ -78,6 +80,7 @@ namespace GIBS.Modules.FBClients
         static string _TwilioPhoneNumber = "";
         public string _ClientCellNumber = "";
         static string _FBName = "";
+        static string _IDCardImagePath = "";
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
@@ -278,26 +281,25 @@ namespace GIBS.Modules.FBClients
                     }
 
                     BindDisabilities(item.Disability);
-
-                    if (item.IDPhoto != null)
+                    string _clientImage = "/Portals/"+ this.PortalId + "/" + _IDCardImagePath.ToString() + clientID.ToString() + ".jpg";
+                    if (File.Exists(Server.MapPath(_clientImage)))
                     {
+                        string format1 = "Mddyyyyhhmmsstt";
+                        var myTimeStamp = String.Format("{0}", DateTime.Now.ToString(format1));
                         ImageIDClient.Visible = true;
-                        byte[] imagem = (byte[])(item.IDPhoto);
-                        string PROFILE_PIC = Convert.ToBase64String(imagem);
-
-                        ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                        ImageIDClient.ImageUrl = _clientImage + "?v=" + myTimeStamp.ToString();
                         ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
                     }
                     else
                     {
                         ImageIDClient.Visible = false;
+                        GetClientPhoto(clientID);
                     }
 
+                  
 
 
-
-                    //  ClientServiceLocation
-
+                    
                     ListItem liClientServiceLocation = ddlClientServiceLocation.Items.FindByValue(item.ServiceLocation.ToString());
                     if (liClientServiceLocation != null)
                     {
@@ -639,6 +641,133 @@ namespace GIBS.Modules.FBClients
             }
 
         }
+
+        public void GetClientPhoto(int clientID)
+        {
+
+            try
+            {
+                //load the item
+                FBClientsController controller = new FBClientsController();
+                FBClientsInfo item = controller.FBClients_IDPhoto_GetByClientID(clientID);
+
+                if (item != null)
+                {
+
+                    if (item.IDPhoto != null)
+                    {
+                        
+                        byte[] imagem = (byte[])(item.IDPhoto);
+                     //   var PROFILE_PIC = Convert.ToBase64String(imagem);
+                     ////   HiddenFieldClientPicture.Value = item.IDPhoto.ToString();
+                     //   ImageIDClient.ImageUrl = String.Format("data:image/png;base64,{0}", PROFILE_PIC);
+                     //   ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+
+                        MemoryStream ms = new MemoryStream(imagem);
+                                              
+                        //write to file
+                        string _ClientPhoto = PortalSettings.HomeDirectoryMapPath + _IDCardImagePath.ToString() + clientID.ToString() + ".jpg";
+
+                        if (File.Exists(_ClientPhoto))
+                        {
+                            File.Delete(_ClientPhoto);
+                        }
+ 
+
+                        FileStream file = new FileStream(_ClientPhoto.ToString(), FileMode.Create, FileAccess.Write);
+                        
+
+                        ms.WriteTo(file);
+                        //img.Dispose();
+                        ms.Close();
+                        ms.Dispose();
+                        file.Close();
+                        file.Dispose();
+
+                        //COMPRESS PHOTO - _ClientPhoto
+                        //
+                        CompressImage(_ClientPhoto, 90);
+
+                        // New image created, delete database image . . 
+                        controller.FBClients_IDPhoto_DeleteByClientID(clientID);
+
+                        string _clientImage = "/Portals/" + this.PortalId + "/" + _IDCardImagePath.ToString() + clientID.ToString() + ".jpg";
+                        ImageIDClient.Visible = true;
+                        ImageIDClient.ImageUrl = _clientImage;
+                        ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+                  
+                    }
+                    else
+                    {
+                        ImageIDClient.Visible = false;
+                    }
+
+                }
+                else
+                {
+                    ImageIDClient.Visible = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+
+        }
+
+
+
+        public static void CompressImage(string SoucePath, int quality)
+        {
+            FileStream fs = new FileStream(SoucePath, FileMode.Open);
+            System.Drawing.Image imgPhoto = System.Drawing.Image.FromStream(fs);
+            fs.Close();
+
+            using (Bitmap bmp1 = new Bitmap(imgPhoto))
+            {
+                ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+                System.Drawing.Imaging.Encoder QualityEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                EncoderParameter myEncoderParameter = new EncoderParameter(QualityEncoder, quality);
+
+                myEncoderParameters.Param[0] = myEncoderParameter;
+                File.Delete(SoucePath);
+                bmp1.Save(SoucePath, jpgEncoder, myEncoderParameters);
+
+            }
+        }
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+
+        public byte[] ReduceImageSize(byte[] imageBytes, int jpegQuality)
+        {
+            var inputStream = new MemoryStream(imageBytes);
+            var image = System.Drawing.Image.FromStream(inputStream);
+            var jpegEncoder = ImageCodecInfo.GetImageDecoders()
+                .First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+            var encoderParameters = new EncoderParameters(1);
+            encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (int)jpegQuality);
+
+            var outputStream = new MemoryStream();
+            image.Save(outputStream, jpegEncoder, encoderParameters);
+            return outputStream.ToArray();
+        }
+
         public void SetPageName(string ClientName)
         {
             try
@@ -717,6 +846,15 @@ namespace GIBS.Modules.FBClients
                     _FBName = settingsData.FBName.ToString();
                 }
 
+                if (settingsData.IDCardImagePath != null)
+                {
+                    _IDCardImagePath = settingsData.IDCardImagePath.ToString();
+                }
+                else
+                {
+                    _IDCardImagePath = "";
+
+                }
 
                 if (settingsData.TwilioAccountSid != null)
                 {
@@ -742,6 +880,11 @@ namespace GIBS.Modules.FBClients
                 if (settingsData.GoogleAPIKey != null)
                 {
                     _GoogleAPIKey = settingsData.GoogleAPIKey.ToString();
+                }
+
+                if (settingsData.ShowSendText != null)
+                {
+                    _ShowSendText = Convert.ToBoolean(settingsData.ShowSendText.ToString());
                 }
 
                 //printDivBarCodeLabel  printDivLabel
@@ -1659,6 +1802,15 @@ namespace GIBS.Modules.FBClients
                 else
                 {
                     gvVisits.Columns[2].Visible = false;
+                }
+
+                if (_ShowSendText)
+                {
+                    gvVisits.Columns[0].Visible = true;
+                }
+                else
+                {
+                    gvVisits.Columns[0].Visible = false;
                 }
 
                 //JMA

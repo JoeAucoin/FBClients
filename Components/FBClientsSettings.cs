@@ -157,6 +157,12 @@ namespace GIBS.FBClients.Components
             set { WriteSetting("daysToValidVisit", value); }
         }
 
+        public string ShowSendText
+        {
+            get { return ReadSetting<string>("showSendText", null); }
+            set { WriteSetting("showSendText", value); }
+        }
+
         public string ShowClientServiceLocation
         {
             get { return ReadSetting<string>("showClientServiceLocation", null); }

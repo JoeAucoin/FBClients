@@ -73,6 +73,12 @@
     </tr>
 
     <tr>
+        <td class="SubHead"><dnn:label id="lblShowSendText" runat="server" controlname="cbxShowSendText" suffix=":"></dnn:label></td>
+        <td><asp:CheckBox ID="cbxShowSendText" runat="server" />
+        </td>
+    </tr>
+
+    <tr>
         <td class="SubHead"><dnn:label id="lblShowClientServiceLocation" runat="server" controlname="cbxShowClientServiceLocation" suffix=":"></dnn:label></td>
         <td><asp:CheckBox ID="cbxShowClientServiceLocation" runat="server" />
         </td>

@@ -21,6 +21,25 @@
      transform: scale(4.6)
  }
 
+.btn.btn-success {
+  display: inline-block;
+padding: 10px 20px;
+color: #fff;
+background-color: #5cb85c;
+
+text-align:center;
+text-decoration:none;
+border-radius: 5px;
+}
+
+.btn.btn-success:hover {
+  color: #fff;
+  background-color: #70db70;
+  border-color: #000;
+  outline: none;
+  box-shadow: inset;
+}
+
 </style>
 <div style="padding: 20px;"> &nbsp;</div>
 
@@ -28,15 +47,15 @@
 
 
 <div class="button-group">
-<asp:Button ID="Button1" runat="server" Text="Generate ID Card PDF" CssClass="btn btn-primary btn-default"
+<asp:Button ID="Button1" runat="server" Text="Generate ID Card PDF" CssClass="btn"
     onclick="Button1_Click" />
 </div>
 
-<div style="text-align: center; padding-top:20px; padding-bottom:20px;"><asp:HyperLink ID="HyperLinkPDF" Visible="false" runat="server" CssClass="btn btn-success" Target="_blank"><span class="glyphicon glyphicon-ok"></span> View PDF</asp:HyperLink></div>
+<div style="text-align: center; padding-top:20px; padding-bottom:20px;"><asp:HyperLink ID="HyperLinkPDF" Visible="false" runat="server" CssClass="btn btn-success" Target="_blank">SUCCESS - View PDF</asp:HyperLink></div>
 
 
 
-<div style="padding-top:20px; width: 100%; text-align: center;">Photo: 
+<div style="padding-top:20px; width: 100%; text-align: center;"> 
 <asp:Image ID="ImageIDClient" runat="server" Height="100" CssClass="hover-zoom" />
     <asp:HiddenField ID="HiddenFieldClientPicture" runat="server" />
 </div>

@@ -1,0 +1,66 @@
+﻿
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_GetByClientID]    Script Date: 11/23/2024 2:21:58 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_IDPhoto_GetByClientID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_GetByClientID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_DeleteByClientID]    Script Date: 11/23/2024 2:21:58 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_FBClients_IDPhoto_DeleteByClientID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_DeleteByClientID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_DeleteByClientID]    Script Date: 11/23/2024 2:21:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_DeleteByClientID]
+(
+    @ClientID int
+)
+AS
+BEGIN
+    DELETE FROM [dbo].[GIBS_FBClientsIDPhoto]
+     
+  WHERE GIBS_FBClientsIDPhoto.ClientID = @ClientID
+
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_FBClients_IDPhoto_GetByClientID]    Script Date: 11/23/2024 2:21:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[GIBS_FBClients_IDPhoto_GetByClientID]
+(
+    @ClientID int
+)
+AS
+BEGIN
+    SELECT [ImageID]
+      ,GIBS_FBClientsIDPhoto.[ClientID]
+      ,[IDPhoto]
+      ,GIBS_FBClientsIDPhoto.[CreatedOnDate]
+      ,GIBS_FBClientsIDPhoto.[CreatedByUserID]
+      ,GIBS_FBClientsIDPhoto.[LastModifiedByUserID]
+      ,GIBS_FBClientsIDPhoto.[LastModifiedOnDate]
+	  ,ClientFirstName
+	  , ClientLastName
+  FROM [dbo].[GIBS_FBClientsIDPhoto]
+
+  Left Outer Join [dbo].[GIBS_FBClients]  ON GIBS_FBClientsIDPhoto.ClientID = GIBS_FBClients.ClientID 
+  
+  WHERE GIBS_FBClientsIDPhoto.ClientID = @ClientID
+
+END
+GO
+
+

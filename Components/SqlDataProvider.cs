@@ -96,6 +96,11 @@ namespace GIBS.FBClients.Components
             SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_IDPhoto_Insert"), clientID, iDPhoto, createdByUserID);
         }
 
+        public override void FBClients_IDPhoto_DeleteByClientID(int clientID)
+        {
+            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("FBClients_IDPhoto_DeleteByClientID"), clientID);
+        }
+
         public override IDataReader FBClients_GetAll(int portalID)
         {
             return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_GetAll"), portalID);
@@ -130,6 +135,11 @@ namespace GIBS.FBClients.Components
         public override IDataReader FBClients_GetByID(int portalID, int clientID)
         {
             return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_GetByID"), portalID, clientID);
+        }
+
+        public override IDataReader FBClients_IDPhoto_GetByClientID(int clientID)
+        {
+            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("FBClients_IDPhoto_GetByClientID"), clientID);
         }
 
         public override void FBClients_Update(int clientID, string clientFirstName, string clientMiddleInitial, string clientLastName, DateTime clientDOB, string clientAddress, string clientCity, string clientTown, string clientState, string clientZipCode, string clientEmailAddress, string clientIdCard, string clientPhone, string clientPhoneType, int clientCaseWorker, int moduleID, int lastModifiedByUserID, int portalID, double latitude, double longitude, string clientSuffix, bool clientDOBVerify, string clientEthnicity, string clientNote, string clientUnit, string clientGender, string clientType, DateTime clientVerifyDate, bool clientAddressVerify, DateTime clientAddressVerifyDate, bool subjectToReview, bool oneBagOnly, string disability, bool isActive, bool isLocked, string serviceLocation, string clientLanguage)

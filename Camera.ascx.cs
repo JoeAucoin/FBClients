@@ -20,6 +20,7 @@ namespace GIBS.Modules.FBClients
     {
 
         public int clientId = 0;
+        public string _IDCardImagePath = "";
 
         protected override void OnInit(EventArgs e)
         {
@@ -40,8 +41,35 @@ namespace GIBS.Modules.FBClients
             {
                 clientId = Int32.Parse(Request.QueryString["cid"]);
             }
+            LoadSettings();
             FillClientRecord(clientId);
             SetMakeIDLink();
+        }
+
+        public void LoadSettings()
+        {
+            try
+            {
+
+
+                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
+
+
+                if (settingsData.IDCardImagePath != null)
+                {
+                    _IDCardImagePath = settingsData.IDCardImagePath.ToString();
+                }
+                else
+                {
+                    _IDCardImagePath = "";
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
         }
 
         public void SaveImageToDatabase(string imageData)
@@ -67,36 +95,7 @@ namespace GIBS.Modules.FBClients
             }
         }
 
-        //public void UploadImage(string imageData)
-        //{
-        //    try
-        //    {
-        //        if (clientId > 0)
-        //        {
-        //            string fname = clientId.ToString() + ".png";
-        //            string fileNameWitPath = HttpContext.Current.Server.MapPath("/Portals/0/" + fname);
-        //            using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create, FileAccess.Write))
-        //            {
-        //                using (BinaryWriter bw = new BinaryWriter(fs))
-        //                {
 
-        //                    byte[] data = Convert.FromBase64String(imageData.Replace("data:image/png;base64,", String.Empty));
-
-        //                    bw.Write(data);
-        //                    bw.Flush();
-        //                    bw.Close();
-        //                }
-
-        //            }
-
-        //            FillClientRecord(clientId);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Exceptions.ProcessModuleLoadException(this, ex);
-        //    }
-        //}
 
         protected void ButtonSaveImage_Click(object sender, EventArgs e)
         {
@@ -145,6 +144,23 @@ namespace GIBS.Modules.FBClients
                     {
                         ImageIDClient.Visible = false;
                         HyperLinkMakeID.Visible = false;
+
+                        string _clientImage = "/Portals/" + this.PortalId + "/" + _IDCardImagePath.ToString() + clientID.ToString() + ".jpg";
+                        if (File.Exists(Server.MapPath(_clientImage)))
+                        {
+                            HyperLinkMakeID.Visible=true;
+                            string format1 = "Mddyyyyhhmmsstt";
+                            var myTimeStamp = String.Format("{0}", DateTime.Now.ToString(format1));
+                            ImageIDClient.Visible = true;
+                            ImageIDClient.ImageUrl = _clientImage + "?v=" + myTimeStamp.ToString();
+                            ImageIDClient.AlternateText = item.ClientFirstName + ' ' + item.ClientLastName;
+                        }
+                        else
+                        {
+                            HyperLinkMakeID.Visible=false;
+                            ImageIDClient.Visible = false;
+                            
+                        }
                     }
 
                 }

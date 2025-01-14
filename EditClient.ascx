@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
 <%@ Register tagprefix="dnn" Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" %>
 
- <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=2" />
+ <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/GIBS/FBClients/Style.css?1=3" />
 <dnn:DnnCssInclude ID="DnnCssInclude2" runat="server" FilePath="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" />
 
 <style>
@@ -857,7 +857,7 @@ runat="server" />
     AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
     resourcekey="gvIncome" >
     
-<PagerStyle CssClass="pgr" />  
+<PagerStyle CssClass="pagination-ys" />  
 <PagerSettings Mode="NumericFirstLast" /> 
     <Columns>
 
@@ -895,7 +895,7 @@ runat="server" />
     AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
     resourcekey="gvExpense" >
     
-<PagerStyle CssClass="pgr" />  
+<PagerStyle CssClass="pagination-ys" />   
 <PagerSettings Mode="NumericFirstLast" /> 
     <Columns>
         <asp:TemplateField HeaderText="" ItemStyle-VerticalAlign="Top" ItemStyle-Width="28px" ItemStyle-HorizontalAlign="Center">
@@ -946,7 +946,7 @@ runat="server" />
     AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
     resourcekey="gvAFM" AllowPaging="True" PageSize="10">
     
-<PagerStyle CssClass="pgr" />  
+<PagerStyle CssClass="pagination-ys" />    
 <PagerSettings Mode="NumericFirstLast" /> 
     <Columns>
         <asp:TemplateField HeaderText="Edit" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
@@ -1355,9 +1355,9 @@ runat="server" />
     DataKeyNames="VisitID" OnRowEditing="gvVisits_RowEditing" OnRowCommand="gvVisits_RowCommand" 
     OnPageIndexChanging="gvVisits_PageIndexChanging" OnRowDataBound="gvVisits_RowDataBound"          
     AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-list"  
-    resourcekey="gvVisits" AllowPaging="True" PageSize="10">
+    resourcekey="gvVisits" AllowPaging="True" PageSize="5">
 <AlternatingRowStyle CssClass="alt" />    
-<PagerStyle CssClass="pgr" />  
+<PagerStyle CssClass="pagination-ys" />   
 <PagerSettings Mode="NumericFirstLast" /> 
     <Columns>
           <asp:TemplateField HeaderText="Send Text" ItemStyle-VerticalAlign="Top" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Center">

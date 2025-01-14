@@ -26,6 +26,11 @@ namespace GIBS.FBClients.Components
             }
         }
 
+        public void FBClients_IDPhoto_DeleteByClientID(int clientID)
+        {
+            DataProvider.Instance().FBClients_IDPhoto_DeleteByClientID(clientID);
+        }
+
         public int FBClients_Insert(FBClientsInfo info)
         {
             if (info.ClientLastName != string.Empty)
@@ -53,6 +58,12 @@ namespace GIBS.FBClients.Components
         {
             //return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_GetByID(portalID, clientID), typeof(FBClientsInfo));
             return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_GetByID(portalID, clientID));
+        }
+
+        public FBClientsInfo FBClients_IDPhoto_GetByClientID(int clientID)
+        {
+            //return (FBClientsInfo)CBO.FillObject(DataProvider.Instance().FBClients_GetByID(clientID), typeof(FBClientsInfo));
+            return CBO.FillObject<FBClientsInfo>(DataProvider.Instance().FBClients_IDPhoto_GetByClientID(clientID));
         }
 
         public List<FBClientsInfo> FBClients_AgeGroupReport(int clientID)

@@ -94,6 +94,12 @@ namespace GIBS.Modules.FBClients
                         ddlDaysToValidVisit.SelectedValue = settingsData.DaysToValidVisit;
                     }
 
+
+                    if (settingsData.ShowSendText != null)
+                    {
+                        cbxShowSendText.Checked = Convert.ToBoolean(settingsData.ShowSendText);
+                    }
+
                     if (settingsData.ShowClientServiceLocation != null)
                     {
                         cbxShowClientServiceLocation.Checked = Convert.ToBoolean(settingsData.ShowClientServiceLocation);
@@ -297,6 +303,7 @@ namespace GIBS.Modules.FBClients
                 settingsData.ShowVisitStopLight = cbxShowVisitStopLight.Checked.ToString();
                 settingsData.DaysToValidVisit = ddlDaysToValidVisit.SelectedValue.ToString();
                 settingsData.IncomeEligibilityGuidelines = txtIncomeEligibilityGuidelines.Text.ToString();
+                settingsData.ShowSendText= cbxShowSendText.Checked.ToString();
                 settingsData.ShowClientServiceLocation = cbxShowClientServiceLocation.Checked.ToString();
                 settingsData.ShowPhotoID = cbxShowPhotoID.Checked.ToString();
                 settingsData.ShowOneBagOnly = cbxShowOneBagOnly.Checked.ToString();

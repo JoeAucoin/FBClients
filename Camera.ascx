@@ -78,6 +78,27 @@
      transform: scale(4.6)
  }
 
+.btn.btn-success {
+  display: inline-block;
+padding: 10px 20px;
+color: #fff;
+background-color: #5cb85c;
+
+text-align:center;
+text-decoration:none;
+border-radius: 5px;
+}
+
+.btn.btn-success:hover {
+  color: #fff;
+  background-color: #70db70;
+  border-color: #000;
+  outline: none;
+  box-shadow: inset;
+}
+
+
+
 </style>
 
 
@@ -91,7 +112,7 @@
 
     <asp:Label ID="LabelClientInfo" runat="server" Text="LabelClientInfo"></asp:Label>
 
-     <asp:HyperLink ID="HyperLinkMakeID" runat="server" CssClass="button" Visible="true">Make ID Card</asp:HyperLink>
+     <asp:HyperLink ID="HyperLinkMakeID" runat="server" CssClass="btn btn-success" Visible="false">Make ID Card</asp:HyperLink>
     
 </div>
 
