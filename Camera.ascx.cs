@@ -87,6 +87,13 @@ namespace GIBS.Modules.FBClients
                 controller.FBClients_IDPhoto_Insert(item);
 
                 FillClientRecord(clientId);
+
+                string _clientImage = "/Portals/" + this.PortalId + "/" + _IDCardImagePath.ToString() + clientId.ToString() + ".jpg";
+                if (File.Exists(Server.MapPath(_clientImage)))
+                {
+                    File.Delete(Server.MapPath(_clientImage));
+                }
+
             }
 
             catch (Exception ex)
