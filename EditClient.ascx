@@ -807,7 +807,7 @@ runat="server" />
     <div class="col-md-2"><asp:TextBox runat="server" ID="txtIeAmount" CssClass="form-control" /></div>
     <div class="col-md-2"><asp:LinkButton runat="server" ID="btnAddClientIncome" 
                 ResourceKey="btnAddClientIncome" CssClass="btn btn-primary" 
-                onclick="btnAddClientIncome_Click" /></div>
+                onclick="btnAddClientIncome_Click" />SAVE</div>
 </div>
 
 

@@ -54,7 +54,7 @@ namespace GIBS.Modules.FBClients
         public string _IncomeEligibilityGuidelines;
         bool _ShowOneBagOnly;
         bool _ShowClientType;
-        bool _ShowSendText = false;
+        static bool _ShowSendText = false;
         static bool _ShowIncExpSummary = true;
         public bool _ShowExpense = false;
         public bool _ShowDisabilitiee = false;
@@ -838,108 +838,116 @@ namespace GIBS.Modules.FBClients
                 ddlClientServiceLocation.Items.Insert(0, new ListItem("--Select--", "Pantry"));
 
 
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
+             //   FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
                 //static string _ClientCellNumber = "";
-                if (settingsData.FBName != null)
+
+                if (Settings.Contains("fBName"))
                 {
-                    _FBName = settingsData.FBName.ToString();
+
+                    _FBName = (Settings["fBName"].ToString());
                 }
 
-                if (settingsData.IDCardImagePath != null)
+                if (Settings.Contains("iDCardImagePath"))
                 {
-                    _IDCardImagePath = settingsData.IDCardImagePath.ToString();
+
+                    _IDCardImagePath = (Settings["iDCardImagePath"].ToString());
                 }
                 else
                 {
                     _IDCardImagePath = "";
-
                 }
-
-                if (settingsData.TwilioAccountSid != null)
+                if (Settings.Contains("twilioAccountSid"))
                 {
-                    _TwilioAccountSid = settingsData.TwilioAccountSid.ToString();
+
+                    _TwilioAccountSid = (Settings["twilioAccountSid"].ToString());
                 }
-                if (settingsData.TwilioAuthToken != null)
+
+                if (Settings.Contains("twilioAuthToken"))
                 {
-                    _TwilioAuthToken = settingsData.TwilioAuthToken.ToString();
+
+                    _TwilioAuthToken = (Settings["twilioAuthToken"].ToString());
                 }
-                if (settingsData.TwilioPhoneNumber != null)
+
+                if (Settings.Contains("twilioPhoneNumber"))
                 {
-                    _TwilioPhoneNumber = settingsData.TwilioPhoneNumber.ToString();
+
+                    _TwilioPhoneNumber = (Settings["twilioPhoneNumber"].ToString());
+                }
+
+                if (Settings.Contains("clientOrderPage"))
+                {
+
+                    _ClientOrderPage = (Settings["clientOrderPage"].ToString());
                 }
 
 
-
-                if (settingsData.ClientOrderPage != null)
-                {
-                    _ClientOrderPage = settingsData.ClientOrderPage.ToString();
-                }
 
                 //_GoogleAPIKey
-                if (settingsData.GoogleAPIKey != null)
+                if (Settings.Contains("googleAPIKey") && Settings["googleAPIKey"] != null)
                 {
-                    _GoogleAPIKey = settingsData.GoogleAPIKey.ToString();
+                    _GoogleAPIKey = Settings["googleAPIKey"].ToString();
                 }
 
-                if (settingsData.ShowSendText != null)
+                if (Settings.Contains("showSendText") && Settings["showSendText"] != null)
                 {
-                    _ShowSendText = Convert.ToBoolean(settingsData.ShowSendText.ToString());
+                    _ShowSendText = Convert.ToBoolean(Settings["showSendText"].ToString());
                 }
 
                 //printDivBarCodeLabel  printDivLabel
-                if (settingsData.ShowPrintShoppingLabel != null)
+                if (Settings.Contains("showPrintShoppingLabel") && Settings["showPrintShoppingLabel"] != null)
                 {
-                    printDivLabel.Visible = Convert.ToBoolean(settingsData.ShowPrintShoppingLabel.ToString());
+                    printDivLabel.Visible = Convert.ToBoolean(Settings["showPrintShoppingLabel"].ToString());
                 }
 
                 //hidPrintShoppingLabelQuantity.Value = masterBag.ToString();
-                if (settingsData.PrintShoppingLabelQuantity != null)
+                if (Settings.Contains("printShoppingLabelQuantity") && Settings["printShoppingLabelQuantity"] != null)
                 {
-                    hidPrintShoppingLabelQuantity.Value = settingsData.PrintShoppingLabelQuantity.ToString();
+                    hidPrintShoppingLabelQuantity.Value = Settings["printShoppingLabelQuantity"].ToString();
                 }
                 else
                 {
                     hidPrintShoppingLabelQuantity.Value = "1";
                 }
 
-                if (settingsData.ShowPrintBarCodeLabel != null)
+                if (Settings.Contains("showPrintBarCodeLabel") && Settings["showPrintBarCodeLabel"] != null)
                 {
-                    printDivBarCodeLabel.Visible = Convert.ToBoolean(settingsData.ShowPrintBarCodeLabel.ToString());
+                    printDivBarCodeLabel.Visible = Convert.ToBoolean(Settings["showPrintBarCodeLabel"].ToString());
                 }
 
-                if (settingsData.ShowPhotoID != null)
+                if (Settings.Contains("showPhotoID") && Settings["showPhotoID"] != null)
                 {
-                    HyperLinkPhotoID.Visible = bool.Parse(settingsData.ShowPhotoID);
+                    HyperLinkPhotoID.Visible = bool.Parse(Settings["showPhotoID"].ToString());
                 }
 
 
-                if (settingsData.ClientManagerDeleteRecordRole != null)
+                if (Settings.Contains("clientManagerDeleteRecordRole") && Settings["clientManagerDeleteRecordRole"] != null)
                 {
-                    _ClientManagerDeleteRecordRole = settingsData.ClientManagerDeleteRecordRole;
+                    _ClientManagerDeleteRecordRole = Settings["clientManagerDeleteRecordRole"].ToString();
 
                 }
 
-              //  settingsData.ReqAFMVerified
-                if (settingsData.ReqAFMVerified != null)
+                //  settingsData.ReqAFMVerified
+                if (Settings.Contains("reqAFMVerified") && Settings["reqAFMVerified"] != null)
                 {
-                    _ReqAFMVerified = bool.Parse(settingsData.ReqAFMVerified);
+                    _ReqAFMVerified = bool.Parse(Settings["reqAFMVerified"].ToString());
 
                 }
                 reqAFM_DOB.Enabled = _ReqAFMVerified;
 
-                if (settingsData.AllowedIPAddress != null)
+                // if (settingsData.AllowedIPAddress != null)
+                if (Settings.Contains("allowedIPAddress"))
                 {
-                    if (CheckIPAddress(settingsData.AllowedIPAddress.ToString()) )
+                    if (CheckIPAddress(Settings["allowedIPAddress"].ToString()))
                     {
                         reqMobileLocations.Enabled = false;
                         lblMobileLocations.Visible = false;
                         ddlMobileLocations.Visible = false;
 
                         //ServiceLocation
-                        reqClientOrigination.Enabled=false;
-                     //   lblClientServiceLocation.Visible = false;
-                     //   ddlClientServiceLocation.Visible = false;
+                        reqClientOrigination.Enabled = false;
+                        //   lblClientServiceLocation.Visible = false;
+                        //   ddlClientServiceLocation.Visible = false;
                     }
                     else
                     {
@@ -955,7 +963,7 @@ namespace GIBS.Modules.FBClients
                 }
                 if (UserInfo.IsInRole(_ClientManagerDeleteRecordRole))
                 {
-                   
+
                     reqMobileLocations.Enabled = false;
                     lblMobileLocations.Visible = true;
                     ddlMobileLocations.Visible = true;
@@ -967,16 +975,16 @@ namespace GIBS.Modules.FBClients
 
 
                 }
-               
 
 
-                    //_XmasRequireSizeAgeRange
-                    //_XmasRequireSizeMinimumAge
-                    //_XmasRequireSizeMaxAge
-                    if (settingsData.XmasRequireSizeAgeRange != null)
+
+                //_XmasRequireSizeAgeRange
+                //_XmasRequireSizeMinimumAge
+                //_XmasRequireSizeMaxAge
+                if (Settings.Contains("xmasRequireSizeAgeRange") && Settings["xmasRequireSizeAgeRange"] != null)
                 {
                     //  _BagAllowance = settingsData.XmasRequireSizeAgeRange.ToString();
-                    string s = settingsData.XmasRequireSizeAgeRange.ToString();
+                    string s = Settings["xmasRequireSizeAgeRange"].ToString();
                     string[] values = s.Split(',').Select(sValue => sValue.Trim()).ToArray();
                     _XmasRequireSizeMinimumAge = Int32.Parse(values[0]);
                     _XmasRequireSizeMaxAge = Int32.Parse(values[1]);
@@ -984,89 +992,89 @@ namespace GIBS.Modules.FBClients
 
 
                 //         txtBagAllowance.Text = settingsData.BagAllowance;
-                if (settingsData.BagAllowance != null)
+                if (Settings.Contains("bagAllowance") && Settings["bagAllowance"] != null)
                 {
-                    _BagAllowance = settingsData.BagAllowance.ToString();
+                    _BagAllowance = Settings["bagAllowance"].ToString();
                 }
-                if (settingsData.GroupHomeBagAllowance != null)
+                if (Settings.Contains("groupHomeBagAllowance") && Settings["groupHomeBagAllowance"] != null)
                 {
-                    if (settingsData.GroupHomeBagAllowance.Length > 0)
+                    if (Settings["groupHomeBagAllowance"].ToString().Length > 0)
                     {
-                        _GroupHomeBagAllowance = settingsData.GroupHomeBagAllowance.ToString();
-                    } 
+                        _GroupHomeBagAllowance = Settings["groupHomeBagAllowance"].ToString();
+                    }
                 }
                 //_GroupHomeBagAllowance
 
 
 
                 //_FlagForReviewNotify
-                if (settingsData.FlagForReviewNotify != null)
+                if (Settings.Contains("flagForReviewNotify") && Settings["flagForReviewNotify"] != null)
                 {
-                    _FlagForReviewNotify = settingsData.FlagForReviewNotify.ToString();
+                    _FlagForReviewNotify = Settings["flagForReviewNotify"].ToString();
                 }
 
 
-                if (settingsData.DaysToValidVisit != null)
+                if (Settings.Contains("daysToValidVisit") && Settings["daysToValidVisit"] != null)
                 {
-                    _DaysToValidVisit = Int32.Parse(settingsData.DaysToValidVisit.ToString());
+                    _DaysToValidVisit = Int32.Parse(Settings["daysToValidVisit"].ToString());
                 }
 
-                if (settingsData.ShowVisitStopLight != null)
+                if (Settings.Contains("showVisitStopLight") && Settings["showVisitStopLight"] != null)
                 {
-                    _ShowVisitStopLight = bool.Parse(settingsData.ShowVisitStopLight);
+                    _ShowVisitStopLight = bool.Parse(Settings["showVisitStopLight"].ToString());
                 }
 
-                if (settingsData.ClientManagerUserRole != null)
+                if (Settings.Contains("clientManagerUserRole") && Settings["clientManagerUserRole"] != null)
                 {
-                    _ClientManagerUserRole = settingsData.ClientManagerUserRole;
+                    _ClientManagerUserRole = Settings["clientManagerUserRole"].ToString();
 
                 }
 
-                if(settingsData.ShowClientServiceLocation != null)
+                if (Settings.Contains("showClientServiceLocation") && Settings["showClientServiceLocation"] != null)
                 {
-                    divClientServiceLocation.Visible = Convert.ToBoolean(settingsData.ShowClientServiceLocation);
+                    divClientServiceLocation.Visible = Convert.ToBoolean(Settings["showClientServiceLocation"]);
                 }
 
 
-                if (settingsData.IncomeEligibilityGuidelines != null)
+                if (Settings.Contains("incomeEligibilityGuidelines") && Settings["incomeEligibilityGuidelines"] != null)
                 {
-                    _IncomeEligibilityGuidelines = settingsData.IncomeEligibilityGuidelines;
+                    _IncomeEligibilityGuidelines = Settings["incomeEligibilityGuidelines"].ToString();
                 }
                 else
                 {
                     _IncomeEligibilityGuidelines = "";
                 }
 
-                if (settingsData.ShowOneBagOnly != null)
+                if (Settings.Contains("showOneBagOnly") && Settings["showOneBagOnly"] != null)
                 {
-                    _ShowOneBagOnly = bool.Parse(settingsData.ShowOneBagOnly);
+                    _ShowOneBagOnly = bool.Parse(Settings["showOneBagOnly"].ToString());
                 }
 
-                if (settingsData.ShowClientType != null)
+                if (Settings.Contains("showClientType") && Settings["showClientType"] != null)
                 {
-                    _ShowClientType = bool.Parse(settingsData.ShowClientType);
+                    _ShowClientType = bool.Parse(Settings["showClientType"].ToString());
                 }
 
-                if (settingsData.ShowSuffix != null)
-                { 
-                _ShowSuffix = bool.Parse(settingsData.ShowSuffix);
+                if (Settings.Contains("showSuffix") && Settings["showSuffix"] != null)
+                {
+                    _ShowSuffix = bool.Parse(Settings["showSuffix"].ToString());
                 }
 
                 PanelShowSuffix.Visible = _ShowSuffix;
                 PanelShowAFMSuffix.Visible = _ShowSuffix;
-               
-                if (settingsData.ShowXmasGiftFields != null)
+
+                if (Settings.Contains("showXmasGiftFields") && Settings["showXmasGiftFields"] != null)
                 {
-                    _ShowGiftFields = bool.Parse(settingsData.ShowXmasGiftFields);
+                    _ShowGiftFields = bool.Parse(Settings["showXmasGiftFields"].ToString());
                 }
                 ShowXmasGiftFieldsSection.Visible = _ShowGiftFields;
 
 
 
-                if (settingsData.ShowClientIdCard != null)
+                if (Settings.Contains("showClientIdCard") && Settings["showClientIdCard"] != null)
                 {
-                    txtClientIdCard.Visible = Convert.ToBoolean(settingsData.ShowClientIdCard);
-                    lblClientIdCard.Visible = Convert.ToBoolean(settingsData.ShowClientIdCard);
+                    txtClientIdCard.Visible = Convert.ToBoolean(Settings["showClientIdCard"]);
+                    lblClientIdCard.Visible = Convert.ToBoolean(Settings["showClientIdCard"]);
                 }
 
                 if (_ShowOneBagOnly == false)
@@ -1079,14 +1087,14 @@ namespace GIBS.Modules.FBClients
                     PanelClientType.Visible = false;
                 }
 
-                if (settingsData.ShowIncExpSummary != null)
+                if (Settings.Contains("showIncExpSummary") && Settings["showIncExpSummary"] != null)
                 {
-                    _ShowIncExpSummary = bool.Parse(settingsData.ShowIncExpSummary);
+                    _ShowIncExpSummary = bool.Parse(Settings["showIncExpSummary"].ToString());
                 }
 
-                if (settingsData.ShowExpense != null)
+                if (Settings.Contains("showExpense") && Settings["showExpense"] != null)
                 {
-                    _ShowExpense = bool.Parse(settingsData.ShowExpense);
+                    _ShowExpense = bool.Parse(Settings["showExpense"].ToString());
                 }
                 ExpenseRow.Visible = _ShowExpense;
                 if (_ShowExpense)
@@ -1099,27 +1107,27 @@ namespace GIBS.Modules.FBClients
                 }
 
 
-                if (settingsData.ShowRelationshipToClient != null)
+                if (Settings.Contains("showRelationshipToClient") && Settings["showRelationshipToClient"] != null)
                 {
-                    _ShowAFMRelationship = bool.Parse(settingsData.ShowRelationshipToClient);
+                    _ShowAFMRelationship = bool.Parse(Settings["showRelationshipToClient"].ToString());
                 }
-                PanelShowAFMRelationship.Visible = bool.Parse(settingsData.ShowRelationshipToClient);
+                PanelShowAFMRelationship.Visible = bool.Parse(Settings["showRelationshipToClient"].ToString());
                 gvAFM.Columns[13].Visible = _ShowAFMRelationship;
                 //      gvAFM.
 
-                if (settingsData.ShowDisabilities != null)
+                if (Settings.Contains("showDisabilities") && Settings["showDisabilities"] != null)
                 {
-                    _ShowDisabilitiee = bool.Parse(settingsData.ShowDisabilities);
+                    _ShowDisabilitiee = bool.Parse(Settings["showDisabilities"].ToString());
                 }
                 DisabilitiesRow.Visible = _ShowDisabilitiee;
 
-                if (settingsData.ShowXmasToys != null)
+                if (Settings.Contains("showXmasToys") && Settings["showXmasToys"] != null)
                 {
-                   
-                    gvAFM.Columns[2].Visible = bool.Parse(settingsData.ShowXmasToys);
-                    if (bool.Parse(settingsData.ShowXmasToys) == true)
+
+                    gvAFM.Columns[2].Visible = bool.Parse(Settings["showXmasToys"].ToString());
+                    if (bool.Parse(Settings["showXmasToys"].ToString()) == true)
                     {
-                        
+
                         HyperLinkXmas.Visible = true;
                     }
                     else
@@ -1132,28 +1140,29 @@ namespace GIBS.Modules.FBClients
                     gvAFM.Columns[2].Visible = false;
                 }
 
-                if (settingsData.XmasToysYear != null)
+                if (Settings.Contains("xmasToysYear") && Settings["xmasToysYear"] != null)
                 {
-                    _XmasToysYear = settingsData.XmasToysYear;
+                    _XmasToysYear = Settings["xmasToysYear"].ToString();
                 }
                 else
                 {
                     _XmasToysYear = DateTime.Now.Year.ToString();
                 }
 
-                if (settingsData.ReqEthnicity != null)
+                if (Settings.Contains("reqEthnicity") && Settings["reqEthnicity"] != null)
                 {
-                    reqClientEthnicity.Enabled = bool.Parse(settingsData.ReqEthnicity);
-                    reqAFMEthnicity.Enabled = bool.Parse(settingsData.ReqEthnicity);
-                    _IsEthnicityRequired = bool.Parse(settingsData.ReqEthnicity);
+                    reqClientEthnicity.Enabled = bool.Parse(Settings["reqEthnicity"].ToString());
+                    reqAFMEthnicity.Enabled = bool.Parse(Settings["reqEthnicity"].ToString());
+                    _IsEthnicityRequired = bool.Parse(Settings["reqEthnicity"].ToString());
                 }
 
-                if (settingsData.ReqGender != null)
+                if (Settings.Contains("reqGender") && Settings["reqGender"] != null)
                 {
-                    reqClientGender.Enabled = bool.Parse(settingsData.ReqGender);
+                    reqClientGender.Enabled = bool.Parse(Settings["reqGender"].ToString());
                 }
 
                 LiteralIncomeEligibilityGuidelines.Text = HttpUtility.HtmlDecode(_IncomeEligibilityGuidelines.ToString());
+
 
 
 
@@ -2459,6 +2468,8 @@ namespace GIBS.Modules.FBClients
             try
             {
 
+                var portalAlias = PortalSettings.Current.PrimaryAlias;
+
 
                 StringBuilder EmailContentHTML = new StringBuilder();
                 EmailContentHTML.Capacity = 5000;
@@ -2477,13 +2488,13 @@ namespace GIBS.Modules.FBClients
                 EmailContentHTML.Append("<p class=\"Value\">" + ClientName.ToString() + "</p>" + Environment.NewLine);
 
 
-                EmailContentHTML.Append("<p class=\"Value\"><a href=\"http://" + PortalSettings.PortalAlias.HTTPAlias.ToString() + System.Web.HttpContext.Current.Request.RawUrl.ToString() + "\">CLICK HERE TO VIEW THE CLIENT</a></p>" + Environment.NewLine);
+                EmailContentHTML.Append("<p class=\"Value\"><a href=\"https://" + PortalSettings.PortalAlias.HTTPAlias.ToString() 
+                    + System.Web.HttpContext.Current.Request.RawUrl.ToString() + "\">CLICK HERE TO VIEW THE CLIENT</a></p>" + Environment.NewLine);
 
-                EmailContentHTML.Append("<p class=\"Footer\">Some e-mail clients do not support links, cut 'n paste the URL below into a web browser.<br />http://" + PortalSettings.PortalAlias.HTTPAlias.ToString() + System.Web.HttpContext.Current.Request.RawUrl.ToString() + "</p>" + Environment.NewLine);
+                EmailContentHTML.Append("<p class=\"Footer\">Some e-mail clients do not support links, cut 'n paste the URL below into a web browser.<br />https://" + PortalSettings.PortalAlias.HTTPAlias.ToString() + System.Web.HttpContext.Current.Request.RawUrl.ToString() + "</p>" + Environment.NewLine);
                 // EmailContentHTML.Append("</tr>" + Environment.NewLine);
 
-
-                
+                              
 
                 return EmailContentHTML.ToString();
             }
@@ -2759,7 +2770,8 @@ namespace GIBS.Modules.FBClients
                     ImgInitials.Visible = false;
                     lblSignatureOnFile.Visible = false;
                     // Load Client Rexcord
-                    FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
+                   // FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
+                    FillVisitsGrid();
 
                 }
                 else

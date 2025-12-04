@@ -129,12 +129,11 @@ namespace GIBS.Modules.FBClients
             {
                 string _ToyTicketContent = "";
 
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
-
-                if (settingsData.ToyTicketContent != null)
+                if (Settings.Contains("toyTicketContent"))
                 {
-                    _ToyTicketContent = settingsData.ToyTicketContent;
+
+                    _ToyTicketContent = (Settings["toyTicketContent"].ToString());
                 }
                 else
                 {

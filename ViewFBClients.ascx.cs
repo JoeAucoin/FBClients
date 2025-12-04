@@ -19,8 +19,9 @@ namespace GIBS.Modules.FBClients
     public partial class ViewFBClients : PortalModuleBase, IActionable
     {
 
-     //   bool ShowAMFinGrid = false;
-        
+        //   bool ShowAMFinGrid = false;
+        bool _ShowClientType;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -78,32 +79,37 @@ namespace GIBS.Modules.FBClients
             try
             {
 
-
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
-
-
-                if (settingsData.FocusableControl != null)
+                if (Settings.Contains("focusableControl"))
                 {
-                    //Control control = this.FindControl(
-                        //(Control)this.FindName("FocusableControl", this);
-                    TextBox _SearchField = (TextBox)FindControl(settingsData.FocusableControl.ToString());
+                    TextBox _SearchField = (TextBox)FindControl(Settings["focusableControl"].ToString());
                     if (_SearchField != null)
                     {
                         _SearchField.Focus();
                     }
+                    
                 }
 
-                if (settingsData.ShowClientIdCard != null)
+                if (Settings.Contains("showClientIdCard"))
                 {
-                    divClientIDCard.Visible = Convert.ToBoolean(settingsData.ShowClientIdCard);
-                }
 
-                if (settingsData.IncludeInactiveOnSearch != null)
+                    divClientIDCard.Visible = Convert.ToBoolean(Settings["showClientIdCard"].ToString());
+                }
+                
+                if (Settings.Contains("includeInactiveOnSearch"))
                 {
-                    cbxIncludeInactive.Checked = Convert.ToBoolean(settingsData.IncludeInactiveOnSearch);
-                   
+
+                    cbxIncludeInactive.Checked = Convert.ToBoolean(Settings["includeInactiveOnSearch"].ToString());
                 }
 
+                if (Settings.Contains("showClientType") && Settings["showClientType"] != null)
+                {
+                    _ShowClientType = bool.Parse(Settings["showClientType"].ToString());
+                }
+
+                if (_ShowClientType == false)
+                {
+                    PanelClientType.Visible = false;
+                }
 
 
             }

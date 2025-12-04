@@ -56,7 +56,7 @@
 
         </ul>
 
-        <div style="text-align:right; padding-right:35px;"><asp:CheckBox ID="cbxIncludeInactive" runat="server" Text="Include Inactive" TextAlign="Right" />
+        <div style="float:right; padding-right:10px; width: 290px;"><asp:CheckBox ID="cbxIncludeInactive" runat="server" Text="Include Inactive" TextAlign="Right" />
         </div>
 <div id="Client" class="dnnClear">
 
@@ -80,7 +80,7 @@
         <div style="position:relative;float:right;padding-right:30px;"></div>
                 
     <fieldset>
-
+        <asp:Panel ID="PanelClientType" runat="server">
          <div class="dnnFormItem">
                    <dnn:label id="lblClientType" runat="server" resourcekey="lblClientType" controlname="ddlClientType" suffix=":" />
                    <asp:DropDownList ID="ddlClientType" runat="server" TabIndex="1">
@@ -90,7 +90,7 @@
                        <asp:ListItem Text="Pallet"></asp:ListItem>
                     </asp:DropDownList>
         </div>
-
+        </asp:Panel>
         <div class="dnnFormItem">
             <dnn:Label runat="server" ControlName="txtClientId" ID="lblClientId" Suffix=":" ResourceKey="lblClientId" />
             <asp:TextBox runat="server" ID="txtClientId" /><asp:RangeValidator runat="server" Type="Integer"  ID="ClientIDRangeValidator" 

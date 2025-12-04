@@ -157,7 +157,7 @@
     <value>Save/Update</value>
   </data>
   <data name="btnAddClientIncome.Text" xml:space="preserve">
-    <value>&lt;i class="fa fa-save fa-lg"&gt;&lt;/i&gt;</value>
+    <value>Save/Update</value>
   </data>
   <data name="btnAddClientVisit.Text" xml:space="preserve">
     <value>Save/Update Visit</value>

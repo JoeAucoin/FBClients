@@ -24,13 +24,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectPantryDetails;
 
         /// <summary>
-        /// tblPantryDetails control.
+        /// GeneralSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblPantryDetails;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl GeneralSection;
 
         /// <summary>
         /// lblFBName control.
@@ -204,13 +204,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectGeneralSettings;
 
         /// <summary>
-        /// tblGeneralSettings control.
+        /// GeneralSettings2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblGeneralSettings;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl GeneralSettings2;
 
         /// <summary>
         /// lblIDCardImagePath control.
@@ -618,13 +618,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectTwilio;
 
         /// <summary>
-        /// tblTwilio control.
+        /// TwilioSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblTwilio;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TwilioSection;
 
         /// <summary>
         /// lblTwilioAccountSid control.
@@ -708,13 +708,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectToyTicket;
 
         /// <summary>
-        /// tblToyTicket control.
+        /// ToyTicketSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblToyTicket;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ToyTicketSection;
 
         /// <summary>
         /// lblShowXmasToys control.
@@ -816,13 +816,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectInstructions;
 
         /// <summary>
-        /// tblInstructions control.
+        /// InstructionsSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblInstructions;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl InstructionsSection;
 
         /// <summary>
         /// lblIncomeEligibilityGuidelines control.
@@ -852,13 +852,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectRequiredFields;
 
         /// <summary>
-        /// tblRequiredFields control.
+        /// RequiredFieldsSetion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblRequiredFields;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl RequiredFieldsSetion;
 
         /// <summary>
         /// lblReguireClientGender control.
@@ -924,13 +924,13 @@ namespace GIBS.Modules.FBClients
         protected global::DotNetNuke.UI.UserControls.SectionHeadControl sectPermissions;
 
         /// <summary>
-        /// tblPermissions control.
+        /// PermissionsSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblPermissions;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PermissionsSection;
 
         /// <summary>
         /// lblClientManagerUserRole control.

@@ -51,19 +51,16 @@ namespace GIBS.Modules.FBClients
             try
             {
 
-
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
-
-
-                if (settingsData.IDCardImagePath != null)
+                if (Settings.Contains("iDCardImagePath"))
                 {
-                    _IDCardImagePath = settingsData.IDCardImagePath.ToString();
+
+                    _IDCardImagePath = (Settings["iDCardImagePath"].ToString());
                 }
                 else
                 {
                     _IDCardImagePath = "";
-
                 }
+
 
             }
             catch (Exception ex)

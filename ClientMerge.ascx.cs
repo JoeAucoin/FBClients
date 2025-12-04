@@ -155,19 +155,21 @@ namespace GIBS.Modules.FBClients
         {
             try
             {
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
-                if (settingsData.FocusableControl != null)
+
+                if (Settings.Contains("focusableControl"))
                 {
-                    TextBox _SearchField = (TextBox)FindControl(settingsData.FocusableControl.ToString());
+                    TextBox _SearchField = (TextBox)FindControl(Settings["focusableControl"].ToString());
                     if (_SearchField != null)
                     {
                         _SearchField.Focus();
                     }
+
                 }
 
-                if (settingsData.ShowClientIdCard != null)
+                if (Settings.Contains("showClientIdCard"))
                 {
-                    divClientIDCard.Visible = Convert.ToBoolean(settingsData.ShowClientIdCard);
+
+                    divClientIDCard.Visible = Convert.ToBoolean(Settings["showClientIdCard"].ToString());
                 }
             }
             catch (Exception ex)

@@ -401,12 +401,9 @@ namespace GIBS.Modules.FBClients
             {
 
 
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
-
-
-                if (settingsData.IDCardImagePath != null)
+                if (Settings.Contains("iDCardImagePath") && Settings["iDCardImagePath"] != null)
                 {
-                    _IDCardImagePath = settingsData.IDCardImagePath.ToString();
+                    _IDCardImagePath = Settings["iDCardImagePath"].ToString();
                 }
                 else
                 {

@@ -2,16 +2,9 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-
 using DotNetNuke.Entities.Modules;
-using DotNetNuke.Services.Localization;
-using DotNetNuke.Common;
+using DotNetNuke.Services.Exceptions;
+using System.Web.UI.WebControls;
 
 namespace GIBS.FBClients.Components
 {
@@ -20,43 +13,43 @@ namespace GIBS.FBClients.Components
     /// </summary>
     public class FBClientsSettings : ModuleSettingsBase
     {
-        ModuleController controller;
-        int tabModuleId;
+        //   ModuleController controller;
+        //int tabModuleId;
 
-        public FBClientsSettings(int tabModuleId)
-        {
-            controller = new ModuleController();
-            this.tabModuleId = tabModuleId;
-        }
+        //public FBClientsSettings(int tabModuleId)
+        //{
+        //    controller = new ModuleController();
+        //    this.tabModuleId = tabModuleId;
+        //}
 
-        protected T ReadSetting<T>(string settingName, T defaultValue)
-        {
-            Hashtable settings = controller.GetTabModuleSettings(this.tabModuleId);
+        //protected T ReadSetting<T>(string settingName, T defaultValue)
+        //{
+        //    Hashtable settings = controller.GetTabModuleSettings(this.tabModuleId);
 
-            T ret = default(T);
+        //    T ret = default(T);
 
-            if (settings.ContainsKey(settingName))
-            {
-                System.ComponentModel.TypeConverter tc = System.ComponentModel.TypeDescriptor.GetConverter(typeof(T));
-                try
-                {
-                    ret = (T)tc.ConvertFrom(settings[settingName]);
-                }
-                catch
-                {
-                    ret = defaultValue;
-                }
-            }
-            else
-                ret = defaultValue;
+        //    if (settings.ContainsKey(settingName))
+        //    {
+        //        System.ComponentModel.TypeConverter tc = System.ComponentModel.TypeDescriptor.GetConverter(typeof(T));
+        //        try
+        //        {
+        //            ret = (T)tc.ConvertFrom(settings[settingName]);
+        //        }
+        //        catch
+        //        {
+        //            ret = defaultValue;
+        //        }
+        //    }
+        //    else
+        //        ret = defaultValue;
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        protected void WriteSetting(string settingName, string value)
-        {
-            controller.UpdateTabModuleSetting(this.tabModuleId, settingName, value);
-        }
+        //protected void WriteSetting(string settingName, string value)
+        //{
+        //    controller.UpdateTabModuleSetting(this.tabModuleId, settingName, value);
+        //}
 
         #region public properties
 
@@ -77,131 +70,306 @@ namespace GIBS.FBClients.Components
             {
                 var mc = new ModuleController();
 
-                mc.UpdateTabModuleSetting(this.tabModuleId, "recaptcha", value.ToString());
+                mc.UpdateTabModuleSetting(this.TabModuleId, "recaptcha", value.ToString());
             }
         }
 
 
+        //public string FBName
+        //{
+        //    get { return ReadSetting<string>("fBName", null); }
+        //    set { WriteSetting("fBName", value); }
+        //}
+
         public string FBName
         {
-            get { return ReadSetting<string>("fBName", null); }
-            set { WriteSetting("fBName", value); }
+            get
+            {
+                if (Settings.Contains("fBName"))
+                    return Settings["fBName"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBName", value.ToString());
+            }
+
         }
 
         public string FBAddress
         {
+            get
+            {
+                if (Settings.Contains("fBAddress"))
+                    return Settings["fBAddress"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBAddress", value.ToString());
+            }
 
-            get { return ReadSetting<string>("fBAddress", null); }
-            set { WriteSetting("fBAddress", value); }
         }
 
         public string FBCity
         {
+            get
+            {
+                if (Settings.Contains("fBCity"))
+                    return Settings["fBCity"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBCity", value.ToString());
+            }
 
-            get { return ReadSetting<string>("fBCity", null); }
-            set { WriteSetting("fBCity", value); }
         }
+
+        //public string FBCity
+        //{
+
+        //    get { return ReadSetting<string>("fBCity", null); }
+        //    set { WriteSetting("fBCity", value); }
+        //}
 
 
         public string FBState
         {
+            get
+            {
+                if (Settings.Contains("fBState"))
+                    return Settings["fBState"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBState", value.ToString());
+            }
 
-            get { return ReadSetting<string>("fBState", null); }
-            set { WriteSetting("fBState", value); }
         }
 
         public string FBZipCode
         {
+            get
+            {
+                if (Settings.Contains("fBZipCode"))
+                    return Settings["fBZipCode"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBZipCode", value.ToString());
+            }
 
-            get { return ReadSetting<string>("fBZipCode", null); }
-            set { WriteSetting("fBZipCode", value); }
         }
 
         public string FBPhoneNumber
         {
-
-            get { return ReadSetting<string>("fBPhoneNumber", null); }
-            set { WriteSetting("fBPhoneNumber", value); }
+            get
+            {
+                if (Settings.Contains("fBPhoneNumber"))
+                    return Settings["fBPhoneNumber"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBPhoneNumber", value.ToString());
+            }
         }
 
         public string FBFaxNumber
         {
-            get { return ReadSetting<string>("fBFaxNumber", null); }
-            set { WriteSetting("fBFaxNumber", value); }
+            get
+            {
+                if (Settings.Contains("fBFaxNumber"))
+                    return Settings["fBFaxNumber"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "fBFaxNumber", value.ToString());
+            }
         }
 
 
 
         public string ClientManagerUserRole
         {
-            get { return ReadSetting<string>("clientManagerUserRole", null); }
-            set { WriteSetting("clientManagerUserRole", value); }
+            get
+            {
+                if (Settings.Contains("clientManagerUserRole"))
+                    return Settings["clientManagerUserRole"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "clientManagerUserRole", value.ToString());
+            }
         }
 
 
         public string IDCardImagePath
         {
-            get { return ReadSetting<string>("iDCardImagePath", null); }
-            set { WriteSetting("iDCardImagePath", value); }
+            get
+            {
+                if (Settings.Contains("iDCardImagePath"))
+                    return Settings["iDCardImagePath"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "iDCardImagePath", value.ToString());
+            }
         }
 
         public string ClientManagerDeleteRecordRole
         {
-            get { return ReadSetting<string>("clientManagerDeleteRecordRole", null); }
-            set { WriteSetting("clientManagerDeleteRecordRole", value); }
+            get
+            {
+                if (Settings.Contains("clientManagerDeleteRecordRole"))
+                    return Settings["clientManagerDeleteRecordRole"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "clientManagerDeleteRecordRole", value.ToString());
+            }
         }
 
         public string DaysToValidVisit
         {
-            get { return ReadSetting<string>("daysToValidVisit", null); }
-            set { WriteSetting("daysToValidVisit", value); }
+            get
+            {
+                if (Settings.Contains("daysToValidVisit"))
+                    return Settings["daysToValidVisit"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "daysToValidVisit", value.ToString());
+            }
         }
 
         public string ShowSendText
         {
-            get { return ReadSetting<string>("showSendText", null); }
-            set { WriteSetting("showSendText", value); }
+            get
+            {
+                if (Settings.Contains("showSendText"))
+                    return Settings["showSendText"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showSendText", value.ToString());
+            }
         }
 
         public string ShowClientServiceLocation
         {
-            get { return ReadSetting<string>("showClientServiceLocation", null); }
-            set { WriteSetting("showClientServiceLocation", value); }
+            get
+            {
+                if (Settings.Contains("showClientServiceLocation"))
+                    return Settings["showClientServiceLocation"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showClientServiceLocation", value.ToString());
+            }
         }
 
         //cbxIncludeInactiveOnSearch
         public string IncludeInactiveOnSearch
         {
-            get { return ReadSetting<string>("includeInactiveOnSearch", null); }
-            set { WriteSetting("includeInactiveOnSearch", value); }
+            get
+            {
+                if (Settings.Contains("includeInactiveOnSearch"))
+                    return Settings["includeInactiveOnSearch"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "includeInactiveOnSearch", value.ToString());
+            }
         }
 
 
         public string ShowPhotoID
         {
-            get { return ReadSetting<string>("showPhotoID", null); }
-            set { WriteSetting("showPhotoID", value); }
+            get
+            {
+                if (Settings.Contains("showPhotoID"))
+                    return Settings["showPhotoID"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showPhotoID", value.ToString());
+            }
         }
 
         public string ShowOneBagOnly
         {
-            get { return ReadSetting<string>("showOneBagOnly", null); }
-            set { WriteSetting("showOneBagOnly", value); }
+            get
+            {
+                if (Settings.Contains("showOneBagOnly"))
+                    return Settings["showOneBagOnly"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showOneBagOnly", value.ToString());
+            }
         }
 
         public string ShowVisitStopLight
         {
 
-            get { return ReadSetting<string>("showVisitStopLight", null); }
-            set { WriteSetting("showVisitStopLight", value); }
+            get
+            {
+                if (Settings.Contains("showVisitStopLight"))
+                    return Settings["showVisitStopLight"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showVisitStopLight", value.ToString());
+            }
         }
 
         //IncomeEligibilityGuidelines incomeEligibilityGuidelines
         public string IncomeEligibilityGuidelines
         {
 
-            get { return ReadSetting<string>("incomeEligibilityGuidelines", null); }
-            set { WriteSetting("incomeEligibilityGuidelines", value); }
+            get
+            {
+                if (Settings.Contains("incomeEligibilityGuidelines"))
+                    return Settings["incomeEligibilityGuidelines"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "incomeEligibilityGuidelines", value.ToString());
+            }
         }
 
         // ToyTicketContent
@@ -209,149 +377,338 @@ namespace GIBS.FBClients.Components
         public string ShowIncExpSummary
         {
 
-            get { return ReadSetting<string>("showIncExpSummary", null); }
-            set { WriteSetting("showIncExpSummary", value); }
+            get
+            {
+                if (Settings.Contains("showIncExpSummary"))
+                    return Settings["showIncExpSummary"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showIncExpSummary", value.ToString());
+            }
         }
 
         public string ShowExpense
         {
 
-            get { return ReadSetting<string>("showExpense", null); }
-            set { WriteSetting("showExpense", value); }
+            get
+            {
+                if (Settings.Contains("showExpense"))
+                    return Settings["showExpense"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showExpense", value.ToString());
+            }
         }
 
         //ShowDisabilities showDisabilities
         public string ShowDisabilities
         {
 
-            get { return ReadSetting<string>("showDisabilities", null); }
-            set { WriteSetting("showDisabilities", value); }
+            get
+            {
+                if (Settings.Contains("showDisabilities"))
+                    return Settings["showDisabilities"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showDisabilities", value.ToString());
+            }
         }
 
         public string ShowClientType
         {
 
-            get { return ReadSetting<string>("showClientType", null); }
-            set { WriteSetting("showClientType", value); }
+            get
+            {
+                if (Settings.Contains("showClientType"))
+                    return Settings["showClientType"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showClientType", value.ToString());
+            }
         }
 
         public string ShowSuffix
         {
 
-            get { return ReadSetting<string>("showSuffix", null); }
-            set { WriteSetting("showSuffix", value); }
+            get
+            {
+                if (Settings.Contains("showSuffix"))
+                    return Settings["showSuffix"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showSuffix", value.ToString());
+            }
         }
 
         public string ShowRelationshipToClient
         {
 
-            get { return ReadSetting<string>("showRelationshipToClient", null); }
-            set { WriteSetting("showRelationshipToClient", value); }
+            get
+            {
+                if (Settings.Contains("showRelationshipToClient"))
+                    return Settings["showRelationshipToClient"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showRelationshipToClient", value.ToString());
+            }
         }
 
 
         public string ShowXmasToys
         {
 
-            get { return ReadSetting<string>("showXmasToys", null); }
-            set { WriteSetting("showXmasToys", value); }
+            get
+            {
+                if (Settings.Contains("showXmasToys"))
+                    return Settings["showXmasToys"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showXmasToys", value.ToString());
+            }
         }
 
 
         public string XmasToysYear
         {
 
-            get { return ReadSetting<string>("xmasToysYear", null); }
-            set { WriteSetting("xmasToysYear", value); }
+            get
+            {
+                if (Settings.Contains("xmasToysYear"))
+                    return Settings["xmasToysYear"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "xmasToysYear", value.ToString());
+            }
         }
 
         public string ShowXmasGiftFields
         {
 
-            get { return ReadSetting<string>("showXmasGiftFields", null); }
-            set { WriteSetting("showXmasGiftFields", value); }
+            get
+            {
+                if (Settings.Contains("showXmasGiftFields"))
+                    return Settings["showXmasGiftFields"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showXmasGiftFields", value.ToString());
+            }
         }
 
         //xmasRequireSizeAgeRange
         public string XmasRequireSizeAgeRange
         {
 
-            get { return ReadSetting<string>("xmasRequireSizeAgeRange", null); }
-            set { WriteSetting("xmasRequireSizeAgeRange", value); }
+            get
+            {
+                if (Settings.Contains("xmasRequireSizeAgeRange"))
+                    return Settings["xmasRequireSizeAgeRange"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "xmasRequireSizeAgeRange", value.ToString());
+            }
         }
 
         public string ToyTicketContent
         {
-            get { return ReadSetting<string>("toyTicketContent", null); }
-            set { WriteSetting("toyTicketContent", value); }
+            get
+            {
+                if (Settings.Contains("toyTicketContent"))
+                    return Settings["toyTicketContent"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "toyTicketContent", value.ToString());
+            }
         }
 
         public string FocusableControl
         {
 
-            get { return ReadSetting<string>("focusableControl", null); }
-            set { WriteSetting("focusableControl", value); }
+            get
+            {
+                if (Settings.Contains("focusableControl"))
+                    return Settings["focusableControl"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "focusableControl", value.ToString());
+            }
         }
 
         public string ShowClientIdCard
         {
 
-            get { return ReadSetting<string>("showClientIdCard", null); }
-            set { WriteSetting("showClientIdCard", value); }
+            get
+            {
+                if (Settings.Contains("showClientIdCard"))
+                    return Settings["showClientIdCard"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showClientIdCard", value.ToString());
+            }
         }
 
         public string ShowPrintShoppingLabel
         {
 
-            get { return ReadSetting<string>("showPrintShoppingLabel", null); }
-            set { WriteSetting("showPrintShoppingLabel", value); }
+            get
+            {
+                if (Settings.Contains("showPrintShoppingLabel"))
+                    return Settings["showPrintShoppingLabel"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showPrintShoppingLabel", value.ToString());
+            }
         }
 
         public string PrintShoppingLabelQuantity
         {
-            get { return ReadSetting<string>("printShoppingLabelQuantity", null); }
-            set { WriteSetting("printShoppingLabelQuantity", value); }
+            get
+            {
+                if (Settings.Contains("printShoppingLabelQuantity"))
+                    return Settings["printShoppingLabelQuantity"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "printShoppingLabelQuantity", value.ToString());
+            }
         }
 
         public string ShowPrintBarCodeLabel
         {
 
-            get { return ReadSetting<string>("showPrintBarCodeLabel", null); }
-            set { WriteSetting("showPrintBarCodeLabel", value); }
+            get
+            {
+                if (Settings.Contains("showPrintBarCodeLabel"))
+                    return Settings["showPrintBarCodeLabel"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showPrintBarCodeLabel", value.ToString());
+            }
         }
         public string FlagForReviewNotify
         {
 
-            get { return ReadSetting<string>("flagForReviewNotify", null); }
-            set { WriteSetting("flagForReviewNotify", value); }
+            get
+            {
+                if (Settings.Contains("flagForReviewNotify"))
+                    return Settings["flagForReviewNotify"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "flagForReviewNotify", value.ToString());
+            }
         }
         //BagAllowance
         public string BagAllowance
         {
 
-            get { return ReadSetting<string>("bagAllowance", null); }
-            set { WriteSetting("bagAllowance", value); }
+            get
+            {
+                if (Settings.Contains("bagAllowance"))
+                    return Settings["bagAllowance"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "bagAllowance", value.ToString());
+            }
         }
 
         public string GroupHomeBagAllowance
         {
 
-            get { return ReadSetting<string>("groupHomeBagAllowance", null); }
-            set { WriteSetting("groupHomeBagAllowance", value); }
+            get
+            {
+                if (Settings.Contains("groupHomeBagAllowance"))
+                    return Settings["groupHomeBagAllowance"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "groupHomeBagAllowance", value.ToString());
+            }
         }
 
         public string ReqAFMVerified
         {
 
-            get { return ReadSetting<string>("reqAFMVerified", null); }
-            set { WriteSetting("reqAFMVerified", value); }
+            get
+            {
+                if (Settings.Contains("reqAFMVerified"))
+                    return Settings["reqAFMVerified"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "reqAFMVerified", value.ToString());
+            }
         }
 
         public string ReqAFMRelationship
         {
 
-            get { return ReadSetting<string>("reqAFMRelationship", null); }
-            set { WriteSetting("reqAFMRelationship", value); }
+            get
+            {
+                if (Settings.Contains("reqAFMRelationship"))
+                    return Settings["reqAFMRelationship"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "reqAFMRelationship", value.ToString());
+            }
         }
 
 
@@ -359,50 +716,122 @@ namespace GIBS.FBClients.Components
         public string ReqGender
         {
 
-            get { return ReadSetting<string>("reqGender", null); }
-            set { WriteSetting("reqGender", value); }
+            get
+            {
+                if (Settings.Contains("reqGender"))
+                    return Settings["reqGender"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "reqGender", value.ToString());
+            }
         }
 
         public string ReqEthnicity
         {
 
-            get { return ReadSetting<string>("reqEthnicity", null); }
-            set { WriteSetting("reqEthnicity", value); }
+            get
+            {
+                if (Settings.Contains("reqEthnicity"))
+                    return Settings["reqEthnicity"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "reqEthnicity", value.ToString());
+            }
         }
 
         public string AllowedIPAddress
         {
-            get { return ReadSetting<string>("allowedIPAddress", null); }
-            set { WriteSetting("allowedIPAddress", value); }
+            get
+            {
+                if (Settings.Contains("allowedIPAddress"))
+                    return Settings["allowedIPAddress"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "allowedIPAddress", value.ToString());
+            }
         }
 
         public string GoogleAPIKey
         {
-            get { return ReadSetting<string>("googleAPIKey", null); }
-            set { WriteSetting("googleAPIKey", value); }
+            get
+            {
+                if (Settings.Contains("googleAPIKey"))
+                    return Settings["googleAPIKey"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "googleAPIKey", value.ToString());
+            }
         }
 
         public string TwilioAccountSid
         {
-            get { return ReadSetting<string>("twilioAccountSid", null); }
-            set { WriteSetting("twilioAccountSid", value); }
+            get
+            {
+                if (Settings.Contains("twilioAccountSid"))
+                    return Settings["twilioAccountSid"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "twilioAccountSid", value.ToString());
+            }
         }
 
         public string TwilioAuthToken
         {
-            get { return ReadSetting<string>("twilioAuthToken", null); }
-            set { WriteSetting("twilioAuthToken", value); }
+            get
+            {
+                if (Settings.Contains("twilioAuthToken"))
+                    return Settings["twilioAuthToken"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "twilioAuthToken", value.ToString());
+            }
         }
 
         public string TwilioPhoneNumber
         {
-            get { return ReadSetting<string>("twilioPhoneNumber", null); }
-            set { WriteSetting("twilioPhoneNumber", value); }
+            get
+            {
+                if (Settings.Contains("twilioPhoneNumber"))
+                    return Settings["twilioPhoneNumber"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "twilioPhoneNumber", value.ToString());
+            }
         }
         public string ClientOrderPage
         {
-            get { return ReadSetting<string>("clientOrderPage", null); }
-            set { WriteSetting("clientOrderPage", value); }
+            get
+            {
+                if (Settings.Contains("clientOrderPage"))
+                    return Settings["clientOrderPage"].ToString();
+                return "";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "clientOrderPage", value.ToString());
+            }
         }
 
         #endregion

@@ -1,1 +1,175 @@
 ﻿
+/****** Object:  UserDefinedFunction [dbo].[fn_GIBS_FBClients_GetAgeGroup]    Script Date: 11/30/2025 9:53:59 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_GIBS_FBClients_GetAgeGroup]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+DROP FUNCTION [dbo].[fn_GIBS_FBClients_GetAgeGroup]
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[fn_GIBS_FBClients_GetAge]    Script Date: 11/30/2025 9:53:59 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_GIBS_FBClients_GetAge]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+DROP FUNCTION [dbo].[fn_GIBS_FBClients_GetAge]
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[fn_GIBS_FBClients_GetAge]    Script Date: 11/30/2025 9:53:59 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE function [dbo].[fn_GIBS_FBClients_GetAge]
+ 
+(@in_DOB AS datetime,@now as datetime)
+ 
+
+returns int
+ 
+as
+
+begin
+
+DECLARE @age int
+ 
+
+	IF cast(datepart(m,@now) as int) > cast(datepart(m,@in_DOB) as int)
+
+	SET @age = cast(datediff(yyyy,@in_DOB,@now) as int)
+
+	else
+
+	IF cast(datepart(m,@now) as int) = cast(datepart(m,@in_DOB) as int)
+
+	IF datepart(d,@now) >= datepart(d,@in_DOB)
+
+	SET @age = cast(datediff(yyyy,@in_DOB,@now) as int)
+
+	ELSE
+
+	SET @age = cast(datediff(yyyy,@in_DOB,@now) as int) -1
+
+	ELSE
+	 
+	SET @age = cast(datediff(yyyy,@in_DOB,@now) as int) - 1
+
+	RETURN @age
+end
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[fn_GIBS_FBClients_GetAgeGroup]    Script Date: 11/30/2025 9:53:59 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE function [dbo].[fn_GIBS_FBClients_GetAgeGroup]
+ (@datDOB AS datetime,@datOn as datetime)
+ returns varchar(12)
+as
+
+    begin
+    DECLARE @age int, @AgeBand varChar(12)
+    IF cast(datepart(m,@datOn) as int) > cast(datepart(m,@datDOB) as int)
+     SET @age = cast(datediff(yyyy,@datDOB,@datOn) as int)
+    else
+     IF cast(datepart(m,@datOn) as int) = cast(datepart(m,@datDOB) as int)
+      IF datepart(d,@datOn) >= datepart(d,@datDOB)
+       SET @age = cast(datediff(yyyy,@datDOB,@datOn) as int)
+      ELSE
+       SET @age = cast(datediff(yyyy,@datDOB,@datOn) as int) -1
+     ELSE
+      SET @age = cast(datediff(yyyy,@datDOB,@datOn) as int) - 1
+ if @age = 0
+  SET @AgeBand = 'No DOB'
+ if @age is null
+  SET @AgeBand = 'No DOB'
+ else
+  if @age <=17
+   set @ageband = 'Children'
+ else
+  if @age <=64 
+   set @ageband = 'Adult'
+ else
+  if @age >=65
+   set @ageband = '65 Plus'
+    RETURN @ageband
+end
+GO
+
+
+
+
+/****** Object:  View [dbo].[vw_GIBS_FBVisits]    Script Date: 11/30/2025 3:41:04 PM ******/
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[vw_GIBS_FBVisits]'))
+DROP VIEW [dbo].[vw_GIBS_FBVisits]
+GO
+
+/****** Object:  View [dbo].[vw_GIBS_FBClients]    Script Date: 11/30/2025 3:41:04 PM ******/
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[vw_GIBS_FBClients]'))
+DROP VIEW [dbo].[vw_GIBS_FBClients]
+GO
+
+/****** Object:  View [dbo].[vw_GIBS_FBClients]    Script Date: 11/30/2025 3:41:04 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- optimized
+CREATE VIEW [dbo].[vw_GIBS_FBClients]
+AS
+SELECT DISTINCT 
+                      TOP (100) PERCENT ClientID, 
+                       dbo.fn_GIBS_FBClients_GetAgeGroup(ClientDOB, GETDATE()) AS CLIENT_AgeGroup, 
+                      (CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB, GetDate()) WHEN 'Adult' THEN 1 ELSE 0 END) AS ClientAdult, 
+                      (CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB, GetDate()) WHEN '65 Plus' THEN 1 ELSE 0 END) AS Client65Plus, 
+                      (CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB, GetDate()) WHEN 'Children' THEN 1 ELSE 0 END) AS ClientChild, 
+                      (CASE dbo.fn_GIBS_FBClients_GetAgeGroup(GIBS_FBClients.ClientDOB, GetDate()) WHEN 'No DOB' THEN 1 ELSE 0 END) AS ClientNoDOB, CAST
+                          ((SELECT     COUNT(dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE())) AS Expr1
+                              FROM         dbo.GIBS_FBClientsAddFamMem
+                              WHERE     (ClientID = dbo.GIBS_FBClients.ClientID) AND (dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE()) = 'Adult')) AS INT) AS AFM_Adults, 
+                      CAST
+                          ((SELECT     COUNT(dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE())) AS Expr1
+                              FROM         dbo.GIBS_FBClientsAddFamMem AS GIBS_FBClientsAddFamMem_4
+                              WHERE     (ClientID = dbo.GIBS_FBClients.ClientID) AND (dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE()) = '65 Plus')) AS INT) 
+                      AS AFM_65Plus, CAST
+                          ((SELECT     COUNT(dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE())) AS Expr1
+                              FROM         dbo.GIBS_FBClientsAddFamMem AS GIBS_FBClientsAddFamMem_3
+                              WHERE     (ClientID = dbo.GIBS_FBClients.ClientID) AND (dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE()) = 'Children')) AS INT) 
+                      AS AFM_Children, CAST
+                          ((SELECT     COUNT(dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE())) AS Expr1
+                              FROM         dbo.GIBS_FBClientsAddFamMem AS GIBS_FBClientsAddFamMem_2
+                              WHERE     (ClientID = dbo.GIBS_FBClients.ClientID) AND (dbo.fn_GIBS_FBClients_GetAgeGroup(ClAddFamMemDOB, GETDATE()) = 'No DOB')) AS INT) 
+                      AS AFM_NoDOB, CAST
+                          ((SELECT     COUNT(ClAddFamMemID) AS Expr1
+                              FROM         dbo.GIBS_FBClientsAddFamMem AS GIBS_FBClientsAddFamMem_1
+                              WHERE     (ClientID = dbo.GIBS_FBClients.ClientID)) AS INT) + 1 AS HouseholdTotal
+FROM         dbo.GIBS_FBClients
+--WHERE     (PortalID = 0)
+ORDER BY ClientID
+GO
+
+/****** Object:  View [dbo].[vw_GIBS_FBVisits]    Script Date: 11/30/2025 3:41:04 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[vw_GIBS_FBVisits]
+AS
+
+
+select clientid 
+, VisitNumBags ,visitdate 
+from GIBS_FBClientsVisits vi
+			where visitdate = (
+
+			select max(visitdate) from GIBS_FBClientsVisits
+			 WHERE clientid = vi.clientid
+			)
+			
+		AND VisitNumBags > 0			
+GO
+
+

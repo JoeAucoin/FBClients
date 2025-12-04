@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace GIBS.Modules.FBClients
 {
-    public partial class Settings : ModuleSettingsBase
+    public partial class Settings : FBClientsSettings
     {
 
         /// <summary>
@@ -25,253 +25,254 @@ namespace GIBS.Modules.FBClients
                     GetRoles();
 
                     
-                    FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
+                //    FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
 
-                    if (settingsData.IDCardImagePath != null)
+
+                    if (IDCardImagePath != null)
                     {
-                        txtIDCardImagePath.Text = settingsData.IDCardImagePath;
+                        txtIDCardImagePath.Text = IDCardImagePath;
                     }
 
-                    if (settingsData.AllowedIPAddress != null)
+                    if (AllowedIPAddress != null)
                     {
-                        txtAllowedIPAddress.Text = settingsData.AllowedIPAddress;
+                        txtAllowedIPAddress.Text = AllowedIPAddress;
                     }
 
-                    if (settingsData.GoogleAPIKey != null)
+                    if (GoogleAPIKey != null)
                     {
-                        txtGoogleAPIKey.Text = settingsData.GoogleAPIKey;
+                        txtGoogleAPIKey.Text = GoogleAPIKey;
                     }
 
-                    if (settingsData.ClientManagerUserRole != null)
+                    if (ClientManagerUserRole != null)
                     {
 
-                        ddlClientManagerUserRole.SelectedValue = settingsData.ClientManagerUserRole;
+                        ddlClientManagerUserRole.SelectedValue = ClientManagerUserRole;
                     }
 
-                    if (settingsData.ClientManagerDeleteRecordRole != null)
+                    if (ClientManagerDeleteRecordRole != null)
                     {
 
-                        ddlClientManagerDeleteRole.SelectedValue = settingsData.ClientManagerDeleteRecordRole;
+                        ddlClientManagerDeleteRole.SelectedValue = ClientManagerDeleteRecordRole;
                     }
                     
-                    if (settingsData.FBName != null)
+                    if (FBName != null)
                     {
-                        txtFBName.Text = settingsData.FBName;
+                        txtFBName.Text = FBName;
                     }
 
-                    if (settingsData.FBAddress != null)
+                    if (FBAddress != null)
                     {
-                        txtFBAddress.Text = settingsData.FBAddress;
+                        txtFBAddress.Text = FBAddress;
                     }
 
-                    if (settingsData.FBCity != null)
+                    if (FBCity != null)
                     {
-                        txtFBCity.Text = settingsData.FBCity;
+                        txtFBCity.Text = FBCity;
                     }
 
-                    if (settingsData.FBState != null)
+                    if (FBState != null)
                     {
-                        txtFBState.Text = settingsData.FBState;
+                        txtFBState.Text = FBState;
                     }
 
-                    if (settingsData.FBZipCode != null)
+                    if (FBZipCode != null)
                     {
-                        txtFBZipCode.Text = settingsData.FBZipCode;
+                        txtFBZipCode.Text = FBZipCode;
                     }
 
-                    if (settingsData.FBPhoneNumber != null)
+                    if (FBPhoneNumber != null)
                     {
-                        txtFBPhoneNumber.Text = settingsData.FBPhoneNumber;
+                        txtFBPhoneNumber.Text = FBPhoneNumber;
                     }
 
-                    if (settingsData.FBFaxNumber != null)
+                    if (FBFaxNumber != null)
                     {
-                        txtFBFaxNumber.Text = settingsData.FBFaxNumber;
+                        txtFBFaxNumber.Text = FBFaxNumber;
                     }
 
-                    if (settingsData.DaysToValidVisit != null)
+                    if (DaysToValidVisit != null)
                     {
-                        ddlDaysToValidVisit.SelectedValue = settingsData.DaysToValidVisit;
-                    }
-
-
-                    if (settingsData.ShowSendText != null)
-                    {
-                        cbxShowSendText.Checked = Convert.ToBoolean(settingsData.ShowSendText);
-                    }
-
-                    if (settingsData.ShowClientServiceLocation != null)
-                    {
-                        cbxShowClientServiceLocation.Checked = Convert.ToBoolean(settingsData.ShowClientServiceLocation);
-                    }
-
-                    if (settingsData.ShowSuffix != null)
-                    {
-                        cbxShowSuffix.Checked = Convert.ToBoolean(settingsData.ShowSuffix);
-
+                        ddlDaysToValidVisit.SelectedValue = DaysToValidVisit;
                     }
 
 
-                    if (settingsData.ShowRelationshipToClient != null)
+                    if (ShowSendText != null)
                     {
-                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(settingsData.ShowRelationshipToClient);
+                        cbxShowSendText.Checked = Convert.ToBoolean(ShowSendText);
+                    }
+
+                    if (ShowClientServiceLocation != null)
+                    {
+                        cbxShowClientServiceLocation.Checked = Convert.ToBoolean(ShowClientServiceLocation);
+                    }
+
+                    if (ShowSuffix != null)
+                    {
+                        cbxShowSuffix.Checked = Convert.ToBoolean(ShowSuffix);
 
                     }
 
 
-                    if (settingsData.ShowPhotoID != null)
+                    if (ShowRelationshipToClient != null)
                     {
-                        cbxShowPhotoID.Checked = Convert.ToBoolean(settingsData.ShowPhotoID);
+                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(ShowRelationshipToClient);
+
                     }
 
-                    if (settingsData.ShowOneBagOnly != null)
+
+                    if (ShowPhotoID != null)
                     {
-                        cbxShowOneBagOnly.Checked = Convert.ToBoolean(settingsData.ShowOneBagOnly);
+                        cbxShowPhotoID.Checked = Convert.ToBoolean(ShowPhotoID);
+                    }
+
+                    if (ShowOneBagOnly != null)
+                    {
+                        cbxShowOneBagOnly.Checked = Convert.ToBoolean(ShowOneBagOnly);
                     }	
 
-                    if (settingsData.ShowVisitStopLight != null)
+                    if (ShowVisitStopLight != null)
                     {
-                        cbxShowVisitStopLight.Checked = Convert.ToBoolean(settingsData.ShowVisitStopLight);
+                        cbxShowVisitStopLight.Checked = Convert.ToBoolean(ShowVisitStopLight);
                     }
                     
-                    if (settingsData.IncomeEligibilityGuidelines != null)
+                    if (IncomeEligibilityGuidelines != null)
                     {
-                        txtIncomeEligibilityGuidelines.Text = settingsData.IncomeEligibilityGuidelines;
+                        txtIncomeEligibilityGuidelines.Text = IncomeEligibilityGuidelines;
                     }
 
-                    if (settingsData.ShowIncExpSummary != null)
+                    if (ShowIncExpSummary != null)
                     {
-                        cbxShowIncExpSummary.Checked = Convert.ToBoolean(settingsData.ShowIncExpSummary);
+                        cbxShowIncExpSummary.Checked = Convert.ToBoolean(ShowIncExpSummary);
                     }
-                    //settingsData.IncludeInactiveOnSearch
+                    //IncludeInactiveOnSearch
 
-                    if (settingsData.IncludeInactiveOnSearch != null)
+                    if (IncludeInactiveOnSearch != null)
                     {
-                        cbxIncludeInactiveOnSearch.Checked = Convert.ToBoolean(settingsData.IncludeInactiveOnSearch);
+                        cbxIncludeInactiveOnSearch.Checked = Convert.ToBoolean(IncludeInactiveOnSearch);
                     }
            
 
-                    if (settingsData.ShowExpense != null)
+                    if (ShowExpense != null)
                     {
-                        cbxShowExpense.Checked = Convert.ToBoolean(settingsData.ShowExpense);
+                        cbxShowExpense.Checked = Convert.ToBoolean(ShowExpense);
                     }
 
-                    if (settingsData.ShowDisabilities != null)
+                    if (ShowDisabilities != null)
                     {
-                        cbxShowDisabilities.Checked = Convert.ToBoolean(settingsData.ShowDisabilities);
+                        cbxShowDisabilities.Checked = Convert.ToBoolean(ShowDisabilities);
                     }	
 
-                    if (settingsData.ShowClientType != null)
+                    if (ShowClientType != null)
                     {
-                        cbxShowClientType.Checked = Convert.ToBoolean(settingsData.ShowClientType);
+                        cbxShowClientType.Checked = Convert.ToBoolean(ShowClientType);
                     }
 
-                    if (settingsData.ShowXmasToys != null)
+                    if (ShowXmasToys != null)
                     {
-                        cbxShowXmasToys.Checked = Convert.ToBoolean(settingsData.ShowXmasToys);
+                        cbxShowXmasToys.Checked = Convert.ToBoolean(ShowXmasToys);
                     }
                     //ShowXmasGiftFields
-                    if (settingsData.ShowXmasGiftFields != null)
+                    if (ShowXmasGiftFields != null)
                     {
-                        cbxShowXmasGiftFields.Checked = Convert.ToBoolean(settingsData.ShowXmasGiftFields);
+                        cbxShowXmasGiftFields.Checked = Convert.ToBoolean(ShowXmasGiftFields);
                     }
 
-                    if (settingsData.XmasToysYear != null)
+                    if (XmasToysYear != null)
                     {
-                        txtXmasToysYear.Text = settingsData.XmasToysYear;
+                        txtXmasToysYear.Text = XmasToysYear;
                     }
 
-                    if (settingsData.XmasRequireSizeAgeRange != null)
+                    if (XmasRequireSizeAgeRange != null)
                     {
-                        txtXmasRequireSizeAgeRange.Text = settingsData.XmasRequireSizeAgeRange;
+                        txtXmasRequireSizeAgeRange.Text = XmasRequireSizeAgeRange;
                     }
 
-                    if (settingsData.ToyTicketContent != null)
+                    if (ToyTicketContent != null)
                     {
-                        txtToyTicketContent.Text = settingsData.ToyTicketContent;
+                        txtToyTicketContent.Text = ToyTicketContent;
                     }
 
-                    if (settingsData.ShowClientIdCard != null)
+                    if (ShowClientIdCard != null)
                     {
-                        cbxShowClientIdCard.Checked = Convert.ToBoolean(settingsData.ShowClientIdCard);
+                        cbxShowClientIdCard.Checked = Convert.ToBoolean(ShowClientIdCard);
                     }
-                    if (settingsData.ShowPrintShoppingLabel != null)
+                    if (ShowPrintShoppingLabel != null)
                     {
 
-                        cbxShowPrintShoppingLabel.Checked = Convert.ToBoolean(settingsData.ShowPrintShoppingLabel);
+                        cbxShowPrintShoppingLabel.Checked = Convert.ToBoolean(ShowPrintShoppingLabel);
                     }
 
-                    if (settingsData.ShowPrintBarCodeLabel != null)
+                    if (ShowPrintBarCodeLabel != null)
                     {
-                        cbxShowPrintBarCodeLabel.Checked = Convert.ToBoolean(settingsData.ShowPrintBarCodeLabel);
+                        cbxShowPrintBarCodeLabel.Checked = Convert.ToBoolean(ShowPrintBarCodeLabel);
                     }
                     //     txtPrintShoppingLabelQuantity
-                    if (settingsData.PrintShoppingLabelQuantity != null)
+                    if (PrintShoppingLabelQuantity != null)
                     {
-                        txtPrintShoppingLabelQuantity.Text = settingsData.PrintShoppingLabelQuantity;
+                        txtPrintShoppingLabelQuantity.Text = PrintShoppingLabelQuantity;
                     }
 
-                    if (settingsData.FocusableControl != null)
+                    if (FocusableControl != null)
                     {
-                        ddlFocusableControl.SelectedValue = settingsData.FocusableControl;
+                        ddlFocusableControl.SelectedValue = FocusableControl;
                     }
 
                     //txtFlagForReviewNotify
-                    if (settingsData.FlagForReviewNotify != null)
+                    if (FlagForReviewNotify != null)
                     {
-                        txtFlagForReviewNotify.Text = settingsData.FlagForReviewNotify;
+                        txtFlagForReviewNotify.Text = FlagForReviewNotify;
                     }
 
                     //txtBagAllowance
-                    if (settingsData.BagAllowance != null)
+                    if (BagAllowance != null)
                     {
-                        txtBagAllowance.Text = settingsData.BagAllowance;
+                        txtBagAllowance.Text = BagAllowance;
                     }
-                    if (settingsData.GroupHomeBagAllowance != null)
+                    if (GroupHomeBagAllowance != null)
                     {
-                        txtGroupHomeBagAllowance.Text = settingsData.GroupHomeBagAllowance;
+                        txtGroupHomeBagAllowance.Text = GroupHomeBagAllowance;
                     }
                     // REQUIRED FIELDS
-                    if (settingsData.ReqGender != null)
+                    if (ReqGender != null)
                     {
-                        cbxReguireClientGender.Checked = Convert.ToBoolean(settingsData.ReqGender);
+                        cbxReguireClientGender.Checked = Convert.ToBoolean(ReqGender);
                     }
 
 
-                    if (settingsData.ReqEthnicity != null)
+                    if (ReqEthnicity != null)
                     {
-                        cbxRequireClientEthnicity.Checked = Convert.ToBoolean(settingsData.ReqEthnicity);
+                        cbxRequireClientEthnicity.Checked = Convert.ToBoolean(ReqEthnicity);
                     }
 
 
-                    if (settingsData.ShowRelationshipToClient != null)
+                    if (ShowRelationshipToClient != null)
                     {
-                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(settingsData.ReqAFMRelationship);
+                        cbxShowRelationshipToClient.Checked = Convert.ToBoolean(ReqAFMRelationship);
                     }
 
-                    if (settingsData.ReqAFMVerified != null)
+                    if (ReqAFMVerified != null)
                     {
-                        cbxReqAFMVerified.Checked = Convert.ToBoolean(settingsData.ReqAFMVerified);
+                        cbxReqAFMVerified.Checked = Convert.ToBoolean(ReqAFMVerified);
                     }
 
-                    if (settingsData.TwilioAccountSid != null)
+                    if (TwilioAccountSid != null)
                     {
-                        txtTwilioAccountSid.Text = settingsData.TwilioAccountSid;
+                        txtTwilioAccountSid.Text = TwilioAccountSid;
                     }
 
-                    if (settingsData.TwilioAuthToken != null)
+                    if (TwilioAuthToken != null)
                     {
-                        txtTwilioAuthToken.Text = settingsData.TwilioAuthToken;
+                        txtTwilioAuthToken.Text = TwilioAuthToken;
                     }
 
-                    if (settingsData.TwilioPhoneNumber != null)
+                    if (TwilioPhoneNumber != null)
                     {
-                        txtTwilioPhoneNumber.Text = settingsData.TwilioPhoneNumber;
+                        txtTwilioPhoneNumber.Text = TwilioPhoneNumber;
                     }
 
-                    if (settingsData.ClientOrderPage != null)
+                    if (ClientOrderPage != null)
                     {
-                        txtClientOrderPage.Text = settingsData.ClientOrderPage;
+                        txtClientOrderPage.Text = ClientOrderPage;
                     }
 
                 }
@@ -289,55 +290,55 @@ namespace GIBS.Modules.FBClients
         {
             try
             {
-                FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
-                settingsData.ClientManagerUserRole = ddlClientManagerUserRole.SelectedValue;
-                settingsData.ClientManagerDeleteRecordRole = ddlClientManagerDeleteRole.SelectedValue;
+              //  FBClientsSettings settingsData = new FBClientsSettings(this.TabModuleId);
+                ClientManagerUserRole = ddlClientManagerUserRole.SelectedValue;
+                ClientManagerDeleteRecordRole = ddlClientManagerDeleteRole.SelectedValue;
                    
-                settingsData.FBName = txtFBName.Text;
-                settingsData.FBAddress = txtFBAddress.Text;
-                settingsData.FBCity = txtFBCity.Text;
-                settingsData.FBState = txtFBState.Text;
-                settingsData.FBZipCode = txtFBZipCode.Text;
-                settingsData.FBPhoneNumber = txtFBPhoneNumber.Text;
-                settingsData.FBFaxNumber = txtFBFaxNumber.Text;
-                settingsData.ShowVisitStopLight = cbxShowVisitStopLight.Checked.ToString();
-                settingsData.DaysToValidVisit = ddlDaysToValidVisit.SelectedValue.ToString();
-                settingsData.IncomeEligibilityGuidelines = txtIncomeEligibilityGuidelines.Text.ToString();
-                settingsData.ShowSendText= cbxShowSendText.Checked.ToString();
-                settingsData.ShowClientServiceLocation = cbxShowClientServiceLocation.Checked.ToString();
-                settingsData.ShowPhotoID = cbxShowPhotoID.Checked.ToString();
-                settingsData.ShowOneBagOnly = cbxShowOneBagOnly.Checked.ToString();
-                settingsData.ShowIncExpSummary = cbxShowIncExpSummary.Checked.ToString();
-                settingsData.ShowExpense = cbxShowExpense.Checked.ToString();
-                settingsData.ShowDisabilities = cbxShowDisabilities.Checked.ToString();
-                settingsData.ShowClientType = cbxShowClientType.Checked.ToString();
-                settingsData.ShowXmasToys = cbxShowXmasToys.Checked.ToString();
-                settingsData.ShowXmasGiftFields = cbxShowXmasGiftFields.Checked.ToString();
-                settingsData.IncludeInactiveOnSearch = cbxIncludeInactiveOnSearch.Checked.ToString();
-                settingsData.FocusableControl = ddlFocusableControl.SelectedValue.ToString();
-                settingsData.ShowClientIdCard = cbxShowClientIdCard.Checked.ToString();
-                settingsData.ShowPrintShoppingLabel = cbxShowPrintShoppingLabel.Checked.ToString();
-                settingsData.PrintShoppingLabelQuantity = txtPrintShoppingLabelQuantity.Text.ToString();
-                settingsData.ShowPrintBarCodeLabel = cbxShowPrintBarCodeLabel.Checked.ToString();
-                settingsData.XmasToysYear = txtXmasToysYear.Text;
-                settingsData.FlagForReviewNotify = txtFlagForReviewNotify.Text.ToString();
-                settingsData.BagAllowance = txtBagAllowance.Text.ToString();
-                settingsData.GroupHomeBagAllowance = txtGroupHomeBagAllowance.Text.ToString();
-                settingsData.ReqEthnicity = cbxRequireClientEthnicity.Checked.ToString();
-                settingsData.ReqGender = cbxReguireClientGender.Checked.ToString();
-                settingsData.AllowedIPAddress = txtAllowedIPAddress.Text.ToString();
-                settingsData.GoogleAPIKey = txtGoogleAPIKey.Text.ToString();
-                settingsData.XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
-                settingsData.ToyTicketContent = txtToyTicketContent.Text.ToString();
-                settingsData.ReqAFMRelationship = cbxShowRelationshipToClient.Checked.ToString();
-                settingsData.ReqAFMVerified = cbxReqAFMVerified.Checked.ToString();
-                settingsData.ShowRelationshipToClient = cbxShowRelationshipToClient.Checked.ToString();
-                settingsData.ShowSuffix = cbxShowSuffix.Checked.ToString();
-                settingsData.IDCardImagePath = txtIDCardImagePath.Text.ToString();
-                settingsData.TwilioAccountSid = txtTwilioAccountSid.Text.ToString();
-                settingsData.TwilioAuthToken = txtTwilioAuthToken.Text.ToString();
-                settingsData.TwilioPhoneNumber = txtTwilioPhoneNumber.Text.ToString();
-                settingsData.ClientOrderPage = txtClientOrderPage.Text.ToString();
+                FBName = txtFBName.Text;
+                FBAddress = txtFBAddress.Text;
+                FBCity = txtFBCity.Text;
+                FBState = txtFBState.Text;
+                FBZipCode = txtFBZipCode.Text;
+                FBPhoneNumber = txtFBPhoneNumber.Text;
+                FBFaxNumber = txtFBFaxNumber.Text;
+                ShowVisitStopLight = cbxShowVisitStopLight.Checked.ToString();
+                DaysToValidVisit = ddlDaysToValidVisit.SelectedValue.ToString();
+                IncomeEligibilityGuidelines = txtIncomeEligibilityGuidelines.Text.ToString();
+                ShowSendText= cbxShowSendText.Checked.ToString();
+                ShowClientServiceLocation = cbxShowClientServiceLocation.Checked.ToString();
+                ShowPhotoID = cbxShowPhotoID.Checked.ToString();
+                ShowOneBagOnly = cbxShowOneBagOnly.Checked.ToString();
+                ShowIncExpSummary = cbxShowIncExpSummary.Checked.ToString();
+                ShowExpense = cbxShowExpense.Checked.ToString();
+                ShowDisabilities = cbxShowDisabilities.Checked.ToString();
+                ShowClientType = cbxShowClientType.Checked.ToString();
+                ShowXmasToys = cbxShowXmasToys.Checked.ToString();
+                ShowXmasGiftFields = cbxShowXmasGiftFields.Checked.ToString();
+                IncludeInactiveOnSearch = cbxIncludeInactiveOnSearch.Checked.ToString();
+                FocusableControl = ddlFocusableControl.SelectedValue.ToString();
+                ShowClientIdCard = cbxShowClientIdCard.Checked.ToString();
+                ShowPrintShoppingLabel = cbxShowPrintShoppingLabel.Checked.ToString();
+                PrintShoppingLabelQuantity = txtPrintShoppingLabelQuantity.Text.ToString();
+                ShowPrintBarCodeLabel = cbxShowPrintBarCodeLabel.Checked.ToString();
+                XmasToysYear = txtXmasToysYear.Text;
+                FlagForReviewNotify = txtFlagForReviewNotify.Text.ToString();
+                BagAllowance = txtBagAllowance.Text.ToString();
+                GroupHomeBagAllowance = txtGroupHomeBagAllowance.Text.ToString();
+                ReqEthnicity = cbxRequireClientEthnicity.Checked.ToString();
+                ReqGender = cbxReguireClientGender.Checked.ToString();
+                AllowedIPAddress = txtAllowedIPAddress.Text.ToString();
+                GoogleAPIKey = txtGoogleAPIKey.Text.ToString();
+                XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
+                ToyTicketContent = txtToyTicketContent.Text.ToString();
+                ReqAFMRelationship = cbxShowRelationshipToClient.Checked.ToString();
+                ReqAFMVerified = cbxReqAFMVerified.Checked.ToString();
+                ShowRelationshipToClient = cbxShowRelationshipToClient.Checked.ToString();
+                ShowSuffix = cbxShowSuffix.Checked.ToString();
+                IDCardImagePath = txtIDCardImagePath.Text.ToString();
+                TwilioAccountSid = txtTwilioAccountSid.Text.ToString();
+                TwilioAuthToken = txtTwilioAuthToken.Text.ToString();
+                TwilioPhoneNumber = txtTwilioPhoneNumber.Text.ToString();
+                ClientOrderPage = txtClientOrderPage.Text.ToString();
 
 
             }
