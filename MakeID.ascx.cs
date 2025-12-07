@@ -1,7 +1,9 @@
 ﻿
 using System;
 using System.IO;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Entities.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Services.Exceptions;
 using GIBS.FBClients.Components;
@@ -21,7 +23,7 @@ namespace GIBS.Modules.FBClients
 {
     public partial class MakeID : PortalModuleBase
     {
-
+        private INavigationManager _navigationManager;
         public int clientId = 0;
 
         public string _ClientPhoto = "";
@@ -35,7 +37,7 @@ namespace GIBS.Modules.FBClients
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-
+            _navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
             JavaScript.RequestRegistration(CommonJs.jQuery);
            //     JavaScript.RequestRegistration(CommonJs.jQueryUI);
             //    JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -137,7 +139,7 @@ namespace GIBS.Modules.FBClients
                 }
                 else
                 {
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+                    Response.Redirect(_navigationManager.NavigateURL(), true);
                 }
 
             }
@@ -454,7 +456,7 @@ namespace GIBS.Modules.FBClients
         protected void ButtonReturnToClientManager_Click(object sender, EventArgs e)
         {
 
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientId.ToString()));
+            Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientId.ToString()));
 
         }
         static string MigraDocFilenameFromByteArray(byte[] image)

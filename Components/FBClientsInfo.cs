@@ -724,7 +724,8 @@ namespace GIBS.FBClients.Components
             {
                 if (createdByUserName == null)
                 {
-                    int portalId = PortalController.Instance.GetCurrentPortalSettings().PortalId;
+                    //int portalId = PortalController.Instance.GetCurrentPortalSettings().PortalId;
+                    int portalId = PortalController.Instance.GetCurrentSettings().PortalId;
                     UserController controller = new UserController();
                     UserInfo user = controller.GetUser(portalId, createdByUserID);
                     createdByUserName = user.DisplayName;

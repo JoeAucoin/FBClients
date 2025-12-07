@@ -1,12 +1,12 @@
 ﻿
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Entities.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Services.Exceptions;
-using DotNetNuke.Abstractions;
 using GIBS.FBClients.Components;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,13 +18,14 @@ namespace GIBS.Modules.FBClients
 {
     public partial class Camera : PortalModuleBase
     {
-
+        private INavigationManager _navigationManager;
         public int clientId = 0;
         public string _IDCardImagePath = "";
 
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
+            _navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
 
             JavaScript.RequestRegistration(CommonJs.jQuery);
         //    JavaScript.RequestRegistration(CommonJs.jQueryUI);
@@ -170,7 +171,7 @@ namespace GIBS.Modules.FBClients
                 }
                 else
                 {
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+                    Response.Redirect(_navigationManager.NavigateURL(), true);
                 }
 
             }
@@ -188,8 +189,8 @@ namespace GIBS.Modules.FBClients
             try
             {
 
-                string myLink = DotNetNuke.Common.Globals.NavigateURL("MakeID", "mid=" + this.ModuleId);
-                //myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
+                string myLink = _navigationManager.NavigateURL("MakeID", "mid=" + this.ModuleId);
+                
                 myLink += "?cid=" + clientId.ToString();
 
                 myLink += "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
@@ -212,9 +213,8 @@ namespace GIBS.Modules.FBClients
         protected void ButtonReturnToClientManager_Click(object sender, EventArgs e)
         {
             
-           Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientId.ToString()));
-      //   object p =   DependencyProvider.GetRequiredService( INavigationManager).NavigateURL(PortalSettings.ActiveTab.TabID, "Edit", "mid=" + ModuleId.ToString());
-      //      object p = DependencyProvider.GetRequiredService(INavigationManager).NavigateURL(PortalSettings.ActiveTab.TabID, "Edit", "mid=" + ModuleId.ToString());
+           Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientId.ToString()));
+     
         }
     }
 }

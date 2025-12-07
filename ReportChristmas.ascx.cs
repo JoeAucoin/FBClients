@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Entities.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using DotNetNuke.Common.Utilities;
 using GIBS.FBClients.Components;
 using DotNetNuke.Services.Localization;
@@ -15,9 +17,15 @@ namespace GIBS.Modules.FBClients
 {
     public partial class ReportChristmas : PortalModuleBase
     {
-
+        private INavigationManager _navigationManager;
         int clientId = Null.NullInteger;
-        
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            _navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -94,7 +102,7 @@ namespace GIBS.Modules.FBClients
                 }
                 else
                 {
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+                    Response.Redirect(_navigationManager.NavigateURL(), true);
                 }
 
             }

@@ -1,7 +1,9 @@
 ﻿using System;
 
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Entities.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
@@ -37,7 +39,7 @@ namespace GIBS.Modules.FBClients
 {
     public partial class EditClient : PortalModuleBase, IActionable
     {
-
+        private INavigationManager _navigationManager;
         public static int clientId = Null.NullInteger;
 
         public double IncomeTotal = 0;
@@ -85,7 +87,7 @@ namespace GIBS.Modules.FBClients
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-
+            _navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
             JavaScript.RequestRegistration(CommonJs.jQuery);
             JavaScript.RequestRegistration(CommonJs.jQueryUI);
             JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -632,7 +634,7 @@ namespace GIBS.Modules.FBClients
                 }
                 else
                 {
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+                    Response.Redirect(_navigationManager.NavigateURL(), true);
                 }
 
             }
@@ -1186,7 +1188,7 @@ namespace GIBS.Modules.FBClients
             {
                 //var strAddOn = '?SkinSrc=[G]';
 
-                string myLink = DotNetNuke.Common.Globals.NavigateURL("XmasReport", "mid=" + this.ModuleId);
+                string myLink = _navigationManager.NavigateURL("XmasReport", "mid=" + this.ModuleId);
                 myLink += "?cid=" + hidClientID.Value.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
                 myLink += "&ContainerSrc=";
                 myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
@@ -1210,7 +1212,7 @@ namespace GIBS.Modules.FBClients
             {
                 //var strAddOn = '?SkinSrc=[G]';
 
-                string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
+                string myLink = _navigationManager.NavigateURL("Camera", "mid=" + this.ModuleId);
                 myLink += "?cid=" + hidClientID.Value.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
                 myLink += "&ContainerSrc=";
                 myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
@@ -2243,7 +2245,7 @@ namespace GIBS.Modules.FBClients
 
                 }
 
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+                Response.Redirect(_navigationManager.NavigateURL(), true);
 
                 //    FillClientRecord(Int32.Parse(hidClientID.Value.ToString()));
 
@@ -2547,7 +2549,7 @@ namespace GIBS.Modules.FBClients
                     SearchParams += "&inactive=" + Request.QueryString["inactive"].ToString();
                 }
 
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL() + "?search=1" + SearchParams.ToString(), true);
+                Response.Redirect(_navigationManager.NavigateURL() + "?search=1" + SearchParams.ToString(), true);
             }
             catch (Exception ex)
             {
@@ -3175,7 +3177,7 @@ namespace GIBS.Modules.FBClients
 
             if (hidClientID.Value.ToString().Length > 0)
             {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ClientMerge", "mid=" + ModuleId.ToString() + "&clientid=" + hidClientID.Value.ToString()));
+                Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "ClientMerge", "mid=" + ModuleId.ToString() + "&clientid=" + hidClientID.Value.ToString()));
 
                 //item.ClientID = Int32.Parse(hidClientID.Value.ToString());
 
@@ -3294,7 +3296,7 @@ namespace GIBS.Modules.FBClients
             try
             {
 
-                string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
+                string myLink = _navigationManager.NavigateURL("Camera", "mid=" + this.ModuleId);
                 //myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
                 myLink += "?cid=" + clientId.ToString();
 
@@ -3395,28 +3397,6 @@ namespace GIBS.Modules.FBClients
             }
         }
 
-
-
-        //protected void btnCamera_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-
-        //        string myLink = DotNetNuke.Common.Globals.NavigateURL("Camera", "mid=" + this.ModuleId);
-        //        myLink += "?cid=" + clientId.ToString() + "&SkinSrc=[G]" + DotNetNuke.Common.Globals.QueryStringEncode(DotNetNuke.UI.Skins.SkinController.RootSkin + "/" + DotNetNuke.Common.Globals.glbHostSkinFolder + "/" + "popUpSkin");
-        //        myLink += "&ContainerSrc=";
-        //        myLink += DotNetNuke.Common.Globals.QueryStringEncode("/portals/_default/containers/_default/no%20container");
-
-        //        Response.Redirect(myLink.ToString());
-
-        //        //Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "Camera", "mid=" + ModuleId.ToString() + "&ClientID=" + hidClientID.Value.ToString()));
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Exceptions.ProcessModuleLoadException(this, ex);
-        //    }
-        //}
 
 
     }

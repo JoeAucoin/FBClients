@@ -5,7 +5,9 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Entities.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
@@ -18,9 +20,15 @@ namespace GIBS.Modules.FBClients
 {
     public partial class ViewFBClients : PortalModuleBase, IActionable
     {
-
+        private INavigationManager _navigationManager;
         //   bool ShowAMFinGrid = false;
         bool _ShowClientType;
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            _navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -209,7 +217,7 @@ namespace GIBS.Modules.FBClients
                     string clientID = items[0].ClientID.ToString();
                   //  lblFormMessage.Text = "Found 1 Record";
                  //   lblFormMessage.Visible = true;
-                    Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID ));
+                    Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID ));
                 }
 
             }
@@ -367,7 +375,7 @@ namespace GIBS.Modules.FBClients
                 }
                 
                 int clientID = (int)GridViewSearch.DataKeys[e.NewEditIndex].Value;
-                Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID + SearchParams.ToString()));
+                Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID + SearchParams.ToString()));
 
             }
             catch (Exception ex)
@@ -419,7 +427,7 @@ namespace GIBS.Modules.FBClients
                 if (txtClientId.Text.ToString().Length >= 1)
                 {
                     string clientID = txtClientId.Text.ToString().Trim();
-                    Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID));
+                    Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&cid=" + clientID));
                 }
                 else
                 {
@@ -467,7 +475,7 @@ namespace GIBS.Modules.FBClients
             try
             {
           //      Response.Redirect(EditUrl("EditClient"));
-                Response.Redirect(Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&TabFocus=Client"));
+                Response.Redirect(_navigationManager.NavigateURL(PortalSettings.ActiveTab.TabID, "EditClient", "mid=" + ModuleId.ToString() + "&TabFocus=Client"));
 
             }
             catch (Exception ex)
