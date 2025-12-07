@@ -1254,7 +1254,7 @@ runat="server" />
 
     <fieldset>
              		
-		<div class="dnnFormItem">						
+		<div class="dnnFormItem" id="divclientservicelocations" runat="server">						
 					 <dnn:Label runat="server" ID="lblMobileLocations" ControlName="ddlMobileLocations" ResourceKey="lblMobileLocations" Suffix=":" /> 
  <asp:DropDownList ID="ddlMobileLocations" runat="server" EnableViewState="true" /><asp:RequiredFieldValidator runat="server" id="reqMobileLocations"  
             controltovalidate="ddlMobileLocations" InitialValue="" CssClass="dnnFormMessage dnnFormError" ResourceKey="MobileLocationsError" ValidationGroup="VisitForm" /> 

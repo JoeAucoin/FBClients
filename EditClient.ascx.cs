@@ -61,6 +61,7 @@ namespace GIBS.Modules.FBClients
         public bool _ShowAFMRelationship = false;
         public bool _ShowSuffix = false;
         static bool _ShowGiftFields = false;
+        static bool _ShowClientServiceLocation = false;
         static string _XmasToysYear;
         static string _FlagForReviewNotify = "";
         //1=3,2=3,3=3,4=5,5=5,6=5,7=6
@@ -881,7 +882,12 @@ namespace GIBS.Modules.FBClients
                     _ClientOrderPage = (Settings["clientOrderPage"].ToString());
                 }
 
-
+                //_ShowClientServiceLocation
+                if (Settings.Contains("showClientServiceLocation") && Settings["showClientServiceLocation"] != null)
+                {
+                    _ShowClientServiceLocation = Convert.ToBoolean(Settings["showClientServiceLocation"].ToString());
+                    divclientservicelocations.Visible = _ShowClientServiceLocation;
+                }
 
                 //_GoogleAPIKey
                 if (Settings.Contains("googleAPIKey") && Settings["googleAPIKey"] != null)
