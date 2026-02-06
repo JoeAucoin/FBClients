@@ -303,37 +303,51 @@ namespace GIBS.Modules.FBClients
                 {
                     lblLastVisitDate.Text = item.LastVisitDate.ToShortDateString();
                 }
-
-                //if (ShowAMFinGrid == true)
-                //{
-                //    e.Row.Cells[14].Visible = true;
-                //    e.Row.Cells[15].Visible = true;
-
-                //}
-                //else
-                //{
-                //    e.Row.Cells[14].Visible = false;
-                //    e.Row.Cells[15].Visible = false;     
-                //}
-
-
             }
-
-            //if (ShowAMFinGrid == true)
-            //{
-            //    GridViewSearch.Columns[14].Visible = true;
-            //    GridViewSearch.Columns[15].Visible = true;
-            //}
-            //else
-            //{
-            //    GridViewSearch.Columns[14].Visible = false;
-            //    GridViewSearch.Columns[15].Visible = false;
-            //}
-
-
 
         }
 
+        protected string FormatNullDate(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return string.Empty;
+            }
+
+            DateTime visitDate;
+            if (!DateTime.TryParse(value.ToString(), out visitDate))
+            {
+                return string.Empty;
+            }
+
+            if (visitDate <= new DateTime(1901, 1, 1))
+            {
+                return string.Empty;
+            }
+
+            return visitDate.ToString("MM/dd/yyyy");
+        }
+
+        protected string FormatAge(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return string.Empty;
+            }
+
+            int age;
+            if (!int.TryParse(value.ToString(), out age))
+            {
+                return string.Empty;
+            }
+
+            if (age < 0)
+            {
+                return string.Empty;
+            }
+
+            return age.ToString();
+        }
 
 
         protected void GridViewSearch_RowEditing(object sender, GridViewEditEventArgs e)

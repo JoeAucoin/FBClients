@@ -391,7 +391,7 @@ namespace GIBS.Modules.FBClients
                             ddlTown.DataValueField = "Text";
                             ddlTown.DataSource = village;
                             ddlTown.DataBind();
-                            ddlTown.Items.Insert(0, new ListItem("Select Village", "-1"));
+                            ddlTown.Items.Insert(0, new ListItem("Select " + Localization.GetString("lblClientVillage", this.LocalResourceFile), "-1"));
 
                             ListItem litown = ddlTown.Items.FindByValue(item.ClientTown);
                             if (litown != null)
@@ -410,8 +410,9 @@ namespace GIBS.Modules.FBClients
                     else
                     {
                         //Value not found
-                        ddlCity.SelectedValue = "Other";
-                        txtOtherTown.Visible = true;
+                      //  ddlCity.SelectedValue = "OTHER";
+                        ddlTown.Visible = true;
+                        txtOtherTown.Visible = false;
                         txtOtherTown.Text = item.ClientTown;
                     }
 
@@ -2165,7 +2166,7 @@ namespace GIBS.Modules.FBClients
                 ddlCity.DataValueField = "Value";
                 ddlCity.DataSource = town;
                 ddlCity.DataBind();
-                ddlCity.Items.Insert(0, new ListItem("Select Town", "-1"));
+                ddlCity.Items.Insert(0, new ListItem("Select " + Localization.GetString("lblCityStateZip", this.LocalResourceFile), "-1"));
 
 
 
@@ -3138,7 +3139,7 @@ namespace GIBS.Modules.FBClients
             ddlTown.DataValueField = "Text";
             ddlTown.DataSource = village;
             ddlTown.DataBind();
-            ddlTown.Items.Insert(0, new ListItem("Select Village", "-1"));
+            ddlTown.Items.Insert(0, new ListItem("Select " + Localization.GetString("lblClientVillage", this.LocalResourceFile), "-1"));
 
             if (ddlCity.SelectedValue.ToString().ToLower() == "other")
             {

@@ -56,7 +56,7 @@
 
         </ul>
 
-        <div style="float:right; padding-right:10px; width: 290px;"><asp:CheckBox ID="cbxIncludeInactive" runat="server" Text="Include Inactive" TextAlign="Right" />
+        <div style="float:right; display: flex; align-items: center; padding-right:10px;"><asp:CheckBox ID="cbxIncludeInactive" runat="server" Text="Include Inactive" TextAlign="Right" />
         </div>
 <div id="Client" class="dnnClear">
 
@@ -220,12 +220,20 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="Address" DataField="ClientAddress"></asp:BoundField>
         
         <asp:BoundField HeaderText="Unit" DataField="ClientUnit"></asp:BoundField>
-        <asp:BoundField HeaderText="Town" DataField="ClientCity" ></asp:BoundField>
+        <asp:BoundField HeaderText="Town" DataField="ClientTown" ></asp:BoundField>
 
-        <asp:BoundField HeaderText="Age" DataField="ClientAge" ItemStyle-HorizontalAlign="Center" ></asp:BoundField>
+        <asp:TemplateField HeaderText="Age" ItemStyle-HorizontalAlign="Center">
+            <ItemTemplate>
+                <asp:Label ID="lblAge" runat="server" Text='<%# FormatAge(Eval("ClientAge")) %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
        
-        <asp:BoundField HeaderText="DOB" DataField="ClientDOB" DataFormatString="{0:MM/dd/yyyy}" ItemStyle-HorizontalAlign="Center" Visible="True" ></asp:BoundField>
-
+       
+        <asp:TemplateField HeaderText="DOB">
+            <ItemTemplate>
+                <asp:Label ID="lblDOB" runat="server" Text='<%# FormatNullDate(Eval("ClientDOB")) %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:TemplateField HeaderText="Active" ItemStyle-HorizontalAlign="Center" >
             <ItemTemplate><div style="display:inline;">
                 <asp:Image ID="ImageIsLocked" ImageUrl="~/DesktopModules/GIBS/FBClients/Images/Lock.png" ToolTip="Locked Account" AlternateText="Locked Account" Visible='<%# Eval("IsLocked") %>' runat="server" />
@@ -241,7 +249,12 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="AFM First Name" DataField="ClAddFamMemFirstName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
         <asp:BoundField HeaderText="AFM Last Name" DataField="ClAddFamMemLastName" ItemStyle-HorizontalAlign="Left" ></asp:BoundField>
         
-        <asp:BoundField HeaderText="Last Visit" DataField="visitdate" DataFormatString="{0:MM/dd/yyyy}" Visible="True"></asp:BoundField>
+        
+        <asp:TemplateField HeaderText="Last Visit">
+            <ItemTemplate>
+                <asp:Label ID="lblLastVisitDate" runat="server" Text='<%# FormatNullDate(Eval("visitdate")) %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:BoundField HeaderText="Bags" DataField="VisitNumBags" ItemStyle-HorizontalAlign="Center" Visible="True"></asp:BoundField>
 
     </Columns>
@@ -250,3 +263,4 @@ OnRowDataBound="GridViewSearch_RowDataBound"
 
 
 </div>
+<br />
