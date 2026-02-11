@@ -126,6 +126,8 @@ namespace GIBS.Modules.FBClients
             else
             {
                 clientId = Null.NullInteger;
+               
+
             }
 
             if (Request.QueryString["TabFocus"] != null)
@@ -143,6 +145,7 @@ namespace GIBS.Modules.FBClients
 
             if (!IsPostBack)
             {
+                SetRequiredFieldValidators();
                 // ALLOW ONLY 1 SELECTION FOR DISABILITY
                 cblClientDisability.Attributes.Add("onclick", "return HandleOnCheck()");
 
@@ -222,6 +225,7 @@ namespace GIBS.Modules.FBClients
                 else
                 {
                     HyperLinkPhotoID.Visible = false;
+                   
 
                 }
 
@@ -232,6 +236,30 @@ namespace GIBS.Modules.FBClients
                 // DO NOTHING
             }
         }
+
+        public void SetRequiredFieldValidators()
+        {
+            try
+            {
+                reqClientFirstName.IsValid = false;
+                reqAddress.IsValid = false;
+                reqAFM_FirstName.IsValid = false;
+                reqAFM_LastName.IsValid = false;
+                RequiredFieldValidator1.IsValid = false;
+                reqClientDOB.IsValid = false;
+                reqClientGender.IsValid = false;
+                reqClientLanguage.IsValid = false;
+                reqAddress.IsValid = false;
+                reqTown.IsValid = false;
+                reqCity.IsValid = false;
+                reqZipCode.IsValid = false;
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+        }
+
         public void FillClientRecord(int clientID)
         {
 
@@ -1168,6 +1196,11 @@ namespace GIBS.Modules.FBClients
                 if (Settings.Contains("reqGender") && Settings["reqGender"] != null)
                 {
                     reqClientGender.Enabled = bool.Parse(Settings["reqGender"].ToString());
+                }
+
+                if (Settings.Contains("reqZipCode") && Settings["reqZipCode"] != null)
+                {
+                    reqZipCode.Enabled = bool.Parse(Settings["reqZipCode"].ToString());
                 }
 
                 LiteralIncomeEligibilityGuidelines.Text = HttpUtility.HtmlDecode(_IncomeEligibilityGuidelines.ToString());
@@ -2166,7 +2199,7 @@ namespace GIBS.Modules.FBClients
                 ddlCity.DataValueField = "Value";
                 ddlCity.DataSource = town;
                 ddlCity.DataBind();
-                ddlCity.Items.Insert(0, new ListItem("Select " + Localization.GetString("lblCityStateZip", this.LocalResourceFile), "-1"));
+                ddlCity.Items.Insert(0, new ListItem("-- Select --", "-1"));
 
 
 
@@ -2959,17 +2992,17 @@ namespace GIBS.Modules.FBClients
             ddlClientIncome.SelectedIndex = 0;
         }
 
-        protected void btnSaveMap_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveClientRecord();
-            }
-            catch (Exception ex)
-            {
-                Exceptions.ProcessModuleLoadException(this, ex);
-            }
-        }
+        //protected void btnSaveMap_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        SaveClientRecord();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Exceptions.ProcessModuleLoadException(this, ex);
+        //    }
+        //}
 
         protected void btnPhoto_Click(object sender, EventArgs e)
         {
@@ -3139,7 +3172,7 @@ namespace GIBS.Modules.FBClients
             ddlTown.DataValueField = "Text";
             ddlTown.DataSource = village;
             ddlTown.DataBind();
-            ddlTown.Items.Insert(0, new ListItem("Select " + Localization.GetString("lblClientVillage", this.LocalResourceFile), "-1"));
+            ddlTown.Items.Insert(0, new ListItem("-- Select --", "-1"));
 
             if (ddlCity.SelectedValue.ToString().ToLower() == "other")
             {
@@ -3152,6 +3185,7 @@ namespace GIBS.Modules.FBClients
                 txtOtherTown.Visible = false;
                 ddlTown.Visible = true;
                 reqTown.Enabled = true;
+                reqTown.IsValid = false;
             }
 
             ddlTown.Focus();

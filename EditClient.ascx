@@ -470,7 +470,7 @@
 		<div class="dnnFormItem">
 <dnn:label id="lblClientFirstMiddleLastName" runat="server" controlname="txtClientFirstName" suffix=":" ResourceKey="lblClientFirstName" />
 <asp:TextBox ID="txtClientFirstName" runat="server" ValidationGroup="UserForm" CssClass="dnnFormRequired" TabIndex="2" placeholder="First Name" MaxLength="30" AutoCompleteType="Disabled" />
-<asp:RequiredFieldValidator runat="server" id="reqClientFirstName" resourcekey="reqClientFirstName" controltovalidate="txtClientFirstName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
+<asp:RequiredFieldValidator runat="server" id="reqClientFirstName" resourcekey="reqClientFirstName" Display="Dynamic" controltovalidate="txtClientFirstName" CssClass="dnnFormMessage dnnFormError" errormessage="Required!" ValidationGroup="UserForm" />
         </div>
 
 		<div class="dnnFormItem">
@@ -576,7 +576,7 @@ runat="server" />
         	
         <div class="dnnFormItem">
 			<dnn:label id="lblClientZipCode" runat="server" controlname="txtZip" suffix=":" ResourceKey="lblClientZipCode" />
-			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="16" AutoCompleteType="Disabled" />
+			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="16" AutoCompleteType="Disabled" /><asp:RequiredFieldValidator ID="reqZipCode" runat="server" Display="Dynamic" ControlToValidate="txtZip" ErrorMessage="Zip Code is Required!" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" /><input type="button" value="Lookup Zip Code" class="btn btn-sm btn-primary" id="findzipbutton" />
         </div>
         <div class="dnnFormItem">
             <dnn:label id="lblClientAddressVerify" runat="server" resourcekey="lblClientAddressVerify" controlname="ClientAddressVerifyDate" suffix=":" />
@@ -695,14 +695,14 @@ runat="server" />
 
   <div style="position:relative;float:right;padding-right:30px;"><asp:LinkButton runat="server" ID="btnSaveMap" 
                 CssClass="btn btn-primary" ResourceKey="btnSaveMap" ValidationGroup="UserForm" OnClientClick="UseData();dataChanged=0;"  
-                onclick="btnSaveMap_Click" /></div>
+                 Visible="false" /></div>
 
 	    <table id="tblLocationDetail" summary="Location Detail Table" border="0">
 		<tr>
-			<td class="SubHead"><dnn:label id="FindAddress" runat="server" controlname="txtLocAddress" ResourceKey="FindAddress" suffix=":"></dnn:label></td>
+			<td class="SubHead"><dnn:label id="FindAddress" runat="server" controlname="txtLocAddress" ResourceKey="FindAddress" suffix=":" Visible="false"></dnn:label></td>
 			<td>
-			    <asp:TextBox ID="txtLocAddress" runat="server" onkeydown="if(event.keyCode==13) {showAddress(this.value);}" Width="240px" />
-			    <input type="button" value="Find Address!" id="findaddressbutton" />
+			    <asp:TextBox ID="txtLocAddress" runat="server" onkeydown="if(event.keyCode==13) {showAddress(this.value);}" Width="240px" Visible="false" />
+			    <input type="button" value="Find Address!" id="findaddressbutton" style="display:none;" />
 			</td>
 		</tr>
 		<tr>
@@ -719,12 +719,19 @@ runat="server" />
 		</tr>
 
 		</table>
-
+     
                 <div id="MapDiv" style="width: 100%; height: 500px; border:1px solid black; margin: 0 auto;"></div>
 
 
-<script async defer src="<%= GetMapUrl() %>" type="text/javascript"></script>                		    
+<script async defer src="<%= GetMapUrl() %>&callback=initMap" type="text/javascript"></script>                		    
                 <script type="text/javascript">
+                    var map;
+                    var marker;
+                    var geocoder;
+
+                    function initMap() {
+                        load();
+                    }
 
                     function load() {
                         // The location of Uluru
@@ -732,22 +739,34 @@ runat="server" />
                         <asp:literal id="litMapCenter" runat="server" />
                         // The map, centered at Uluru
                         // mapTypeId: 'satellite'
-                        var map = new google.maps.Map(
-                            document.getElementById('MapDiv'), { zoom: 18, center: uluru, mapTypeId: 'roadmap' });
+                        map = new google.maps.Map(
+                            document.getElementById('MapDiv'), { 
+                                zoom: 18, 
+                                center: uluru, 
+                                mapTypeId: 'roadmap',
+                                zoomControl: true,
+                                zoomControlOptions: {
+                                    position: google.maps.ControlPosition.RIGHT_CENTER,
+                                    style: google.maps.ZoomControlStyle.LARGE
+                                },
+                                streetViewControl: true,
+                                streetViewControlOptions: {
+                                    position: google.maps.ControlPosition.RIGHT_CENTER
+                                }
+                            });
 
                         // The marker, positioned at Uluru
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: uluru,
                             map: map,
                             title: 'Client Address',
                             draggable: true
                         });
 
+                        geocoder = new google.maps.Geocoder();
 
-                        var geocoder = new google.maps.Geocoder();
-
-                        google.maps.event.addListener(marker, 'dragend', function (marker) {
-                            var latLng = marker.latLng;
+                        google.maps.event.addListener(marker, 'dragend', function (markerEvent) {
+                            var latLng = markerEvent.latLng;
                        
                             document.getElementById("<%= txtLatitude.ClientID %>").value = latLng.lat();
                             document.getElementById("<%= txtLongitude.ClientID %>").value = latLng.lng();
@@ -758,34 +777,119 @@ runat="server" />
                         
 
                         document.getElementById('findaddressbutton').addEventListener('click', function () {
-                            geocodeAddress(geocoder, map, marker);
+                            geocodeAddress();
+                        });
+
+                        document.getElementById('findzipbutton').addEventListener('click', function () {
+                            lookupZipCode();
                         });
 
                     }
 
-                    function geocodeAddress(geocoder, resultsMap, marker) {
+                    function geocodeAddress() {
                         var address = document.getElementById('<%= txtLocAddress.ClientID %>').value;
                         geocoder.geocode({ 'address': address }, function (results, status) {
                             if (status === 'OK') {
-                                resultsMap.setCenter(results[0].geometry.location);
+                                map.setCenter(results[0].geometry.location);
 
                                 var latitude = results[0].geometry.location.lat();
                                 var longitude = results[0].geometry.location.lng();
 
                                 document.getElementById("<%= txtLatitude.ClientID %>").value = latitude;
                                 document.getElementById("<%= txtLongitude.ClientID %>").value = longitude;
-                               // alert(latitude);
                                 marker.setPosition(results[0].geometry.location);
                                 map.panTo(new google.maps.LatLng(latitude, longitude));
                                 
-                               // var marker = new google.maps.Marker({map: resultsMap, position: results[0].geometry.location});
+                                // Display complete results in the div
+                                var resultsDiv = document.getElementById('jsonresult');
+                                var html = '<h4>Geocoding Results:</h4>';
+                                html += '<pre style="background:#f5f5f5; padding:10px; overflow:auto; max-height:300px;">';
+                                html += JSON.stringify(results, null, 2);
+                                html += '</pre>';
+                                html += '<hr /><h4>Formatted Address: ' + results[0].formatted_address + '</h4>';
+                                html += '<p><strong>Address Components:</strong></p><ul>';
+                                results[0].address_components.forEach(function(component) {
+                                    html += '<li>' + component.long_name + ' (' + component.types.join(', ') + ')</li>';
+                                });
+                                html += '</ul>';
+                                resultsDiv.innerHTML = html;
+                                resultsDiv.style.display = 'block';
                             } else {
-                                alert('Geocode was not successful for the following reason: ' + status);
+                                document.getElementById('jsonresult').innerHTML = '<p style="color:red;">Geocode was not successful for the following reason: ' + status + '</p>';
+                                document.getElementById('jsonresult').style.display = 'block';
+                                console.log('Geocoding error: ' + status);
                             }
                         });
                     }
+                    //ddlCity
+                    function lookupZipCode() {
+                        var address = document.getElementById('<%= txtAddress.ClientID %>').value;
+                        var citySelect = document.getElementById('<%= ddlCity.ClientID %>');
+                        var townSelect = document.getElementById('<%= ddlTown.ClientID %>');
+                        var stateSelect = document.getElementById('<%= ddlState.ClientID %>');
+                        var otherTownInput = document.getElementById('<%= txtOtherTown.ClientID %>');
+                        var town = '';
+                        var state = '';
+                        var useOtherTown = false;
 
+                        if (!stateSelect) {
+                            alert('State selection is not available on this page.');
+                            return;
+                        }
 
+                        if (citySelect && citySelect.selectedIndex >= 0) {
+                            useOtherTown = citySelect.options[citySelect.selectedIndex].text.toLowerCase() === "other";
+                        }
+
+                        if (useOtherTown) {
+                            town = otherTownInput ? otherTownInput.value : '';
+                        } else if (townSelect && townSelect.selectedIndex >= 0) {
+                            town = townSelect.options[townSelect.selectedIndex].text;
+                        }
+
+                        if (stateSelect.selectedIndex >= 0) {
+                            state = stateSelect.options[stateSelect.selectedIndex].text;
+                        }
+
+                        if (!address || town === '-- Select --' || !town || state === '-- Select --') {
+                            alert('Please enter an address, city (village), and select a state');
+                            return;
+                        }
+                        
+                        var fullAddress = address + ', ' + town + ', ' + state;
+                        
+                        geocoder.geocode({ 'address': fullAddress }, function (results, status) {
+                            if (status === 'OK') {
+                                var latitude = results[0].geometry.location.lat();
+                                var longitude = results[0].geometry.location.lng();
+                                
+                                document.getElementById("<%= txtLatitude.ClientID %>").value = latitude;
+                                document.getElementById("<%= txtLongitude.ClientID %>").value = longitude;
+                                
+                                map.setCenter(results[0].geometry.location);
+                                marker.setPosition(results[0].geometry.location);
+                                map.panTo(new google.maps.LatLng(latitude, longitude));
+                                
+                                // Extract postal code from address components
+                                var postalCode = '';
+                                results[0].address_components.forEach(function(component) {
+                                    if (component.types.includes('postal_code')) {
+                                        postalCode = component.long_name;
+                                    }
+                                });
+                                
+                                if (postalCode) {
+                                    document.getElementById("<%= txtZip.ClientID %>").value = postalCode;
+                              //      alert('Zip code found and filled: ' + postalCode);
+                                } else {
+                                    alert('Address geocoded but postal code not found in results');
+                                }
+                            } else {
+                                alert('Geocode was not successful: ' + status);
+                                console.log('Geocoding error: ' + status);
+                            }
+                        });
+                    }
                 </script>
 
  <br/>&nbsp;
@@ -1037,7 +1141,6 @@ runat="server" />
            
             <asp:LinkButton ID="LinkButtonDeleteXMasRecord" runat="server" CssClass="btn btn-default btn-sm" onclick="btnDeleteAFMXmasRecord_Click">Delete Xmas Record</asp:LinkButton>
             </div>
-         
          	
         
 
@@ -1243,9 +1346,7 @@ runat="server" />
  </div>   
 
         
-<br clear="all" />    
-
-
+<br clear="all" />
 
 
 

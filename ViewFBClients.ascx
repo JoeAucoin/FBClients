@@ -210,7 +210,7 @@ OnRowDataBound="GridViewSearch_RowDataBound"
 </asp:TemplateField>
 
 
-       <asp:BoundField HeaderText="ID" DataField="ClientID"></asp:BoundField>
+       <asp:BoundField HeaderText="ID" DataField="ClientID" Visible="false"></asp:BoundField>
 
         <asp:BoundField HeaderText="Last Name" DataField="ClientLastName" ItemStyle-HorizontalAlign="Left"></asp:BoundField>
         <asp:BoundField HeaderText="First Name" DataField="ClientFirstName"></asp:BoundField>
@@ -220,7 +220,7 @@ OnRowDataBound="GridViewSearch_RowDataBound"
         <asp:BoundField HeaderText="Address" DataField="ClientAddress"></asp:BoundField>
         
         <asp:BoundField HeaderText="Unit" DataField="ClientUnit"></asp:BoundField>
-        <asp:BoundField HeaderText="Town" DataField="ClientTown" ></asp:BoundField>
+        <asp:BoundField HeaderText="Town" DataField="ClientCity" ></asp:BoundField>
 
         <asp:TemplateField HeaderText="Age" ItemStyle-HorizontalAlign="Center">
             <ItemTemplate>

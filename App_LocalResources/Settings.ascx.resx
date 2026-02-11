@@ -273,4 +273,7 @@
   <data name="lblShowSendText.Text" xml:space="preserve">
     <value>Show Send Text</value>
   </data>
+  <data name="lblReguireZipCode.Text" xml:space="preserve">
+    <value>Require Zip Code</value>
+  </data>
 </root>

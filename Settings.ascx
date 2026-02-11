@@ -220,7 +220,10 @@
 	includerule="False"></dnn:sectionhead>	
 
 <div id="RequiredFieldsSetion" runat="server">
-
+	<div class="dnnFormItem">
+        <dnn:label id="lblReguireZipCode" runat="server" controlname="cbxReguireZipCode" suffix=":" />
+        <asp:CheckBox ID="cbxReguireZipCode" runat="server" />
+     </div>
 	<div class="dnnFormItem">
         <dnn:label id="lblReguireClientGender" runat="server" controlname="cbxReguireClientGender" suffix=":" />
         <asp:CheckBox ID="cbxReguireClientGender" runat="server" />

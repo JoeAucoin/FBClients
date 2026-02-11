@@ -711,7 +711,21 @@ namespace GIBS.FBClients.Components
             }
         }
 
+        public string ReqZipCode
+        {
 
+            get
+            {
+                if (Settings.Contains("reqZipCode"))
+                    return Settings["reqZipCode"].ToString();
+                return "true";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "reqZipCode", value.ToString());
+            }
+        }
 
         public string ReqGender
         {

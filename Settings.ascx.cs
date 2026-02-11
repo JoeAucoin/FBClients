@@ -233,6 +233,11 @@ namespace GIBS.Modules.FBClients
                         txtGroupHomeBagAllowance.Text = GroupHomeBagAllowance;
                     }
                     // REQUIRED FIELDS
+                    if (ReqZipCode != null)
+                    {
+                        cbxReguireZipCode.Checked = Convert.ToBoolean(ReqZipCode);
+                    }
+
                     if (ReqGender != null)
                     {
                         cbxReguireClientGender.Checked = Convert.ToBoolean(ReqGender);
@@ -326,6 +331,7 @@ namespace GIBS.Modules.FBClients
                 GroupHomeBagAllowance = txtGroupHomeBagAllowance.Text.ToString();
                 ReqEthnicity = cbxRequireClientEthnicity.Checked.ToString();
                 ReqGender = cbxReguireClientGender.Checked.ToString();
+                ReqZipCode = cbxReguireZipCode.Checked.ToString();
                 AllowedIPAddress = txtAllowedIPAddress.Text.ToString();
                 GoogleAPIKey = txtGoogleAPIKey.Text.ToString();
                 XmasRequireSizeAgeRange = txtXmasRequireSizeAgeRange.Text.ToString();
