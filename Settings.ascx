@@ -61,6 +61,10 @@
 <asp:DropDownList ID="ddlDaysToValidVisit" runat="server">
         </asp:DropDownList>
      </div>
+     <div class="dnnFormItem">
+        <dnn:label id="lblShowRequiredFields" runat="server" controlname="cbxShowRequiredFields" suffix=":" />
+        <asp:CheckBox ID="cbxShowRequiredFields" runat="server" />
+     </div>
     <div class="dnnFormItem">
         <dnn:label id="lblShowSendText" runat="server" controlname="cbxShowSendText" suffix=":" />
         <asp:CheckBox ID="cbxShowSendText" runat="server" />
@@ -220,6 +224,9 @@
 	includerule="False"></dnn:sectionhead>	
 
 <div id="RequiredFieldsSetion" runat="server">
+
+
+
 	<div class="dnnFormItem">
         <dnn:label id="lblReguireZipCode" runat="server" controlname="cbxReguireZipCode" suffix=":" />
         <asp:CheckBox ID="cbxReguireZipCode" runat="server" />

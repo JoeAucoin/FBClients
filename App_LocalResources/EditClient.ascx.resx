@@ -199,10 +199,10 @@
     <value>&lt;span style="color:white"&gt; * Date of Birth&lt;/span&gt;</value>
   </data>
   <data name="txtAFM_FirstName.Required" xml:space="preserve">
-    <value> &lt;span style="color:white"&gt;* First Name&lt;/span&gt;</value>
+    <value> &lt;span style="color:white"&gt;* First Name Reguired&lt;/span&gt;</value>
   </data>
   <data name="txtAFM_LastName.Required" xml:space="preserve">
-    <value> &lt;span style="color:white"&gt;* Last Name&lt;/span&gt;</value>
+    <value> &lt;span style="color:white"&gt;* Last Name Required&lt;/span&gt;</value>
   </data>
   <data name="btnSaveMap.Text" xml:space="preserve">
     <value>Save Map</value>
@@ -277,16 +277,16 @@
     <value>Inactive Client</value>
   </data>
   <data name="reqAddress.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Client Address is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;Address is Required!&lt;/span&gt;</value>
   </data>
   <data name="reqClientDOB.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Client Date of Birth is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;Date of Birth is Required!&lt;/span&gt;</value>
   </data>
   <data name="reqClientFirstName.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Client First Name is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;First Name is Required!&lt;/span&gt;</value>
   </data>
   <data name="reqClientLastName.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Client Last Name is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;Last Name is Required!&lt;/span&gt;</value>
   </data>
   <data name="btnAddAFM.Help" xml:space="preserve">
     <value>Help directions</value>
@@ -298,10 +298,10 @@
     <value>Begin by selection the TOWN. The Village dropdown will populate based on your town selection.</value>
   </data>
   <data name="reqCity.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Town is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;Selection is Required!&lt;/span&gt;</value>
   </data>
   <data name="reqTown.Text" xml:space="preserve">
-    <value>&lt;span style="color:white"&gt;Village is Required!&lt;/span&gt;</value>
+    <value>&lt;span style="color:white"&gt;Selection is Required!&lt;/span&gt;</value>
   </data>
   <data name="lblAFMEthnicity.Help" xml:space="preserve">
     <value>The Pantry collects data on ethnicity for the purpose of qualifying for certain grants and programs that help support our mission. The information is completely confidential and only the percentages are shared with other organizations. You may choose to opt out of the question.</value>

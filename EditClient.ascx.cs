@@ -64,6 +64,7 @@ namespace GIBS.Modules.FBClients
         public bool _ShowSuffix = false;
         static bool _ShowGiftFields = false;
         static bool _ShowClientServiceLocation = false;
+        public bool _showRequiredFields = false;
         static string _XmasToysYear;
         static string _FlagForReviewNotify = "";
         //1=3,2=3,3=3,4=5,5=5,6=5,7=6
@@ -134,7 +135,8 @@ namespace GIBS.Modules.FBClients
             {
                 if (Request.QueryString["cid"] == null)
                 {
-                    litMapCenter.Text = "var uluru = { lat: 41.6973484, lng: -70.1030107 };";
+                    //litMapCenter.Text = "var uluru = { lat: 41.6973484, lng: -70.1030107 };";
+                    litMapCenter.Text = "var uluru = { lat: 0.0, lng: 0.0 };";
                     lblMessage.Text = Localization.GetString("msgReadyForNewRecord", this.LocalResourceFile);
                     ErrorMessage.Visible = true;
                     
@@ -145,7 +147,7 @@ namespace GIBS.Modules.FBClients
 
             if (!IsPostBack)
             {
-                SetRequiredFieldValidators();
+                
                 // ALLOW ONLY 1 SELECTION FOR DISABILITY
                 cblClientDisability.Attributes.Add("onclick", "return HandleOnCheck()");
 
@@ -225,7 +227,10 @@ namespace GIBS.Modules.FBClients
                 else
                 {
                     HyperLinkPhotoID.Visible = false;
-                   
+                    if (_showRequiredFields)
+                    {
+                        SetRequiredFieldValidators();
+                    }
 
                 }
 
@@ -627,7 +632,6 @@ namespace GIBS.Modules.FBClients
 
                     // END QUICK VIEW SECTION
 
-
                     hidClientID.Value = item.ClientID.ToString();
 
                     txtLocAddress.Text = item.ClientAddress + ", " + item.ClientTown + ", " + item.ClientState + " " + item.ClientZipCode;
@@ -639,13 +643,10 @@ namespace GIBS.Modules.FBClients
                    //     litMapCenter.Text = "var center = new GLatLng(" + txtLatitude.Text + ", " + txtLongitude.Text + ");map.setCenter(center, 15);";
                         litMapCenter.Text = "var uluru = { lat: " + txtLatitude.Text + ", lng: " + txtLongitude.Text + " };";
 
-                        
-                        
-
                     }
                     else
                     {
-                        litMapCenter.Text = "var uluru = { lat: 41.6973484, lng: -70.1030107 };";
+                        litMapCenter.Text = "var uluru = { lat: 0.0, lng: 0.0 };";
 
                     }
 
@@ -808,9 +809,7 @@ namespace GIBS.Modules.FBClients
                 DotNetNuke.Framework.CDefault CustomPageName = (DotNetNuke.Framework.CDefault)this.Page;
 
                 CustomPageName.Title = ClientName.ToString();
-                //   CustomPageName.KeyWords = vTitle.ToString() + "," + Settings["Keywords"].ToString();
-                //  CustomPageName.Description = vTitle.ToString() + " " + Settings["PageTitle"].ToString() + ". " + Settings["PageDescription"].ToString();
-
+                
             }
             catch (Exception ex)
             {
@@ -847,13 +846,6 @@ namespace GIBS.Modules.FBClients
         {
             try
             {
-                //var Shifts = new ListController().GetListEntryInfoItems("Shifts", "", this.PortalId);
-
-                //ddlShift.DataTextField = "Text";
-                //ddlShift.DataValueField = "Text";
-                //ddlShift.DataSource = Shifts;
-                //ddlShift.DataBind();
-                //ddlShift.Items.Insert(0, new ListItem("--Select--", ""));
 
                 var MobileLocations = new ListController().GetListEntryInfoItems("ClientServiceLocation", "", this.PortalId);
 
@@ -956,6 +948,11 @@ namespace GIBS.Modules.FBClients
                 {
                     HyperLinkPhotoID.Visible = bool.Parse(Settings["showPhotoID"].ToString());
                 }
+                //_showRequiredFields
+                if (Settings.Contains("showRequiredFields") && Settings["showRequiredFields"] != null)
+                {
+                    _showRequiredFields = bool.Parse(Settings["showRequiredFields"].ToString());
+                }
 
 
                 if (Settings.Contains("clientManagerDeleteRecordRole") && Settings["clientManagerDeleteRecordRole"] != null)
@@ -1014,10 +1011,6 @@ namespace GIBS.Modules.FBClients
                 }
 
 
-
-                //_XmasRequireSizeAgeRange
-                //_XmasRequireSizeMinimumAge
-                //_XmasRequireSizeMaxAge
                 if (Settings.Contains("xmasRequireSizeAgeRange") && Settings["xmasRequireSizeAgeRange"] != null)
                 {
                     //  _BagAllowance = settingsData.XmasRequireSizeAgeRange.ToString();
@@ -1294,7 +1287,7 @@ namespace GIBS.Modules.FBClients
         {
           //  return ;
 
-            return "https://maps.googleapis.com/maps/api/js?key=" + _GoogleAPIKey.ToString() + "&callback=load";
+            return "https://maps.googleapis.com/maps/api/js?key=" + _GoogleAPIKey.ToString() + "&loading=async&callback=load";
         }
 
         protected string GetLabelContent()
@@ -1338,39 +1331,7 @@ namespace GIBS.Modules.FBClients
                 Exceptions.ProcessModuleLoadException(this, ex);
             }
         }
-        //gvAFM_OnDataBinding
-        //protected void gvAFM_OnDataBinding(object sender, GridViewPageEventArgs e)
-        //{
-        //    try
-        //    {
-        //        bool _isValid = true;
 
-        //        foreach (GridViewRow tt in gvAFM.Rows)
-        //        {
-        //            if (tt.RowType == DataControlRowType.DataRow)
-        //            {
-        //                string age = tt.Cells[6].Text;
-
-        //                if (age == "-1")
-        //                {
-        //                    _isValid = false;
-        //                }
-        //            }
-
-        //        }
-
-        //        if (_isValid == false)
-        //        {
-        //            lblMessage.Text += "<br />" + Localization.GetString("ErrorNoDateOfBirthAFM", this.LocalResourceFile);
-        //            lblMessage.Visible = true;
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Exceptions.ProcessModuleLoadException(this, ex);
-        //    }
-        //}
 
 
         protected void gvAFM_RowEditing(object sender, GridViewEditEventArgs e)
@@ -1973,10 +1934,6 @@ namespace GIBS.Modules.FBClients
 
         }
 
-        //static string _TwilioAccountSid = "";   
-        //static string _TwilioAuthToken = "";   JMA
-        //static string _TwilioPhoneNumber = "";
-        //static string _ClientCellNumber = "";
 
         public void SendTwilioMessage(string _message)
         {
@@ -2483,19 +2440,6 @@ namespace GIBS.Modules.FBClients
                     _FlagForReviewNotify = "";
 
                 }
-
-
-                // NEED THE PORTALID HERE INSTEAD OF A ZERO
-
-
-                //string EmailContent = content;
-
-                ////GET THE FROM ADDRESS
-                //PortalSettings mySettings = new PortalSettings();
-                //string EmailFrom = mySettings.Email.ToString();
-
-
-                //DotNetNuke.Services.Mail.Mail.SendMail(EmailFrom.ToString(), emailto.ToString(), "", subject, EmailContent.ToString(), "", "HTML", "", "", "", "");
 
             }
             catch (Exception ex)

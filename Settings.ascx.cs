@@ -119,6 +119,10 @@ namespace GIBS.Modules.FBClients
 
                     }
 
+                    if(ShowRequiredFields != null)
+                    {
+                        cbxShowRequiredFields.Checked = Convert.ToBoolean(ShowRequiredFields);
+                    }
 
                     if (ShowPhotoID != null)
                     {
@@ -345,6 +349,7 @@ namespace GIBS.Modules.FBClients
                 TwilioAuthToken = txtTwilioAuthToken.Text.ToString();
                 TwilioPhoneNumber = txtTwilioPhoneNumber.Text.ToString();
                 ClientOrderPage = txtClientOrderPage.Text.ToString();
+                ShowRequiredFields = cbxShowRequiredFields.Checked.ToString();
 
 
             }

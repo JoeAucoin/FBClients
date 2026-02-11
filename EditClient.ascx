@@ -576,7 +576,7 @@ runat="server" />
         	
         <div class="dnnFormItem">
 			<dnn:label id="lblClientZipCode" runat="server" controlname="txtZip" suffix=":" ResourceKey="lblClientZipCode" />
-			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="16" AutoCompleteType="Disabled" /><asp:RequiredFieldValidator ID="reqZipCode" runat="server" Display="Dynamic" ControlToValidate="txtZip" ErrorMessage="Zip Code is Required!" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" /><input type="button" value="Lookup Zip Code" class="btn btn-sm btn-primary" id="findzipbutton" />
+			<asp:TextBox ID="txtZip" runat="server" Width="200px" TabIndex="16" AutoCompleteType="Disabled" /><asp:RequiredFieldValidator ID="reqZipCode" runat="server" Display="Dynamic" ControlToValidate="txtZip" ErrorMessage="Zip Code is Required!" CssClass="dnnFormMessage dnnFormError" ValidationGroup="UserForm" /> <input type="button" value="Lookup Zip Code" class="btn btn-sm btn-primary" id="findzipbutton" />
         </div>
         <div class="dnnFormItem">
             <dnn:label id="lblClientAddressVerify" runat="server" resourcekey="lblClientAddressVerify" controlname="ClientAddressVerifyDate" suffix=":" />
@@ -723,27 +723,30 @@ runat="server" />
                 <div id="MapDiv" style="width: 100%; height: 500px; border:1px solid black; margin: 0 auto;"></div>
 
 
-<script async defer src="<%= GetMapUrl() %>&callback=initMap" type="text/javascript"></script>                		    
+<script async defer src="<%= GetMapUrl() %>" type="text/javascript"></script>                		    
                 <script type="text/javascript">
                     var map;
                     var marker;
                     var geocoder;
 
-                    function initMap() {
-                        load();
+                    async function initMap() {
+                        await load();
                     }
 
-                    function load() {
-                        // The location of Uluru
-                    //    var uluru = { lat: mycurrentlat, lng: mycurrentlong };
+                    async function load() {
+                        // Import the AdvancedMarkerElement library
+                        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+                        
+                        // The location
                         <asp:literal id="litMapCenter" runat="server" />
-                        // The map, centered at Uluru
-                        // mapTypeId: 'satellite'
+                        
+                        // The map, centered at location
                         map = new google.maps.Map(
                             document.getElementById('MapDiv'), { 
                                 zoom: 18, 
                                 center: uluru, 
                                 mapTypeId: 'roadmap',
+                                mapId: 'DEMO_MAP_ID', // Required for AdvancedMarkerElement
                                 zoomControl: true,
                                 zoomControlOptions: {
                                     position: google.maps.ControlPosition.RIGHT_CENTER,
@@ -755,26 +758,21 @@ runat="server" />
                                 }
                             });
 
-                        // The marker, positioned at Uluru
-                        marker = new google.maps.Marker({
+                        // The marker, positioned at location
+                        marker = new AdvancedMarkerElement({
                             position: uluru,
                             map: map,
                             title: 'Client Address',
-                            draggable: true
+                            gmpDraggable: true
                         });
 
                         geocoder = new google.maps.Geocoder();
 
-                        google.maps.event.addListener(marker, 'dragend', function (markerEvent) {
-                            var latLng = markerEvent.latLng;
-                       
-                            document.getElementById("<%= txtLatitude.ClientID %>").value = latLng.lat();
-                            document.getElementById("<%= txtLongitude.ClientID %>").value = latLng.lng();
-
-
+                        marker.addListener('dragend', (event) => {
+                            const position = marker.position;
+                            document.getElementById("<%= txtLatitude.ClientID %>").value = position.lat;
+                            document.getElementById("<%= txtLongitude.ClientID %>").value = position.lng;
                         });
-
-                        
 
                         document.getElementById('findaddressbutton').addEventListener('click', function () {
                             geocodeAddress();
@@ -783,44 +781,9 @@ runat="server" />
                         document.getElementById('findzipbutton').addEventListener('click', function () {
                             lookupZipCode();
                         });
-
                     }
 
-                    function geocodeAddress() {
-                        var address = document.getElementById('<%= txtLocAddress.ClientID %>').value;
-                        geocoder.geocode({ 'address': address }, function (results, status) {
-                            if (status === 'OK') {
-                                map.setCenter(results[0].geometry.location);
-
-                                var latitude = results[0].geometry.location.lat();
-                                var longitude = results[0].geometry.location.lng();
-
-                                document.getElementById("<%= txtLatitude.ClientID %>").value = latitude;
-                                document.getElementById("<%= txtLongitude.ClientID %>").value = longitude;
-                                marker.setPosition(results[0].geometry.location);
-                                map.panTo(new google.maps.LatLng(latitude, longitude));
-                                
-                                // Display complete results in the div
-                                var resultsDiv = document.getElementById('jsonresult');
-                                var html = '<h4>Geocoding Results:</h4>';
-                                html += '<pre style="background:#f5f5f5; padding:10px; overflow:auto; max-height:300px;">';
-                                html += JSON.stringify(results, null, 2);
-                                html += '</pre>';
-                                html += '<hr /><h4>Formatted Address: ' + results[0].formatted_address + '</h4>';
-                                html += '<p><strong>Address Components:</strong></p><ul>';
-                                results[0].address_components.forEach(function(component) {
-                                    html += '<li>' + component.long_name + ' (' + component.types.join(', ') + ')</li>';
-                                });
-                                html += '</ul>';
-                                resultsDiv.innerHTML = html;
-                                resultsDiv.style.display = 'block';
-                            } else {
-                                document.getElementById('jsonresult').innerHTML = '<p style="color:red;">Geocode was not successful for the following reason: ' + status + '</p>';
-                                document.getElementById('jsonresult').style.display = 'block';
-                                console.log('Geocoding error: ' + status);
-                            }
-                        });
-                    }
+                    
                     //ddlCity
                     function lookupZipCode() {
                         var address = document.getElementById('<%= txtAddress.ClientID %>').value;
@@ -866,8 +829,9 @@ runat="server" />
                                 document.getElementById("<%= txtLatitude.ClientID %>").value = latitude;
                                 document.getElementById("<%= txtLongitude.ClientID %>").value = longitude;
                                 
-                                map.setCenter(results[0].geometry.location);
-                                marker.setPosition(results[0].geometry.location);
+                                var newPosition = results[0].geometry.location;
+                                map.setCenter(newPosition);
+                                marker.position = newPosition;
                                 map.panTo(new google.maps.LatLng(latitude, longitude));
                                 
                                 // Extract postal code from address components
@@ -880,7 +844,6 @@ runat="server" />
                                 
                                 if (postalCode) {
                                     document.getElementById("<%= txtZip.ClientID %>").value = postalCode;
-                              //      alert('Zip code found and filled: ' + postalCode);
                                 } else {
                                     alert('Address geocoded but postal code not found in results');
                                 }
@@ -1511,7 +1474,7 @@ runat="server" />
 
 
   </div>
-
+<br />
 
   <script type="text/javascript" language="javascript" >
       function requireAddressVerifyDate() {

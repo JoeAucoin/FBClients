@@ -308,7 +308,20 @@ namespace GIBS.FBClients.Components
             }
         }
 
-
+        public string ShowRequiredFields
+        {
+            get
+            {
+                if (Settings.Contains("showRequiredFields"))
+                    return Settings["showRequiredFields"].ToString();
+                return "false";
+            }
+            set
+            {
+                var mc = new ModuleController();
+                mc.UpdateTabModuleSetting(TabModuleId, "showRequiredFields", value.ToString());
+            }
+        } 
         public string ShowPhotoID
         {
             get
